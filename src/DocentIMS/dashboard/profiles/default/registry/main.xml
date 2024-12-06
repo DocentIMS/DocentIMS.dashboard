@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n" i18n:domain="DocentIMS.dashboard">
+
+    <!-- -*- Controlpanel -*- -->
+    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_buttons">
+        <field type="plone.registry.field.List">
+            <value_type type="plone.registry.field.URI"/>
+        </field>
+        <value>
+            <element>https://mymeadows.org</element>
+            <element>https://thelakesHOA.org</element>
+            <element>https://cherrycresthoa.org</element>
+        </value>
+    </record>
+    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_user" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_user">
+        <field type="plone.registry.field.TextLine">
+            <element>admin</element>
+        </field>
+    </record>
+
+    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_password" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_password">
+        <field type="plone.registry.field.TextLine">
+            <element>admin</element>
+        </field>
+    </record>
+
+    <record interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="color1">
+        <field type="plone.registry.field.TextLine">
+        </field>
+        <value>red</value>
+    </record>
+
+    <record interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="color2">
+        <field type="plone.registry.field.TextLine">
+        </field>
+        <value>orange</value>
+    </record>
+
+    <record interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="color3">
+        <field type="plone.registry.field.TextLine">
+        </field>
+        <value>blue</value>
+    </record>
+
+    <record interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="color4">
+        <field type="plone.registry.field.TextLine">
+        </field>
+        <value>green</value>
+    </record>
+
+    <record interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="color5">
+        <field type="plone.registry.field.TextLine">
+        </field>
+        <value>#DDD</value>
+    </record>
+
+    <!-- Javascript -->
+
+
+
+    <record name="plone.bundles/dashboar.jscompilation" interface="plone.base.interfaces.resources.IBundleRegistry" field="jscompilation">
+        <field type="plone.registry.field.ASCIILine">
+            <required>False</required>
+            <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">URL of the last js compilation</title>
+        </field>
+        <value>++plone++DocentIMS.dashboard/dashboard.js</value>
+    </record>
+
+    <!-- CSS -->
+    <registry>
+        <records interface="Products.CMFPlone.interfaces.IResourceRegistry" prefix="plone.resources">
+            <value key="my-custom-styles">
+                <item key="url">++resource++DocentIMS.dashboard/dashboard.css</item>
+                <item key="bundle">default</item>
+            </value>
+        </records>
+    </registry>
+
+
+    <records interface="plone.base.interfaces.resources.IBundleRegistry" prefix="plone.bundles/dashboard">
+        <value key="enabled">True</value>
+        <value key="jscompilation">++plone++DocentIMS.dashboard/dashboard.js</value>
+        <value key="csscompilation">++plone++DocentIMS.dashboard/dashboard.css</value>
+        <value key="load_async">False</value>
+        <value key="load_defer">False</value>
+        <value key="depends">plone</value>
+    </records>
+
+
+</registry>

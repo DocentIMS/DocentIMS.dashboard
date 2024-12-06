@@ -1,0 +1,5 @@
+===================
+DocentIMS.dashboard
+===================
+
+User documentation
