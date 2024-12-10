@@ -6,6 +6,8 @@ from zope.interface import Interface
 import requests
 from plone import api
 from DocentIMS.ActionItems.interfaces import IDocentimsSettings
+from datetime import datetime
+
 
 
 
@@ -23,9 +25,15 @@ class AppView(BrowserView):
     def __call__(self):
         # Implement your own actions:
         # colors=self.get_colors()
+        current_time = self.get_current_time()
         return self.index()    
 
-        
+    def get_current_time(self):
+        # Get the current local time
+        now =  datetime.now()
+        return now.strftime('%A, %d %B %Y, %I:%M %p')
+
+
     def get_buttons(self):
         
         urls = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons')

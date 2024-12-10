@@ -26,8 +26,6 @@ class AppInjectView(BrowserView):
         
     def __call__(self):
         # Implement your own actions:
-        self.current = self.get_current()
-        self.dashboard_info = self.get_dashboard_info()
         return self.index()
     
     def get_current(self):
@@ -37,7 +35,6 @@ class AppInjectView(BrowserView):
     
     def get_dashboard_info(self):
         # TO DO: dont use admin 
-        
         siteurl = self.request.get('siteurl', 'https://mymeadows.org')
         app_password =  api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_password')
         app_user = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_user')

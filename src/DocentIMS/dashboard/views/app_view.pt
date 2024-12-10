@@ -5,6 +5,7 @@
   <body>
     <metal:content-core fill-slot="content">
       <metal:block define-macro="content">
+      
         <main class="appWrapper">
           <!-- sidebar -->
           <!-- mobile header -->
@@ -21,10 +22,12 @@
               <!-- <div class="rightlogo">
                 <img src="++plone++DocentIMS.ActionItems/docentlogo.jpg" width="200" alt="logo" title="Logo" />
               </div> -->
+              
             </div>
             <div class=".wrapper loader">
               <p>
                 <span class=" projectselect" tal:condition="current|None">Please select project…</span> &nbsp;</p>
+                
             </div>
             <div class="projectButton" tal:condition="current|None">
               <div class="card">
@@ -35,13 +38,14 @@
                       tal:define="active python: 'active' if repeat.button.index == 0 else 'click'">
                         <a style="background-color: ${python: button['project_color']}" 
                         class="button btn pat-inject ${active}" 
-                        href="app-inject-view?siteurl=${python: button['url']}" 
+                        href="${context/absolute_url}/app-inject-view?siteurl=${python: button['url']}" 
                         data-pat-inject="source: #appWrapper; target: #appWrapper">
  												 ${python: button['name']} 
                         </a>
                        
 
                       </li>
+                      <li>Time: ${view/get_current_time} <br/><a href="${context/absolute_url}"> >> Refresh</a></li>
                     </tal:repeat>
 
                   </ul>
@@ -53,6 +57,8 @@
               </a>
 
             </div>
+
+            
 
 
           </div>          <!-- wrapper-->
@@ -76,6 +82,28 @@
             .color-3 { background-color: ${python: colors[3]} }
             .color-4 { background-color: ${python: colors[4]} }
             .color-5 { background-color: ${python: colors[0]} }
+
+
+        #edit-zone {display: block !important; width: 240px !important;} 
+        .pat-toolbar, #edit-bar, #edit-zone {
+            border-radius: 0 20px 20px 0;
+            background: #976100;
+        }
+
+        a#personaltools-menulink {
+          margin-top: 30vh;
+          background: white; 
+          color: #976100 !important; 
+          border-radius:  10px 0 0 10px ;
+          margin-left: 1rem; 
+        } 
+
+        #edit-zone .personaltools-wrapper  {border-top: 0 none;}
+
+        div.toolbar-header, 
+        ul.plone-toolbar-main { display: none}
+
+
             
             </style> 
 
