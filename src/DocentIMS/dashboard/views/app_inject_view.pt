@@ -179,6 +179,9 @@
               h2.mytitle {text-align: center; margin-top: 1rem;}
               .singleItem.count-0  {opacity: 0.5}
               .small { font-size: 0.4em !important; font-weight: normal; color: #DDD}
+              #edit-zone {
+                background-color: ${dashboard_list/project_color|None} !important;
+              }
               </style>
             </main>
 

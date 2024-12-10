@@ -87,7 +87,9 @@
         #edit-zone {display: block !important; width: 240px !important;} 
         .pat-toolbar, #edit-bar, #edit-zone {
             border-radius: 0 20px 20px 0;
-            background: #976100;
+            xbackground: #976100;
+            background: white;
+            
         }
 
         a#personaltools-menulink {
