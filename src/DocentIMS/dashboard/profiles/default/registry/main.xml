@@ -8,8 +8,8 @@
         </field>
         <value>
             <element>https://mymeadows.org</element>
-            <element>https://thelakesHOA.org</element>
-            <element>https://cherrycresthoa.org</element>
+            <element>https://team.thelakesHOA.org</element>
+            <element>https://team.cherrycresthoa.org</element>
         </value>
     </record>
     <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_user" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_user">

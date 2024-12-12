@@ -61,8 +61,7 @@ div.rightlogo {
 #hero,
 #above-content-wrapper,
 #content-header,
-#portal-footer-wrapper,
-body:not(.userrole-manager) #edit-bar,
+#portal-footer-wrapper, 
 #mainnavigation-wrapper {
     display: none !important
 }
