@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.CMFPlone.interfaces import INonInstallable
 from zope.interface import implementer
-
+from plone import api
 
 @implementer(INonInstallable)
 class HiddenProfiles(object):
@@ -19,6 +19,10 @@ class HiddenProfiles(object):
 
 def post_install(context):
     """Post install script"""
+    portal =  api.portal.get()
+    
+    #portal.default_page='app-view'
+    portal.layout = 'app-view'
     # Do something at the end of the installation of this package.
 
 
