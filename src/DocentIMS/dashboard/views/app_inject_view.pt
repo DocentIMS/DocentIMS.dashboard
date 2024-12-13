@@ -46,7 +46,7 @@
                       <div class="card mainbox">
 
                         <h2 class="mytitle">
-                          <a href="${url}" alt="Link to site" title="Link to ${dashboard_list/short_name|None}">
+                          <a href="${url}" target="_blank" alt="Link to site" title="Link to ${dashboard_list/short_name|None}">
                       ${dashboard_list/short_name|None} 
                           </a>
                           <span class="small">| Last updated: ${dashboard_list/last_updated|None}</span>
