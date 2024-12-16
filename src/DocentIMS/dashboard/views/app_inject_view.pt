@@ -46,7 +46,10 @@
                       <div class="card mainbox">
 
                         <h2 class="mytitle">
-                          <a href="${url}" target="_blank" alt="Link to site" title="Link to ${dashboard_list/short_name|None}">
+                          <a href="${url}" 
+                            target="_blank" 
+                            alt="Link to site" 
+                            title="Link to ${dashboard_list/short_name|None}">
                       ${dashboard_list/short_name|None} 
                           </a>
                           <span class="small">| Last updated: ${dashboard_list/last_updated|None}</span>
@@ -76,7 +79,9 @@
                                     <h4 class="black">${urgency/name}  Items</h4>
                                     <h2>${urgency/count}</h2>
                                     <div class="detailsBtn">
-                                      <a href="${url}/action-items?collectionfilter=1&urgency=${urgency/name}" class="xwhite-text">
+                                      <a href="${url}/action-items?collectionfilter=1&urgency=${urgency/name}" 
+                                         target="_blank" 
+                                         class="xwhite-text">
                                              More Details
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                           <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
@@ -116,7 +121,9 @@
                                     <h4>${meeting/name}</h4>
                                     <h2>${meeting/count}</h2>
                                     <div class="detailsBtn">
-                                      <a href="${url}/meeting" class="white-text">
+                                      <a href="${url}/meeting" 
+                                       target="_blank" 
+                                       class="white-text">
               More Details
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                           <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
@@ -135,10 +142,8 @@
                           <div class="bottomItemBox">
                             <div class="top">
                               <h3>
-
-                                <a href="${url}/notifications-view">
-                                            Notifications (Click to show all)
-                                  
+                                <a href="${url}/notifications-view" target="_blank" >
+                                            Notifications (Click to show all)                                  
                                 </a>
                               </h3>
                             </div>
@@ -169,19 +174,20 @@
 
               <style>
               .card.mainbox { border: 8px solid ${dashboard_list/project_color|None} } 
-              .xsingleItem { background-color: ${dashboard_list/project_color|None} } 
+              .singleItem { background-color: ${dashboard_list/project_color|None}; } 
               .singleItem.meeting { background-color: ${dashboard_list/mark_color|None} } 
               .singleItem.notification {background-color: whitesmoke;}
               .singleItem.error {background-color: red;}
               .singleItem.warning {background-color: orange;}
               .singleItem.info {background-color: cyan;}
-              h4.black {color: black !important}
+              xh4.black {color: black !important}
               h2.mytitle {text-align: center; margin-top: 1rem;}
               .singleItem.count-0  {opacity: 0.5}
               .small { font-size: 0.4em !important; font-weight: normal; color: #DDD}
               #edit-zone {
                 background-color: ${dashboard_list/project_color|None} !important;
               }
+              #main-container .singleItem a {color: white}
               </style>
             </main>
 

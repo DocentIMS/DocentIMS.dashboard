@@ -12,7 +12,7 @@
             <element>https://team.cherrycresthoa.org</element>
         </value>
     </record>
-    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_user" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_user">
+    <!-- <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_user" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_user">
         <field type="plone.registry.field.TextLine">
             <element>admin</element>
         </field>
@@ -22,7 +22,7 @@
         <field type="plone.registry.field.TextLine">
             <element>admin</element>
         </field>
-    </record>
+    </record> -->
 
     <record interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="color1">
         <field type="plone.registry.field.TextLine">

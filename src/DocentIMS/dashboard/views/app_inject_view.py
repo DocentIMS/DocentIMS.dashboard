@@ -36,10 +36,10 @@ class AppInjectView(BrowserView):
     def get_dashboard_info(self):
         # TO DO: dont use admin 
         siteurl = self.request.get('siteurl', 'https://mymeadows.org')
-        app_password =  api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_password')
-        app_user = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_user')
+        # app_password =  api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_password')
+        # app_user = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_user')
         
-        response = requests.get(f'{siteurl}/@item_count?user={self.get_current()}', headers={'Accept': 'application/json', 'Content-Type': 'application/json'},  auth=(app_user, app_password))
+        response = requests.get(f'{siteurl}/@item_count?user={self.get_current()}', headers={'Accept': 'application/json', 'Content-Type': 'application/json'})
  
         if response:
                 body = response.json()

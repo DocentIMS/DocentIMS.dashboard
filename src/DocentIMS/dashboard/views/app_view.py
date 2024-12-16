@@ -25,7 +25,6 @@ class AppView(BrowserView):
     def __call__(self):
         # Implement your own actions:
         # colors=self.get_colors()
-        current_time = self.get_current_time()
         return self.index()    
 
     def get_current_time(self):
@@ -51,7 +50,8 @@ class AppView(BrowserView):
                             buttons.append({
                                         'name': body['dashboard-list']['short_name'], 
                                         'url': siteurl, 
-                                        'project_color': body['dashboard-list']['project_color'], 
+                                        'project_color': body['dashboard-list']['project_color'],
+                                        'last_login_time': body['dashboard-list']['last_login_time'], 
                                         })
                 
                 except requests.exceptions.ConnectionError:
@@ -80,5 +80,10 @@ class AppView(BrowserView):
         color4=  api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.color4')
         color5=  api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.color5')
         return[color1, color2, color3, color4, color5]
+    
+    # def get_if_login(self):
+    #     current = api.user.get_current()
+    #     last_login_time =  current.getProperty('last_login_time', None)
+    #     return last_login_time.year() == 2000 
         
   

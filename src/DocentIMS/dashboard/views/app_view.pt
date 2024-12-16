@@ -5,66 +5,69 @@
   <body>
     <metal:content-core fill-slot="content">
       <metal:block define-macro="content">
-      
+
         <main class="appWrapper">
           <!-- sidebar -->
           <!-- mobile header -->
           <!-- mobileSidebar -->
           <!-- main app content -->
 
-          <div class="wrapper" 
-          tal:define="current view/get_fullname|None;
+          <div class="wrapper" tal:define="current view/get_fullname|None;
           colors view/get_colors|None">
-          
+
             <div class="pageHeading flexing">
               <!-- <h2>
                 <tal:condition tal:condition="current|None">${view/get_fullname}'s </tal:condition>Projects </h2> -->
               <!-- <div class="rightlogo">
                 <img src="++plone++DocentIMS.ActionItems/docentlogo.jpg" width="200" alt="logo" title="Logo" />
               </div> -->
-              
+
             </div>
             <div class=".wrapper loader">
               <p>
                 <span class=" projectselect" tal:condition="current|None">Please select project…</span> &nbsp;</p>
-                
+
             </div>
+
             <div class="projectButton" tal:condition="current|None">
               <div class="card">
                 <div class="card-body" tal:define="button view/get_buttons|None">
                   <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <tal:repeat tal:repeat="button python:view.get_buttons()">
-                      <li class="nav-item" role="presentation" 
-                      tal:define="active python: 'active' if repeat.button.index == 0 else 'click'">
-                        <a style="background-color: ${python: button['project_color']}" 
-                        class="button btn pat-inject ${active}" 
-                        href="${context/absolute_url}/app-inject-view?siteurl=${python: button['url']}" 
-                        data-pat-inject="source: #appWrapper; target: #appWrapper">
+                      <li class="nav-item" role="presentation" tal:define="active python: 'active' if repeat.button.index == 0 else 'click'">
+                        <a style="background-color: ${python: button['project_color']}" class="button btn pat-inject ${active}" href="${context/absolute_url}/app-inject-view?siteurl=${python: button['url']}" data-pat-inject="source: #appWrapper; target: #appWrapper">
  												 ${python: button['name']} 
+                          <span class="newproject" tal:condition="python: button['last_login_time']">
+                            <br/>
+New Project</span>
+
                         </a>
-                       
 
                       </li>
                     </tal:repeat>
-                      <li>Time: ${view/get_current_time} <br/><a href="${context/absolute_url}"> >> Refresh</a></li>
-                    
+                    <li>Time: ${view/get_current_time} <br/>
+                    <a href="${context/absolute_url}"> >> Refresh</a>
+                  </li>
 
-                  </ul>
-                </div>
+
+                </ul>
               </div>
-            </div>            <!-- buttons-->
-            <div id="appWrapper" class="projectPreview">
-              <a tal:condition="not: current|None" class="loginbutton plone-btn plone-btn-large plone-btn-primary pat-plone-modal" data-pat-plone-modal="width: 400" title="Log in" href="login" icon="plone-login">Please Log in first
-              </a>
-
             </div>
+          </div>          <!-- buttons-->
 
-            
+          <div id="appWrapper" class="projectPreview">
+            <a tal:condition="not: current|None" class="loginbutton plone-btn plone-btn-large plone-btn-primary pat-plone-modal" data-pat-plone-modal="width: 400" title="Log in" href="login" icon="plone-login">Please Log in first
+            </a>
+
+          </div>
 
 
-          </div>          <!-- wrapper-->
-         
-          <style tal:define="colors view/get_colors">
+
+
+        </div>        <!-- wrapper-->
+
+        <style tal:define="colors view/get_colors">
+            .newproject {color: yellow}
             .appWrapper .sideBar,
             #main-container a.button,
             .projectButton .p1 {
@@ -77,15 +80,19 @@
               color: ${color|None};
             }
 
-            .color-0 { background-color: ${python: colors[0]} }
+            <!-- .color-0 { background-color: ${python: colors[0]} }
             .color-1 { background-color: ${python: colors[1]} }
             .color-2 { background-color: ${python: colors[2]} }
             .color-3 { background-color: ${python: colors[3]} }
             .color-4 { background-color: ${python: colors[4]} }
-            .color-5 { background-color: ${python: colors[0]} }
+            .color-5 { background-color: ${python: colors[0]} } -->
+
+            <!-- .color-0 , .color-1 , .color-2 , .color-3, .color-4, .color-4  { background-color:${python: button['project_color']} } -->
+           
 
 
-        #edit-zone {display: block !important; width: 240px !important;} 
+        #xedit-zone {display: block !important; width: 240px !important;} 
+        #edit-zone {display: none; width: 0px !important;} 
         .pat-toolbar, #edit-bar, #edit-zone {
             border-radius: 0 20px 20px 0;
             xbackground: #976100;
@@ -105,14 +112,12 @@
 
         div.toolbar-header, 
         ul.plone-toolbar-main { display: none}
-
-
             
-            </style> 
+        </style>
 
-        </main>
+      </main>
 
-      </metal:block>
-    </metal:content-core>
-  </body>
+    </metal:block>
+  </metal:content-core>
+</body>
 </html>
