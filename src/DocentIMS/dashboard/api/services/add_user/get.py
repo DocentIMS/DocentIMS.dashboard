@@ -7,6 +7,7 @@ from zope.interface import Interface
 from zope.interface import implementer
 import string
 import random
+import json
 
 
 @implementer(IExpandableElement)
@@ -18,33 +19,48 @@ class AddUser(object):
         self.request = request
 
     def __call__(self, expand=False):
-        result = {
-            'add_user': {
-                '@id': '{}/@add_user'.format(
-                    self.context.absolute_url(),
-                ),
-            },
-        }
-        if not expand:
-            return result
+        
+        # result = {
+        #     'add_user': {
+        #         '@id': '{}/@add_user'.format(
+        #             self.context.absolute_url(),
+        #         ),
+        #     },
+        # }
+        # if not expand:
+        #     return result
 
         # === Your custom code comes here ===
-
-        if hasattr(self.request, "username"):
-            username = self.request.username
-            if not api.user.get(username=username):
-                fullname = self.request.fullname
-                email = self.request.email
-                password = ''.join(random.choices(string.ascii_letters, k=27))
-                api.user.create(email=email, username=username, password=password, roles=('Member',), properties = dict(fullname=fullname)) 
-                result['add_user'] = 'user created'
+        
+        # TO DO: Not sure why / if we should use try
+        request_data = json.loads(self.request.get('BODY', '{}'))
+        # {'email':  password':  'roles': ['Member']}
+        
+        result =  'None'
+            
+        
+        try:
+            fullname = request_data.get('fullname')
+            email = request_data.get('email')
+            password = request_data.get('password')
+            
+            if not api.user.get(username=email):
+                api.user.create(email=email, password=password, roles=('Member',), properties = dict(fullname=fullname)) 
+                print('user created')
+                result = 'True'
+        except Exception as e:
+            print(e)
+            result = 'False'
+            
         return result
+
+         
 
 class AddUserGet(Service):
 
     def reply(self):
         service_factory = AddUser(self.context, self.request)
-        return service_factory(expand=True)['add_user']
+        return service_factory(expand=True) 
 
 
 
