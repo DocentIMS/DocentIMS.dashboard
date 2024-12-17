@@ -39,7 +39,7 @@
  												 ${python: button['name']} 
                           <span class="newproject" tal:condition="python: button['last_login_time']">
                             <br/>
-New Project</span>
+                                  New Project</span>
 
                         </a>
 
