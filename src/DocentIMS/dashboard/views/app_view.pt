@@ -45,7 +45,7 @@
 
                       </li>
                     </tal:repeat>
-                    <li>Time: ${view/get_current_time} <br/>
+                    <li>Dashboard updated: ${view/get_current_time} <br/>
                     <a href="${context/absolute_url}"> >> Refresh</a>
                   </li>
 

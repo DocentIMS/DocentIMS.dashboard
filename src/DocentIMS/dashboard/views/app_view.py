@@ -30,7 +30,8 @@ class AppView(BrowserView):
     def get_current_time(self):
         # Get the current local time
         now =  datetime.now()
-        return now.strftime('%A, %d %B %Y, %I:%M %p')
+        # return now.strftime('%A, %d %B %Y, %I:%M %p')
+        return now.strftime('%d %b %I:%M %p')
 
 
     def get_buttons(self):
