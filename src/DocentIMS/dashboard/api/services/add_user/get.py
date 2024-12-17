@@ -5,6 +5,8 @@ from plone.restapi.services import Service
 from zope.component import adapter
 from zope.interface import Interface
 from zope.interface import implementer
+import string
+import random
 
 
 @implementer(IExpandableElement)
@@ -28,34 +30,24 @@ class AddUser(object):
 
         # === Your custom code comes here ===
 
-        # Example:
-        try:
-            subjects = self.context.Subject()
-        except Exception as e:
-            print(e)
-            subjects = []
-        query = {}
-        query['portal_type'] = "Document"
-        query['Subject'] = {
-            'query': subjects,
-            'operator': 'or',
-        }
-        brains = api.content.find(**query)
-        items = []
-        for brain in brains:
-            # obj = brain.getObject()
-            # parent = obj.aq_inner.aq_parent
-            items.append({
-                'title': brain.Title,
-                'description': brain.Description,
-                '@id': brain.getURL(),
-            })
-        result['add_user']['items'] = items
+        if hasattr(self.request, "username"):
+            username = self.request.username
+            if not api.user.get(username=username):
+                fullname = self.request.fullname
+                email = self.request.email
+                password = ''.join(random.choices(string.ascii_letters, k=27))
+                api.user.create(email=email, username=username, password=password, roles=('Member',), properties = dict(fullname=fullname)) 
+                result['add_user'] = 'user created'
         return result
-
 
 class AddUserGet(Service):
 
     def reply(self):
         service_factory = AddUser(self.context, self.request)
         return service_factory(expand=True)['add_user']
+
+
+
+
+# added_user = api.user.create(email='email@medialog.no',  password='password' ) 
+                
