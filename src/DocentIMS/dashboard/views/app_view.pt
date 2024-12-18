@@ -46,7 +46,7 @@
                       </li>
                     </tal:repeat>
                     <li>Dashboard updated: ${view/get_current_time} <br/>
-                    <a href="${context/absolute_url}"> >> Refresh</a>
+                    <a href="${context/absolute_url}" style="background-color: #CCC" class="button btn standalone"> ⟳ Refresh</a>
                   </li>
 
 
