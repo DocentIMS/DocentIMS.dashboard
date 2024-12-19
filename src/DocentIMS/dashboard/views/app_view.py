@@ -44,7 +44,7 @@ class AppView(BrowserView):
             for siteurl in urls:
                 try:                
                     response = requests.get(f'{siteurl}/@item_count?user={self.get_current()}', 
-                                            headers={'Accept': 'application/json', 'Content-Type': 'application/json'},  auth=('admin', 'admin'))
+                                            headers={'Accept': 'application/json', 'Content-Type': 'application/json'})
                     if response.status_code == 200:
                         body = response.json()
                         if body['dashboard-list'] != None:

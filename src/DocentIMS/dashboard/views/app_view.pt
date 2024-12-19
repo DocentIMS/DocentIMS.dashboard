@@ -46,7 +46,7 @@
                       </li>
                     </tal:repeat>
                     <li>Dashboard updated: ${view/get_current_time} <br/>
-                    <a href="${context/absolute_url}" style="background-color: #CCC" class="button btn standalone"> ⟳ Refresh</a>
+                    <a href="${context/absolute_url}" style="background-color: #123456" class="button btn standalone"> ⟳ Refresh</a>
                   </li>
 
 
@@ -91,8 +91,9 @@
            
 
 
-        #xedit-zone {display: block !important; width: 240px !important;} 
+        
         #edit-zone {display: none; width: 0px !important;} 
+        xxbody:not(.userrole-manager) #edit-zone {display: block !important; width: 240px !important;} 
         .pat-toolbar, #edit-bar, #edit-zone {
             border-radius: 0 20px 20px 0;
             xbackground: #976100;
@@ -111,7 +112,7 @@
         #edit-zone .personaltools-wrapper  {border-top: 0 none;}
 
         div.toolbar-header, 
-        ul.plone-toolbar-main { display: none}
+        body:not(.userrole-manager) ul.plone-toolbar-main { display: none}
             
         </style>
 

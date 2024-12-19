@@ -182,12 +182,17 @@
               .singleItem.info {background-color: cyan;}
               xh4.black {color: black !important}
               h2.mytitle {text-align: center; margin-top: 1rem;}
-              .singleItem.count-0  {background-color: #BBB; opacity: 0.5}
+              .itexmWrapper .singleItem.count-0  {background: #BBB !important; opacity: 0.5}
               .small { font-size: 0.4em !important; font-weight: normal; color: #DDD}
               #edit-zone {
                 background-color: ${dashboard_list/project_color|None} !important;
               }
               #main-container .singleItem a {color: white}
+              .singleItem.Urgent {  background: linear-gradient(45deg, ${dashboard_list/project_color|None}, red)}
+              .singleItem.Soon {  background: linear-gradient(45deg, ${dashboard_list/project_color|None}, orange)}
+              .singleItem.Future {background: linear-gradient(45deg, ${dashboard_list/project_color|None}, blue)}
+              .singleItem.More {background: linear-gradient(45deg, ${dashboard_list/project_color|None}, green)}
+              .singleItem.Unset {background: linear-gradient(45deg, ${dashboard_list/project_color|None}, darkgreen)}
               </style>
             </main>
 
@@ -199,11 +204,4 @@
 
   </body>
 </html>
-<!-- 
-
-.xsingleItem { background: whitesmoke}
-               .xsingleItem.Urgent {background-color: red;}
-              .xsingleItem.Future {background-color: blue;}
-              .xsingleItem.More {background-color: green;}
-              .xsingleItem.Soon {background-color: orange;}
-              .xsingleItem.Unset {background-color: whitesmoke;} -->
+ 
