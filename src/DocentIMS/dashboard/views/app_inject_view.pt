@@ -189,7 +189,7 @@
               #main-container .singleItem a,
               #main-container .singleItem a * {color: #123456}
               #main-container .singleItem a:hover {text-decoration: underline}
-              .card .singleItem.count-0 { opacity: 0.3 !important} 
+              .card .singleItem.count-0 { opacity: 0.5 !important} 
                </style>
                         <!-- .singleItem { background-color: ${dashboard_list/project_color|None}; } 
               .singleItem.meeting { background-color: ${dashboard_list/mark_color|None} }  -->
