@@ -74,13 +74,15 @@
                               <div class="row">
 
                                 <div tal:repeat="urgency  dashboard_list/urgency_list" class="col-xl-3 col-lg-6 col-md-6 col-12">
-                                  <div tal:define="urgclass urgency/name" class="color-${python: repeat.urgency.index} singleItem ${python: urgclass.split(' ', 1)[0]} count-${urgency/count}">
+                                  <div tal:define="urgclass urgency/name; count urgency/count" 
+                                      class="color-${python: repeat.urgency.index} singleItem ${python: urgclass.split(' ', 1)[0]} count-${count}">
 
                                     <h4 class="black">${urgency/name}  Items</h4>
-                                    <h2>${urgency/count}</h2>
+                                    <h2>${count}</h2>
                                     <div class="detailsBtn">
                                       <a href="${url}/action-items?collectionfilter=1&urgency=${urgency/name}" 
                                          target="_blank" 
+                                         tal:condition="python: count != 0"
                                          class="xwhite-text">
                                              More Details
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -117,12 +119,14 @@
                                   </div> -->
                                 <!-- </div> -->
                                 <div tal:repeat="meeting dashboard_list/meeting_list" class="col-xl-3 col-lg-6 col-md-6 col-12">
-                                  <div class="singleItem meeting count-${meeting/count}">
+                                  <div tal:define="count meeting/count" 
+                                  class="singleItem meeting count-${count}">
                                     <h4>${meeting/name}</h4>
-                                    <h2>${meeting/count}</h2>
+                                    <h2>${count}</h2>
                                     <div class="detailsBtn">
                                       <a href="${url}/meeting" 
                                        target="_blank" 
+                                       tal:condition="python: count != 0"
                                        class="xwhite-text">
               More Details
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -143,7 +147,7 @@
                             <div class="top">
                               <h3>
                                 <a href="${url}/notifications-view" target="_blank" >
-                                            Notifications (Click to show all)                                  
+                                            Notifications (Click here to show all)                                  
                                 </a>
                               </h3>
                             </div>
