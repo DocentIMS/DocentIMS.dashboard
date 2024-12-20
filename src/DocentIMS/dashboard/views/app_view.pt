@@ -92,12 +92,12 @@
 
 
         
-        #edit-zone {display: none; width: 0px !important;} 
-        xxbody:not(.userrole-manager) #edit-zone {display: block !important; width: 240px !important;} 
+        body:not(.userrole-manager) #edit-zone {display: none; width: 0px !important;} 
+        body:not(.userrole-manager) #edit-zone {display: block !important; width: 240px !important;} 
         .pat-toolbar, #edit-bar, #edit-zone {
             border-radius: 0 20px 20px 0;
             xbackground: #976100;
-            background: white;
+            xbackground: white;
             
         }
 
@@ -111,7 +111,7 @@
 
         #edit-zone .personaltools-wrapper  {border-top: 0 none;}
 
-        div.toolbar-header, 
+        body:not(.userrole-manager)  div.toolbar-header, 
         body:not(.userrole-manager) ul.plone-toolbar-main { display: none}
             
         </style>
