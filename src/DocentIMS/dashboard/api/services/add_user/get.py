@@ -1,69 +1,69 @@
-# -*- coding: utf-8 -*-
-from plone import api
-from plone.restapi.interfaces import IExpandableElement
-from plone.restapi.services import Service
-from zope.component import adapter
-from zope.interface import Interface
-from zope.interface import implementer
-import string
-import random
-import json
+# # -*- coding: utf-8 -*-
+# from plone import api
+# from plone.restapi.interfaces import IExpandableElement
+# from plone.restapi.services import Service
+# from zope.component import adapter
+# from zope.interface import Interface, implementer
+# import json
+# from plone.protect.interfaces import IDisableCSRFProtection
+# from zope.interface import alsoProvides
 
 
-@implementer(IExpandableElement)
-@adapter(Interface, Interface)
-class AddUser(object):
+# @implementer(IExpandableElement)
+# @adapter(Interface, Interface)
+# class AddUser(object):
 
-    def __init__(self, context, request):
-        self.context = context.aq_explicit
-        self.request = request
+#     def __init__(self, context, request):
+#         self.context = context.aq_explicit
+#         self.request = request
+    
+#     def createuser(self, email, roles, fullname):
+#         alsoProvides(self.request, IDisableCSRFProtection)
+#         portal = api.portal.get()  # Ensure you have the Plone portal
+#         with api.env.adopt_roles(['Manager']):
+#             try:
+#                 if not api.user.get(username=email):
+#                     print('creating user')
+#                     api.user.create(
+#                         email='email@medialog.no'
+#                     )
+#                     # api.user.create(
+#                     #     email=email,
+#                     #     username=email,
+#                     #     password="temporary-password",
+#                     #     roles=roles,
+#                     #     properties={'fullname': fullname}
+#                     # )
+#                     print(f"User {email} created successfully")
+#             except Exception as e:
+#                 print(f"Error creating user: {e}")
+#                 raise
 
-    def __call__(self, expand=False):
-        
-        # result = {
-        #     'add_user': {
-        #         '@id': '{}/@add_user'.format(
-        #             self.context.absolute_url(),
-        #         ),
-        #     },
-        # }
-        # if not expand:
-        #     return result
+#     def __call__(self, expand=False):
+#         result = {
+#             'add_user': {
+#                 '@id': '{}/@add_user'.format(self.context.absolute_url()),
+#             },
+#         }
+#         if not expand:
+#             return result
 
-        # === Your custom code comes here ===
-        
-        # TO DO: Not sure why / if we should use try
-        request_data = json.loads(self.request.get('BODY', '{}'))
-        # {'email':  password':  'roles': ['Member']}
-        
-        result =  'None'
+#         try:
+#             body = self.request.get('BODY', '{}')
+#             request_data = json.loads(body) if body else {}
             
-        
-        try:
-            fullname = request_data.get('fullname')
-            email = request_data.get('email')
-            password = request_data.get('password')
-            
-            if not api.user.get(username=email):
-                api.user.create(email=email, password=password, roles=('Member',), properties = dict(fullname=fullname)) 
-                print('user created')
-                result = 'True'
-        except Exception as e:
-            print(e)
-            result = 'False'
-            
-        return result
+#             fullname = request_data.get('fullname')
+#             email = request_data.get('email')
+#             self.createuser(email=email, roles=('Member',), fullname=fullname)
+#             result = {'status': 'success', 'message': 'User created'}
+#         except Exception as e:
+#             result = {'status': 'error', 'message': str(e)}
 
-         
-
-class AddUserGet(Service):
-
-    def reply(self):
-        service_factory = AddUser(self.context, self.request)
-        return service_factory(expand=True) 
+#         return result
 
 
+# class AddUserGet(Service):
 
-
-# added_user = api.user.create(email='email@medialog.no',  password='password' ) 
-                
+#     def reply(self):
+#         service_factory = AddUser(self.context, self.request)
+#         return service_factory(expand=True)

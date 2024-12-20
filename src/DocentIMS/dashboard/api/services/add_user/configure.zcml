@@ -1,16 +1,16 @@
 <configure
   xmlns="http://namespaces.zope.org/zope"
   xmlns:plone="http://namespaces.plone.org/plone">
-
+<!-- 
   <adapter factory=".get.AddUser" name="add_user"/>
 
   <plone:service
-    method="GET"
+    method="POST"
     for="zope.interface.Interface"
     factory=".get.AddUserGet"
     name="@add_user"
     permission="zope2.View"
-    />
+    /> -->
 
     
 
