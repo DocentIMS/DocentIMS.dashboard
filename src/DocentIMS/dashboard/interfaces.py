@@ -70,12 +70,7 @@ class IDocentimsSettings(model.Schema):
         'project',
         label=_(u'Dashboard'),
         fields=[
-            'app_buttons', 
-            'color1',
-            'color2',
-            'color3',
-            'color4',
-            'color5',            
+            'app_buttons',         
             ],
         )
     
