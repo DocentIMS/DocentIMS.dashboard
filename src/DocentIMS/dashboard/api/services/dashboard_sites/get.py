@@ -33,8 +33,6 @@ class DashboardSites(object):
         sites = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons')
         buttons = []
         
-        import pdb; pdb.set_trace()
-        
         # if some_secret = something;        
         if usermail:  
             
