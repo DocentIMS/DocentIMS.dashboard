@@ -6,7 +6,7 @@
 
   <plone:service
     method="GET"
-    for="Products.CMFCore.interfaces.ISiteRoot"
+    for="zope.interface.Interface"
     factory=".get.DashboardSitesGet"
     name="@dashboard_sites"
     permission="zope.Public"
