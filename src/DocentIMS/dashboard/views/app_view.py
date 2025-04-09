@@ -7,8 +7,10 @@ import requests
 from plone import api
 from DocentIMS.ActionItems.interfaces import IDocentimsSettings
 from datetime import datetime
+import socket
 
-
+# from zope.globalrequest import getRequest
+import requests
 
 
 
@@ -82,6 +84,37 @@ class AppView(BrowserView):
         color5=  api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.color5')
         return[color1, color2, color3, color4, color5]
     
+    
+    def get_server_ip(self):
+        try:
+            return socket.gethostbyname(socket.gethostname())
+        except Exception as e:
+            return f"Error: {e}"
+        
+    def get_served_domain(self):
+        """Retrieve the domain dynamically from the request"""
+        return self.request.get("HTTP_HOST") or "0.0.0.0"
+        
+        
+        
+    def get_served_domain_ip(self):
+        """Get the public IP of the domain serving the Plone site"""
+        try:
+            # domain = self.request.get("https://www.medialog.no", "unknown")
+            domain = self.get_served_domain()
+            if domain and ':' in domain:
+                domain = domain.split(':')[0]
+            
+            return socket.gethostbyname(domain)
+        except Exception as e:
+            return f"Error resolving domain IP: {e}"
+    
+    
+    # def get_client_ip(self):
+    #     if requests:
+    #         return requests.get("HTTP_X_FORWARDED_FOR", requests.get("REMOTE_ADDR", "Unknown"))
+    #     return "Unknown"
+
     # def get_if_login(self):
     #     current = api.user.get_current()
     #     last_login_time =  current.getProperty('last_login_time', None)

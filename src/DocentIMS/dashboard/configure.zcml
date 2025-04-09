@@ -44,6 +44,8 @@
 
   <include package=".api" />
 
+  <include package=".api" />
+
   <include package=".views" />
 
 </configure>

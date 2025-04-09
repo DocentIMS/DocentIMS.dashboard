@@ -2,16 +2,14 @@
   xmlns="http://namespaces.zope.org/zope"
   xmlns:plone="http://namespaces.plone.org/plone">
 
-  <!-- <adapter factory=".get.AddUser" name="add_user"/>
+  <adapter factory=".get.DashboardSites" name="dashboard_sites"/>
 
   <plone:service
-    method="POST"
+    method="GET"
     for="zope.interface.Interface"
-    factory=".get.AddUserGet"
-    name="@add_user"
+    factory=".get.DashboardSitesGet"
+    name="@dashboard_sites"
     permission="zope2.View"
     />
- -->
-    
 
 </configure>
