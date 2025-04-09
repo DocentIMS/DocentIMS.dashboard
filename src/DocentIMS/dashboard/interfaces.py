@@ -96,58 +96,58 @@ class IDocentimsSettings(model.Schema):
     #     # defaultFactory=retrieve_password,      
     # )
     
-    widget(color1=ColorpickerFieldWidget)
-    color1 = schema.TextLine(
-        title=u"Color 1",
-        description=u"",
-        # max_length=10,
-        required=True,
-        default="#ff0000"
-    )
+    # widget(color1=ColorpickerFieldWidget)
+    # color1 = schema.TextLine(
+    #     title=u"Color 1",
+    #     description=u"",
+    #     # max_length=10,
+    #     required=True,
+    #     default="#ff0000"
+    # )
     
-    widget(color1=ColorpickerFieldWidget)
-    color1 = schema.TextLine(
-        title=u"Color 1",
-        description=u"",
-        # max_length=10,
-        required=True,
-        default="#ff0000"
-    )
+    # widget(color1=ColorpickerFieldWidget)
+    # color1 = schema.TextLine(
+    #     title=u"Color 1",
+    #     description=u"",
+    #     # max_length=10,
+    #     required=True,
+    #     default="#ff0000"
+    # )
     
-    widget(color2=ColorpickerFieldWidget)
-    color2 = schema.TextLine(
-        title=u"Color 2",
-        description=u"",
-        # max_length=10,
-        required=True,
-        default="#ff0000"
-    )
+    # widget(color2=ColorpickerFieldWidget)
+    # color2 = schema.TextLine(
+    #     title=u"Color 2",
+    #     description=u"",
+    #     # max_length=10,
+    #     required=True,
+    #     default="#ff0000"
+    # )
     
-    widget(color3=ColorpickerFieldWidget)
-    color3 = schema.TextLine(
-        title=u"Color 3",
-        description=u"",
-        # max_length=10,
-        required=True,
-        default="#ff0000"
-    )
+    # widget(color3=ColorpickerFieldWidget)
+    # color3 = schema.TextLine(
+    #     title=u"Color 3",
+    #     description=u"",
+    #     # max_length=10,
+    #     required=True,
+    #     default="#ff0000"
+    # )
     
-    widget(color4=ColorpickerFieldWidget)
-    color4 = schema.TextLine(
-        title=u"Color 4",
-        description=u"",
-        # max_length=10,
-        required=True,
-        default="#ff0000"
-    )
+    # widget(color4=ColorpickerFieldWidget)
+    # color4 = schema.TextLine(
+    #     title=u"Color 4",
+    #     description=u"",
+    #     # max_length=10,
+    #     required=True,
+    #     default="#ff0000"
+    # )
     
-    widget(color5=ColorpickerFieldWidget)
-    color5 = schema.TextLine(
-        title=u"Color 5",
-        description=u"",
-        # max_length=10,
-        required=True,
-        default="#ff0000"
-    )
+    # widget(color5=ColorpickerFieldWidget)
+    # color5 = schema.TextLine(
+    #     title=u"Color 5",
+    #     description=u"",
+    #     # max_length=10,
+    #     required=True,
+    #     default="#ff0000"
+    # )
 
 alsoProvides(IDocentimsSettings, IMedialogControlpanelSettingsProvider)

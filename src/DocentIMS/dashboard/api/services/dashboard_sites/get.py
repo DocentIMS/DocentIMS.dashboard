@@ -5,6 +5,7 @@ from plone.restapi.services import Service
 from zope.component import adapter
 from zope.interface import Interface
 from zope.interface import implementer
+import requests
 
 
 @implementer(IExpandableElement)
@@ -16,6 +17,8 @@ class DashboardSites(object):
         self.request = request
 
     def __call__(self, expand=False):
+        usermail = self.request.get('email', None)
+        some_secret = self.request.get('some_secret', None)
         result = {
             'dashboard_sites': {
                 '@id': '{}/@dashboard_sites'.format(
@@ -26,33 +29,45 @@ class DashboardSites(object):
         if not expand:
             return result
 
-        # === Your custom code comes here ===
+        # === Return list of sites ===    
+        sites = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons')
+        
+        # if some_secret = something;
+        if usermail:  
+            buttons = []
+            
+            for siteurl in sites:
+                try:                
+                    response = requests.get(f'{siteurl}/@item_count?user={usermail}', 
+                                            headers={'Accept': 'application/json', 'Content-Type': 'application/json'})
+                    if response.status_code == 200:
+                        body = response.json()
+                        if body['dashboard-list'] != None:
+                            buttons.append({
+                                'name': body['dashboard-list']['short_name'], 
+                                'url': siteurl, 
+                                'project_color': body['dashboard-list']['project_color'],
+                                    'last_login_time': body['dashboard-list']['last_login_time'], 
+                            })
+                
+                except requests.exceptions.ConnectionError:
+                    print("Failed to connect to the server. Please check your network or URL.")
+                except requests.exceptions.Timeout:
+                    print("The request timed out. Try again later.")
+                except requests.exceptions.RequestException as e:
+                    print(f"An error occurred: {e}")
 
-        # Example:
-        try:
-            subjects = self.context.Subject()
-        except Exception as e:
-            print(e)
-            subjects = []
-        query = {}
-        query['portal_type'] = "Document"
-        query['Subject'] = {
-            'query': subjects,
-            'operator': 'or',
-        }
-        brains = api.content.find(**query)
-        items = []
-        for brain in brains:
-            # obj = brain.getObject()
-            # parent = obj.aq_inner.aq_parent
-            items.append({
-                'title': brain.Title,
-                'description': brain.Description,
-                '@id': brain.getURL(),
-            })
-        result['dashboard_sites']['items'] = items
+            
+        result = {
+                'dashboard_sites': {
+                    'sites': sites, 
+                    'buttons': buttons,   
+                },
+            } 
+                   
         return result
-
+        
+        
 
 class DashboardSitesGet(Service):
 
