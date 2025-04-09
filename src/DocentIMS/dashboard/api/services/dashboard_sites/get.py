@@ -31,10 +31,11 @@ class DashboardSites(object):
 
         # === Return list of sites ===    
         sites = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons')
+        buttons = []
         
-        # if some_secret = something;
+        # if some_secret = something;        
         if usermail:  
-            buttons = []
+            
             
             for siteurl in sites:
                 try:                
