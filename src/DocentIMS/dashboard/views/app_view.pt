@@ -114,6 +114,9 @@
 
         body:not(.userrole-manager)  div.toolbar-header, 
         body:not(.userrole-manager) ul.plone-toolbar-main { display: none}
+
+        button.pat-inject { opacity: 0.5}
+        button.pat-inject.active { opacity: 1}
             
         </style>
 
