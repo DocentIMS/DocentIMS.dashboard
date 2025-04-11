@@ -78,7 +78,7 @@
             }
 
              #main-container a.button,
-             #main-container a.button  click  { opacity: 0.5}
+             #main-container a.button  click  { opacity: 0.35}
              #main-container a.button.active { opacity: 1}
 
             .projectPreview .topInfo h3,
