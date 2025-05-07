@@ -45,7 +45,7 @@ class AppView(BrowserView):
         if urls:
             for siteurl in urls:
                 try:                
-                    response = requests.get(f'{siteurl}/@item_count?user={self.get_current()}', 
+                    response = requests.get(f'{siteurl}/@item_count?user={self.get_current()}', timeout=3,
                                             headers={'Accept': 'application/json', 'Content-Type': 'application/json'})
                     if response.status_code == 200:
                         body = response.json()
