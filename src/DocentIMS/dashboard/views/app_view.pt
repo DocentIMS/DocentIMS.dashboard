@@ -57,8 +57,8 @@
             </div>
           </div>          <!-- buttons-->
 
-          <div>Updated: ${view/get_current_time} <a href="${context/absolute_url}" style="background-color: #123456" class="button btn standalone">
-            <img src="++plone++DocentIMS.dashboard/refresh-icon.png"> Refresh</a>
+          <div>Updated: ${view/get_current_time} <a href="${context/absolute_url}" style="background-color: #123456">
+            <img src="++plone++DocentIMS.dashboard/refresh-icon.png" width="24" height="24"> Refresh</a>
           </div>
 
 
