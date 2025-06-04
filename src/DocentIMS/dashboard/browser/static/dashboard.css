@@ -3,15 +3,19 @@ div.color-0 {
 }
 
 div.color-1 {
-    border: 2px solid  yellow;
+    border: 2px solid #BA8E23;
 }
 
 div.color-2 {
     border: 2px solid  green;
 }
 
-div.color-2 {
+div.color-3 {
     border: 2px solid  blue;
+}
+
+div.color-4 {
+    border: 2px solid gray;
 }
 
 #portal-column-content .nav-item {
