@@ -14,7 +14,7 @@
 
           <div class="wrapper" tal:define="current view/get_fullname|None;
           colors view/get_colors|None">
-           <p>IP Address: ${view/get_served_domain_ip} ( ${view/get_server_ip} )</p>
+           <!-- <p>IP Address: ${view/get_served_domain_ip} ( ${view/get_server_ip} )</p> -->
            <p></p>
 
             <div class="pageHeading flexing">

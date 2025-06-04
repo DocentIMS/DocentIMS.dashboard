@@ -100,7 +100,7 @@
 
                           <div class="bottomItemBox">
                             <div class="top">
-                              <h3>Meeting Dates</h3>
+                              <h3>Meetings</h3>
                             </div>
                             <div class="itemWrapper">
                               <div class="row">
@@ -147,7 +147,7 @@
                             <div class="top">
                               <h3>
                                 <a href="${url}/notifications-view" target="_blank" >
-                                            Notifications (Click here to show all)                                  
+                                            Notifications                                 
                                 </a>
                               </h3>
                             </div>
