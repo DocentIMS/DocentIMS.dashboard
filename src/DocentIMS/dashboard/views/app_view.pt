@@ -47,15 +47,20 @@
 
                       </li>
                     </tal:repeat>
-                    <li>Dashboard updated: ${view/get_current_time} <br/>
+                    <!-- <li>Updated: ${view/get_current_time} <br/>
                     <a href="${context/absolute_url}" style="background-color: #123456" class="button btn standalone"> ⟳ Refresh</a>
-                  </li>
+                  </li> -->
 
 
                 </ul>
               </div>
             </div>
           </div>          <!-- buttons-->
+
+          <div>Updated: ${view/get_current_time} <br/>
+                    <a href="${context/absolute_url}" style="background-color: #123456" class="button btn standalone"> ⟳ Refresh</a>
+          </div>
+
 
           <div id="appWrapper" class="projectPreview">
             <a tal:condition="not: current|None" class="loginbutton plone-btn plone-btn-large plone-btn-primary pat-plone-modal" data-pat-plone-modal="width: 400" title="Log in" href="login" icon="plone-login">Please Log in first

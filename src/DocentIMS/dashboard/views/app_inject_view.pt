@@ -187,14 +187,15 @@
               h4 {color: black !important}
               h2.mytitle {text-align: center; margin-top: 1rem;}
               .small { font-size: 0.4em !important; font-weight: normal; color: #DDD}
-              #edit-zone {
-                background-color: ${dashboard_list/project_color|None} !important;
-              }
+              
               #main-container .singleItem a,
               #main-container .singleItem a * {color: #123456}
               #main-container .singleItem a:hover {text-decoration: underline}
               .card .singleItem.count-0 { opacity: 0.5 !important} 
                </style>
+               <!-- #edit-zone {
+                background-color: ${dashboard_list/project_color|None} !important;
+              } -->
                         <!-- .singleItem { background-color: ${dashboard_list/project_color|None}; } 
               .singleItem.meeting { background-color: ${dashboard_list/mark_color|None} }  -->
                <!-- .singleItem.error {background-color: red;}
