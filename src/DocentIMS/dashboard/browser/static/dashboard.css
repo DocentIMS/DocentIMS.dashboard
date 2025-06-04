@@ -1,11 +1,14 @@
+.note-error,
 div.color-0 {
     border: 2px solid  red;
 }
 
+.note-warning,
 div.color-1 {
     border: 2px solid #BA8E23;
 }
 
+.note-info,
 div.color-2 {
     border: 2px solid  green;
 }
