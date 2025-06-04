@@ -15,6 +15,7 @@ div.color-3 {
 }
 
 div.color-4 {
+    display: none;
     border: 2px solid gray;
 }
 
