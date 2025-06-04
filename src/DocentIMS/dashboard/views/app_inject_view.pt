@@ -49,7 +49,7 @@
                           <a href="${url}" target="_blank" alt="Link to site" title="Link to ${dashboard_list/short_name|None}">
                       ${dashboard_list/short_name|None} 
                           </a>
-                          <!-- <span class="small">| Last updated: ${dashboard_list/last_updated|None}</span> -->
+                          <span class="small">| New / Modified: ${dashboard_list/last_updated|None}</span>
                         </h2>
 
                         <div class="card-body">
