@@ -1,3 +1,19 @@
+div.color-0 {
+    border: 2px solid  red;
+}
+
+div.color-1 {
+    border: 2px solid  yellow;
+}
+
+div.color-2 {
+    border: 2px solid  green;
+}
+
+div.color-2 {
+    border: 2px solid  blue;
+}
+
 #portal-column-content .nav-item {
     position: relative;
     padding-right: 2rem;
