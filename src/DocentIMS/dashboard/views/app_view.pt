@@ -58,7 +58,7 @@
           </div>          <!-- buttons-->
 
           <div>
-          <p>Updated: ${view/get_current_time} <a href="${context/absolute_url}">
+          <p class="text-right">Updated: ${view/get_current_time} <a href="${context/absolute_url}">
             <img src="++plone++DocentIMS.dashboard/refresh-icon.png" width="24" height="24"> Refresh</a></p>
           </div>
 
@@ -75,6 +75,7 @@
         </div>        <!-- wrapper-->
 
         <style tal:define="colors view/get_colors">
+        .text-right {text-align: right; padding-top: 1rem;}
             .newproject {color: yellow}
             .appWrapper .sideBar,
             #main-container a.button,
