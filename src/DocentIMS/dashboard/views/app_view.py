@@ -39,10 +39,7 @@ class AppView(BrowserView):
     def get_buttons(self):
         
         urls = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons')
-        buttons = []
-        
-        import pdb; pdb.set_trace()
-        
+        buttons = []        
         
         if urls:
             for siteurl in urls:
