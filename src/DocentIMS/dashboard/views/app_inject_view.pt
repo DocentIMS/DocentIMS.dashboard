@@ -144,7 +144,7 @@
                               <div class="row">
 
                                 <div tal:define="
-                                      priority_map python:{'error': 0, 'warning': 1, 'info': 2};
+                                      priority_map python:{'Error': 0, 'warning': 1, 'info': 2, 'mention': 3, 'error': 4, 'warning': 5, 'Info': 6, 'Mention': 7};
                                       sorted_list python:sorted(
                                           dashboard_list['notification_list'], key=lambda x: (priority_map.get(x.get('type'), 99), x['name'].lower())
                                       )" tal:repeat="notification sorted_list" class="col-xl-3 col-lg-6 col-md-6 col-12">
