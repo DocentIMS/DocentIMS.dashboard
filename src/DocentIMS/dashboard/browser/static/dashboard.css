@@ -335,7 +335,7 @@ body {
 
 
 .projectButton .btn,
-#main-container a.button,
+#main-container a.button
     {
     padding: 17px 30px;
     background-color: transparent;
