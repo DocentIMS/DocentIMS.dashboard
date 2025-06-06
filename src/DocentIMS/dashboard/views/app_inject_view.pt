@@ -46,7 +46,7 @@
                       <div class="card mainbox">
 
                         <h2 class="mytitle">
-                          <a href="${url}" target="_blank" alt="Link to site" title="Link to ${dashboard_list/short_name|None}">
+                          <a href="${url}" class="project_color" target="_blank" alt="Link to site" title="Link to ${dashboard_list/short_name|None}">
                       ${dashboard_list/short_name|None} 
                           </a>
                           <span class="small">| New / Modified: ${dashboard_list/last_updated|None}</span>
@@ -167,6 +167,7 @@
               </div>
 
               <style>
+              .project_color {color: ${dashboard_list/project_color|None}; } 
               .projectButton, .card {border-color: ${dashboard_list/project_color|None}; }
 
               .card.mainbox { border: 4px solid ${dashboard_list/project_color|None} } 

@@ -12,23 +12,50 @@ div.color-0 {
     border: 2px solid  red;
 }
 
-.note-warning,
-div.color-1 {
-    border: 2px solid #BA8E23;
+.note-error h4,
+div.color-0 h4 {
+    color:  red;
 }
 
-.note-info,
-div.color-2 {
+
+.note-warning,
+div.color-1 {
+    color: #BA8E23;
+}
+
+.note-warning h4,
+div.color-1  h4{
+    color: #BA8E23;
+}
+
+
+.note-info h4,
+div.color-2 h4 {
     border: 2px solid  green;
+}
+
+
+.note-info h4,
+div.color-2 h4 {
+    color:  green;
 }
 
 div.color-3 {
     border: 2px solid  blue;
 }
 
+div.color-3 h4 {
+    color: blue;
+}
+
 div.color-4 {
     display: none;
     border: 2px solid gray;
+}
+
+div.color-4 h4 {
+    display: none;
+    color: gray;
 }
 
 #portal-column-content .nav-item {
