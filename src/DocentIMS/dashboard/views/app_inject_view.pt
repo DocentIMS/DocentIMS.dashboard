@@ -129,9 +129,6 @@
                               </div>
                             </div>
                           </div>
-
-
-
                           <div class="bottomItemBox">
                             <div class="top">
                               <h3>
@@ -169,16 +166,12 @@
               <style>
               .project_color {color: ${dashboard_list/project_color|None}; } 
               .projectButton, .card {border-color: ${dashboard_list/project_color|None}; }
-
-              .card.mainbox { border: 4px solid ${dashboard_list/project_color|None} } 
-     
+              .card.mainbox { border: 4px solid ${dashboard_list/project_color|None} }      
               .singleItem.notification {background-color: whitesmoke;}
-              .singleItem  {background-color: whitesmoke;}
-              
-              h4 {color: black !important; text-transform: capitalize;}
+              .singleItem  {background-color: whitesmoke;}              
+              h4 {text-transform: capitalize;}
               h2.mytitle {text-align: center; margin-top: 1rem;}
-              .small { font-size: 0.4em !important; font-weight: normal; color: #DDD}
-              
+              .small { font-size: 0.4em !important; font-weight: normal; color: #DDD}    
               #main-container .singleItem a,
               #main-container .singleItem a * {color: #123456}
               #main-container .singleItem a:hover {text-decoration: underline}
