@@ -164,7 +164,7 @@
               </div>
 
               <style>
-              .project_color {color: ${dashboard_list/project_color|None}; } 
+              #main-container .mytitle a {color: ${dashboard_list/project_color|None}; } 
               .projectButton, .card {border-color: ${dashboard_list/project_color|None}; }
               .card.mainbox { border: 4px solid ${dashboard_list/project_color|None} }      
               .singleItem.notification {background-color: whitesmoke;}
