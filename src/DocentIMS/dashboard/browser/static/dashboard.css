@@ -20,7 +20,7 @@ div.color-0 h4 {
 
 .note-warning,
 div.color-1 {
-    color: #BA8E23;
+    border: 2px solid  #BA8E23;
 }
 
 .note-warning h4,
@@ -29,8 +29,8 @@ div.color-1  h4{
 }
 
 
-.note-info h4,
-div.color-2 h4 {
+.note-info,
+div.color-2 {
     border: 2px solid  green;
 }
 
