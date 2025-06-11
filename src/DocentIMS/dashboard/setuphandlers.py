@@ -23,6 +23,12 @@ def post_install(context):
     
     #portal.default_page='app-view'
     portal.layout = 'app-view'
+    # api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons', 
+    #                                      [{'location_name': 'https://team.chelseamallproject.com'}, 
+    #                                       {'location_name': 'https://team.reverebeachproject.com'}
+    #                                      ])
+    
+    
     # Do something at the end of the installation of this package.
 
 

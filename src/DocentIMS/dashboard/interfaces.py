@@ -63,12 +63,12 @@ class IDocentimsDashboardLayer(IDefaultBrowserLayer):
 #     encrypted_password = b'supersekretpasswordsupersekretpa'
 #     return decrypt_password('encrypted_password')
 
-class IVocabulari(model.Schema):
-    location_name = schema.URI(
-        title=_(u'Site URL', 'Sites'),
-        description=u"Sites",
-        required=False,
-    )
+# class IVocabulari(model.Schema):
+#     location_name = schema.URI(
+#         title=_(u'Site URL', 'Sites'),
+#         description=u"Sites",
+#         required=False,
+#     )
 
 
 class IDocentimsSettings(model.Schema):
@@ -83,13 +83,17 @@ class IDocentimsSettings(model.Schema):
             ],
         )
     
-    widget(app_buttons=DataGridFieldFactory)
+    # widget(app_buttons=DataGridFieldFactory)
     app_buttons = schema.List(
         title = _(u" ",
             default=u""),
-        value_type=DictRow(schema=IVocabulari),
+        # value_type=DictRow(schema=IVocabulari),
+        value_type=schema.URI(
+            title= (u'URL'),  
+        ),     
         required=False,
     )
+    
     
     # app_user = schema.TextLine(
     #     title = _(u"App Admin User",),        

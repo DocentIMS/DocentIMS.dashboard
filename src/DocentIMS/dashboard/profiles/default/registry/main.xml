@@ -2,15 +2,8 @@
 <registry xmlns:i18n="http://xml.zope.org/namespaces/i18n" i18n:domain="DocentIMS.dashboard">
 
     <!-- -*- Controlpanel -*- -->
-    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_buttons">
-        <field type="plone.registry.field.List">
-        <value_type type="plone.registry.field.URI"/>
-        </field>
-        <!-- <value>
-            <element>http://team.chelseamallproject.com</element>
-            <element>https://team.reverebeachproject.com</element>
-        </value> -->
-    </record>
+    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_buttons" />
+
     <!-- <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_user" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_user">
         <field type="plone.registry.field.TextLine">
             <element>admin</element>
