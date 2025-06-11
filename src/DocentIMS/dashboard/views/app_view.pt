@@ -112,6 +112,7 @@
             xbackground: white;
             
         }
+        .small {font-size: 1rem !important; font-weight: normal; color: #DDD}    
 
         a#personaltools-menulink {
           margin-top: 30vh;

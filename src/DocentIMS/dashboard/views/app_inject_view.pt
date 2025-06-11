@@ -170,8 +170,8 @@
               .singleItem.notification {background-color: whitesmoke;}
               .singleItem  {background-color: whitesmoke;}              
               h4 {text-transform: capitalize;}
-              h2.mytitle {text-align: left; margin-top: 1rem;}
-              .small { font-size: 1rem !important; font-weight: normal; color: #DDD}    
+              h2.mytitle {text-align: left; margin-top: 1rem; margin-left: 1rem;}
+              .small {font-size: 1rem !important; font-weight: normal; color: #DDD}    
               #main-container .singleItem a,
               #main-container .singleItem a * {color: #123456}
               #main-container .singleItem a:hover {text-decoration: underline}
