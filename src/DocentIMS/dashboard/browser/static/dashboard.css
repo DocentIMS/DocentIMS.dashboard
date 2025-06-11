@@ -336,9 +336,9 @@ body {
     padding: 20px;
 }
 
-.projectButton {
+/* .projectButton {
     margin-top: 20px
-}
+} */
 
 .projectButton .nav-tabs {
     border: none;
@@ -414,9 +414,9 @@ body {
     background-color: #F6E4FE
 }
 
-.projectPreview {
+/* .projectPreview {
     margin-top: 30px
-}
+} */
 
 .projectPreview .topInfo {
     border-bottom: 1px solid #e5e5e5;
@@ -465,7 +465,7 @@ body {
 
 .card .card-body .itemWrapper .singleItem {
     border-radius: 10px;
-    padding: 20px 20px;
+    padding: 10px 15px;
     height: 100%;
 }
 
@@ -478,14 +478,14 @@ body {
 .projectPreview .card .card-body .itemWrapper .singleItem h4 {
     font-size: 14px;
     font-weight: 400;
-    line-height: 20px
+    /* line-height: 20px */
 }
 
 .projectPreview .card .card-body .itemWrapper .singleItem h2 {
-    margin-top: 10px;
+    margin-top: 0px;
     color: #FFBB3B;
     font-weight: 800;
-    font-size: 35px
+    font-size: 32px
 }
 
 .projectPreview .card .card-body .itemWrapper .singleItem .detailsBtn {
@@ -513,9 +513,9 @@ body {
     color: #fff
 }
 
-.projectPreview .card .card-body .bottomItemBox {
+/* .projectPreview .card .card-body .bottomItemBox {
     margin-top: 30px
-}
+} */
 
 .mobileHeader {
     padding: 10px 20px;
