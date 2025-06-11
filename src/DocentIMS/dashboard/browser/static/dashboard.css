@@ -117,10 +117,13 @@ div.rightlogo {
     border-top: 0 none;
 }
 
+#portal-logo { max-width: 250px;}
 
 #hero,
 #above-content-wrapper,
-#content-header,
+#xcontent-header,
+.principal,
+#above-content-wrapper,
 #portal-footer-wrapper, 
 #mainnavigation-wrapper {
     display: none !important

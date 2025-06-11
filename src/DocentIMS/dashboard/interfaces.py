@@ -8,6 +8,8 @@ from plone.supermodel import model
 from plone.autoform.directives import widget
 from zope.interface import alsoProvides
 from collective.z3cform.colorpicker.colorpicker  import ColorpickerFieldWidget
+from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
+from collective.z3cform.datagridfield.registry import DictRow
 
 # from plone.registry.interfaces import IRegistry
 # from zope.component import getUtility
@@ -61,6 +63,13 @@ class IDocentimsDashboardLayer(IDefaultBrowserLayer):
 #     encrypted_password = b'supersekretpasswordsupersekretpa'
 #     return decrypt_password('encrypted_password')
 
+class IVocabulari(model.Schema):
+    location_name = schema.URI(
+        title=_(u'Site URL', 'Sites'),
+        description=u"Sites",
+        required=False,
+    )
+
 
 class IDocentimsSettings(model.Schema):
     """Adds settings to medialog.controlpanel
@@ -74,12 +83,12 @@ class IDocentimsSettings(model.Schema):
             ],
         )
     
+    widget(app_buttons=DataGridFieldFactory)
     app_buttons = schema.List(
-        title = _(u"Sites",
-            default=u"Sites"),
-        value_type=schema.URI(
-            title= (u'URL'),  
-        ),        
+        title = _(u" ",
+            default=u""),
+        value_type=DictRow(schema=IVocabulari),
+        required=False,
     )
     
     # app_user = schema.TextLine(

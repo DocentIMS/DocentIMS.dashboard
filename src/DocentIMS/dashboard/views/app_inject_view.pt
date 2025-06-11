@@ -65,12 +65,12 @@
                           </div>
                           <div class="topItemBox">
                             <div class="top">
-                              <h3>Your Tasks</h3>
+                              <h3><a href="${url}/action-items" target="_blank" rel="noopener noreferrer">Your Tasks</a></h3>
                             </div>
                             <div class="itemWrapper">
                               <div class="row">
 
-                                <div tal:repeat="urgency  dashboard_list/urgency_list" class="col-xl-3 col-lg-6 col-md-6 col-12">
+                                <div tal:repeat="urgency dashboard_list/urgency_list" class="col-xl-3 col-lg-6 col-md-6 col-12">
                                   <div tal:define="urgclass urgency/name; count urgency/count" class="color-${python: repeat.urgency.index} singleItem ${python: urgclass.split(' ', 1)[0]} count-${count}">
 
                                     <h4 class="black">${urgency/name}</h4>
@@ -93,7 +93,7 @@
 
                           <div class="bottomItemBox">
                             <div class="top">
-                              <h3>Meetings</h3>
+                              <h3><a href="${url}/meetings" target="_blank" rel="noopener noreferrer">Meetings</a></h3>
                             </div>
                             <div class="itemWrapper">
                               <div class="row">
@@ -116,8 +116,8 @@
                                     <h4>${meeting/name}</h4>
                                     <h2>${count}</h2>
                                     <div class="detailsBtn">
-                                      <a href="${url}/meeting" target="_blank" tal:condition="python: count != 0" class="xwhite-text">
-              More Details
+                                      <a href="${url}/meetings" target="_blank" tal:condition="python: count != 0" class="xwhite-text">
+                                          More Details
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                           <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
                                         </svg>
@@ -132,8 +132,8 @@
                           <div class="bottomItemBox">
                             <div class="top">
                               <h3>
-                                <a href="${url}/notifications-view" target="_blank">
-                                            Notifications                                 
+                                <a href="${url}/notifications" target="_blank" rel="noopener noreferrer">
+                                    Notifications                                 
                                 </a>
                               </h3>
                             </div>
@@ -170,8 +170,8 @@
               .singleItem.notification {background-color: whitesmoke;}
               .singleItem  {background-color: whitesmoke;}              
               h4 {text-transform: capitalize;}
-              h2.mytitle {text-align: center; margin-top: 1rem;}
-              .small { font-size: 0.4em !important; font-weight: normal; color: #DDD}    
+              h2.mytitle {text-align: left; margin-top: 1rem;}
+              .small { font-size: 1rem !important; font-weight: normal; color: #DDD}    
               #main-container .singleItem a,
               #main-container .singleItem a * {color: #123456}
               #main-container .singleItem a:hover {text-decoration: underline}

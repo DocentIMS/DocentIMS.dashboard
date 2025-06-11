@@ -4,13 +4,12 @@
     <!-- -*- Controlpanel -*- -->
     <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_buttons">
         <field type="plone.registry.field.List">
-            <value_type type="plone.registry.field.URI"/>
+        <value_type type="plone.registry.field.URI"/>
         </field>
-        <value>
-            <element>https://mymeadows.org</element>
-            <element>https://team.thelakesHOA.org</element>
-            <element>https://team.cherrycresthoa.org</element>
-        </value>
+        <!-- <value>
+            <element>http://team.chelseamallproject.com</element>
+            <element>https://team.reverebeachproject.com</element>
+        </value> -->
     </record>
     <!-- <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_user" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_user">
         <field type="plone.registry.field.TextLine">
