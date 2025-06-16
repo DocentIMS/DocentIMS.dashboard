@@ -19,13 +19,8 @@
               <!-- main app content -->
               <div class="wrapper">
                 <div class="pageHeading">
-
-
-
                   <div class="projectPreview">
                     <div class="tab-content" id="myTabContent">
-
-
                       <!-- <div class="topInfo">
                         <h3>
                           <a href="${url}" alt="Link to site" title="Link to ${dashboard_list/short_name|None}">
@@ -41,7 +36,6 @@
                           <span>${dashboard_list/user} 
                           </span>
                         </h4>
-
                       </div> -->
                       <div class="card mainbox">
 
@@ -65,7 +59,9 @@
                           </div>
                           <div class="topItemBox">
                             <div class="top">
-                              <h3><a href="${url}/action-items" target="_blank" rel="noopener noreferrer">Your Tasks</a></h3>
+                              <h3>
+                                <a href="${url}/action-items/action-items-collection" target="_blank" rel="noopener noreferrer">Your Tasks</a>
+                              </h3>
                             </div>
                             <div class="itemWrapper">
                               <div class="row">
@@ -76,7 +72,7 @@
                                     <h4 class="black">${urgency/name}</h4>
                                     <h2>${count}</h2>
                                     <div class="detailsBtn">
-                                      <a href="${url}/action-items?collectionfilter=1&urgency=${urgency/name}" target="_blank" tal:condition="python: count != 0" class="xwhite-text">
+                                      <a href="${url}/action-items/action-items-collection?collectionfilter=1&urgency=${urgency/name}" target="_blank" tal:condition="python: count != 0" class="xwhite-text">
                                              More Details
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                           <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
@@ -93,7 +89,9 @@
 
                           <div class="bottomItemBox">
                             <div class="top">
-                              <h3><a href="${url}/meetings" target="_blank" rel="noopener noreferrer">Meetings</a></h3>
+                              <h3>
+                                <a href="${url}/meetings" target="_blank" rel="noopener noreferrer">Meetings</a>
+                              </h3>
                             </div>
                             <div class="itemWrapper">
                               <div class="row">
@@ -132,7 +130,7 @@
                           <div class="bottomItemBox">
                             <div class="top">
                               <h3>
-                                <a href="${url}/notifications" target="_blank" rel="noopener noreferrer">
+                                <a href="${url}/notifications/notifications-collection" target="_blank" rel="noopener noreferrer">
                                     Notifications                                 
                                 </a>
                               </h3>
@@ -140,13 +138,18 @@
                             <div class="itemWrapper">
                               <div class="row">
 
-                                <div tal:define="sorted_list python:sorted(dashboard_list['notification_list'], key=lambda x: x['name'].lower())" 
-                                tal:repeat="notification python: dashboard_list['notification_list']" class="col-xl-3 col-lg-6 col-md-6 col-12">
+                                <div tal:define="sorted_list python:sorted(dashboard_list['notification_list'], key=lambda x: x['name'].lower())" tal:repeat="notification python: dashboard_list['notification_list']" class="col-xl-3 col-lg-6 col-md-6 col-12">
                                   <div tal:define="name notification/name; count notification/count" class="singleItem notification note-${name} count-${count}">
                                     <h4 class="title-${name}">${name}</h4>
                                     <h2>${count}</h2>
                                     <div class="detailsBtn">
 
+                                      <a href="${url}/notifications/notifications-collection?collectionfilter=1&notification_type=${name}" target="_blank" tal:condition="python: count != 0" class="xwhite-text">
+                                          More Details
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                                        </svg>
+                                      </a>
                                     </div>
                                   </div>
                                 </div>
@@ -155,8 +158,6 @@
                             </div>
                           </div>
                         </div>
-
-
                       </div>
                     </div>
                   </div>
@@ -194,13 +195,10 @@
               .singleItem.Unset {background: linear-gradient(45deg, ${dashboard_list/project_color|None}, darkgreen)} -->
 
             </main>
-
           </div>
         </div>
-
       </metal:block>
     </metal:content-core>
-
   </body>
 </html>
  
