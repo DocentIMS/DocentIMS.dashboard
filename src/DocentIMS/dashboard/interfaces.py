@@ -85,8 +85,9 @@ class IDocentimsSettings(model.Schema):
     
     # widget(app_buttons=DataGridFieldFactory)
     app_buttons = schema.List(
-        title = _(u" ",
+        title = _(u"URL of sites",
             default=u""),
+        description=u"Include 'https://' in front of the domain name.  For example, enter:  https://ibm.com",
         # value_type=DictRow(schema=IVocabulari),
         value_type=schema.URI(
             title= (u'URL'),  
