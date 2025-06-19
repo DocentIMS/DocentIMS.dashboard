@@ -1,11 +1,4 @@
-<div class="weather">
-    <h3>Weather Report</h3>
-    <span tal:content="view/weather_report"></span>
-    <br>
-    Pressure: 
-    <span tal:content="view/get_pressure"></span>
-    <br>
-    Humidity: 
-    <span tal:content="view/get_humidity"></span>
-    <br>
+<div class="info_portlet" tal:define="data view/_data">
+    <h3>Info</h3>
+    <span tal:replace="structure python: data[0]['project_description']"></span>
 </div>
