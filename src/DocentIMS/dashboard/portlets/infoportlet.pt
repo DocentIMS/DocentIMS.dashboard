@@ -1,5 +1,8 @@
- 
-<div class="info_portlet portletWrapper" tal:define="data view/_data">
+<!-- <div class="info_portlet portletWrapper" tal:condition="not: view/_data|none"> 
+    No News
+</div> -->
+
+<div class="info_portlet portletWrapper" tal:condition="view/_data|none" tal:define="data view/_data">
     <div class="portlet card">
         <div  class="card-header padding-10 white" 
             style="background-color: ${python: data[0]['project_color']}">Info</div>
