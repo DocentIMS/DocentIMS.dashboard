@@ -2,19 +2,20 @@
     No News
 </div> -->
 
-<div class="info_portlet portletWrapper" tal:condition="view/_data|none" tal:define="data view/_data">
-    <div class="portlet card">
-        <div  class="card-header padding-10 white" 
-            style="background-color: ${python: data[0]['project_color']}">${python: data[0]['short_name']} Info</div>  
-         <div class="card-body"> 
-         <tal:repeat tal:repeat="portlet_content python: data[0]['portlet_content']">
-            <h5 tal:content="structure python: portlet_content['title']" />
-            <p tal:content="structure python: portlet_content['description']" />
-            <hr/>
-        </tal:repeat>
-        </div> 
+<tal:condition tal:condition="view/_data|none" tal:define="data view/_data">
+    <div class="info_portlet portletWrapper" tal:repeat="portletdata data">
+        <div class="portlet card">
+            <div class="card-header padding-10 white" style="background-color: ${python: portletdata['project_color']}">${python: portletdata['short_name']} Info</div>
+            <div class="card-body">
+                <tal:repeat tal:repeat="portlet_content python: portletdata['portlet_content']">
+                    <h5 tal:content="structure python: portlet_content['title']" />
+                    <p tal:content="structure python: portlet_content['description']" />
+                    <hr/>
+                </tal:repeat>
+            </div>
+        </div>
     </div>
-</div>
+</tal:condition>
 
 <style>
 .white {color: white}
