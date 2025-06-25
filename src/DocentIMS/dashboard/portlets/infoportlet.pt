@@ -8,7 +8,9 @@
             <div class="card-header padding-10 white" style="background-color: ${python: portletdata['project_color']}">${python: portletdata['short_name']} News from PM</div>
             <div class="card-body">
                 <tal:repeat tal:repeat="portlet_content python: portletdata['portlet_content']">
-                    <h5 tal:content="structure python: portlet_content['title']" />
+                    <h5>
+                        <a href="${python: portlet_content['url']}" tal:content="structure python: portlet_content['title']"/>
+                    </h5>
                     <p tal:content="structure python: portlet_content['description']" />
                     <hr/>
                 </tal:repeat>
