@@ -113,6 +113,7 @@ class Renderer(base.Renderer):
                             result.append({
                                         'name': body['dashboard-list']['short_name'], 
                                         'url': siteurl, 
+                                        'short_name':  body['dashboard-list']['short_name'],
                                         'project_color': body['dashboard-list']['project_color'],
                                         'project_description': body['dashboard-list']['project_description'], 
                                         'portlet_title' : body['dashboard-list']['portlet_title'],
