@@ -7,7 +7,7 @@
         <div  class="card-header padding-10 white" 
             style="background-color: ${python: data[0]['project_color']}">${python: data[0]['short_name']} Info</div>  
          <div class="card-body"> 
-         <tal:repeat="portlet_content python: data[0]['portlet_content']">
+         <tal:repeat tal:repeat="portlet_content python: data[0]['portlet_content']">
             <h5 tal:content="structure python: data[0]['title']" />
             <p tal:content="structure python: data[0]['description']" />
         </tal:repeat>
