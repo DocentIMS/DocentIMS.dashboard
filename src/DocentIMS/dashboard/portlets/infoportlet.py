@@ -115,9 +115,8 @@ class Renderer(base.Renderer):
                                         'url': siteurl, 
                                         'short_name':  body['dashboard-list']['short_name'],
                                         'project_color': body['dashboard-list']['project_color'],
-                                        'project_description': body['dashboard-list']['project_description'], 
-                                        'portlet_title' : body['dashboard-list']['portlet_title'],
-                                        })
+                                        'portlet_content': body['dashboard-list']['portlet_content'],
+                            })
                 
                 except requests.exceptions.ConnectionError:
                     print("Failed to connect to the server. Please check your network or URL.")
