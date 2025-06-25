@@ -177,6 +177,8 @@
               #main-container .singleItem a * {color: #123456}
               #main-container .singleItem a:hover {text-decoration: underline}
               .card .singleItem.count-0 { opacity: 0.5 !important} 
+              .info_portlet {display: none}
+              .info_portlet .${python: dashboard_list.short_name.replace(" ", ".")} { display: block}              
               </style>
               <!-- #edit-zone {
                 background-color: ${dashboard_list/project_color|None} !important;

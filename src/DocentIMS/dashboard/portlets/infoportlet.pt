@@ -3,7 +3,7 @@
 </div> -->
 
 <tal:condition tal:condition="view/_data|none" tal:define="data view/_data">
-    <div class="info_portlet portletWrapper" tal:repeat="portletdata data">
+    <div  tal:repeat="portletdata data" class="info_portlet portletWrapper ${python: portletdata['short_name']}">
         <div class="portlet card">
             <div class="card-header padding-10 white" style="background-color: ${python: portletdata['project_color']}">${python: portletdata['short_name']} Info</div>
             <div class="card-body">
