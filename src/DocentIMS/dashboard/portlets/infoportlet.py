@@ -113,6 +113,7 @@ class Renderer(base.Renderer):
                                         'url': siteurl, 
                                         'project_color': body['dashboard-list']['project_color'],
                                         'project_description': body['dashboard-list']['project_description'], 
+                                        'portlet_title' : body['dashboard-list']['portlet_title'],
                                         })
                 
                 except requests.exceptions.ConnectionError:

@@ -1,11 +1,10 @@
  
-
-
-
 <div class="info_portlet portletWrapper" tal:define="data view/_data">
     <div class="portlet card">
-        <div  class="card-header padding-10 white" style="background-color: ${python: data[0]['project_color']}">Info</div>
-        <div class="card-body" tal:content="structure python: data[0]['project_description']"></div>
+        <div  class="card-header padding-10 white" 
+            style="background-color: ${python: data[0]['project_color']}">Info</div>
+         <div class="card-body" 
+            tal:content="structure python: data[0]['project_description']"></div> 
     </div>
 </div>
 
