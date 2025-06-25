@@ -5,9 +5,12 @@
 <div class="info_portlet portletWrapper" tal:condition="view/_data|none" tal:define="data view/_data">
     <div class="portlet card">
         <div  class="card-header padding-10 white" 
-            style="background-color: ${python: data[0]['project_color']}">Info</div>
-         <div class="card-body" 
-            tal:content="structure python: data[0]['project_description']"></div> 
+            style="background-color: ${python: data[0]['project_color']}">${python: data[0]['short_name']} Info</div>
+        
+         <div class="card-body"> 
+            <h5 tal:content="structure python: data[0]['portlet_title']" />
+            <p tal:content="structure python: data[0]['project_description']" />
+        </div> 
     </div>
 </div>
 

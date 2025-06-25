@@ -99,7 +99,7 @@ class Renderer(base.Renderer):
         urls = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons')
         result = []    
         
-        import pdb; pdb.set_trace()
+        #import pdb; pdb.set_trace()
         
         if urls:
             for siteurl in urls:
