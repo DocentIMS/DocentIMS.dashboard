@@ -76,7 +76,7 @@
           </div>          <!-- wrapper-->
 
           <style tal:define="colors view/get_colors">
-        .text-right {text-align: right; padding-top: 1rem;}
+            .text-right {text-align: right; padding-top: 1rem;}
             .newproject {color: yellow}
             .appWrapper .sideBar,
             #main-container a.button,
@@ -94,7 +94,7 @@
               color: ${color|None};
             }
 
-                        <!-- .color-0 { background-color: ${python: colors[0]} }
+                                    <!-- .color-0 { background-color: ${python: colors[0]} }
             .color-1 { background-color: ${python: colors[1]} }
             .color-2 { background-color: ${python: colors[2]} }
             .color-3 { background-color: ${python: colors[3]} }
@@ -114,7 +114,7 @@
             
         }
         .small {font-size: 1rem !important; font-weight: normal; color: #DDD}    
-<!-- 
+            <!-- 
         a#personaltools-menulink {
           xmargin-top: 30vh;
           background: white; 
@@ -122,6 +122,8 @@
           border-radius:  10px 0 0 10px ;
           margin-left: 1rem; 
         }  -->
+
+        a#personaltools-menulink { background-color: black; }
 
         #edit-zone .personaltools-wrapper  {border-top: 0 none;}
 
