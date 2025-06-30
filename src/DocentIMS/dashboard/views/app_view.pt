@@ -14,8 +14,8 @@
 
           <div class="wrapper" tal:define="current view/get_fullname|None;
           colors view/get_colors|None">
-           <!-- <p>IP Address: ${view/get_served_domain_ip} ( ${view/get_server_ip} )</p> -->
-           <p></p>
+            <!-- <p>IP Address: ${view/get_served_domain_ip} ( ${view/get_server_ip} )</p> -->
+            <p></p>
 
             <div class="pageHeading flexing">
               <!-- <h2>
@@ -52,29 +52,30 @@
                   </li> -->
 
 
-                </ul>
+                  </ul>
+                </div>
               </div>
+            </div>            <!-- buttons-->
+
+            <div>
+              <p class="text-right">Updated: ${view/get_current_time} <a href="${context/absolute_url}">
+                <img src="++plone++DocentIMS.dashboard/refresh-icon.png" width="24" height="24"> Refresh</a>
+              </p>
             </div>
-          </div>          <!-- buttons-->
-
-          <div>
-          <p class="text-right">Updated: ${view/get_current_time} <a href="${context/absolute_url}">
-            <img src="++plone++DocentIMS.dashboard/refresh-icon.png" width="24" height="24"> Refresh</a></p>
-          </div>
 
 
-          <div id="appWrapper" class="projectPreview">
-            <a tal:condition="not: current|None" class="loginbutton plone-btn plone-btn-large plone-btn-primary pat-plone-modal" data-pat-plone-modal="width: 400" title="Log in" href="login" icon="plone-login">Please Log in first
-            </a>
+            <div id="appWrapper" class="projectPreview">
+              <a tal:condition="not: current|None" class="loginbutton plone-btn plone-btn-large plone-btn-primary pat-plone-modal" data-pat-plone-modal="width: 400" title="Log in" href="login" icon="plone-login">Please Log in first
+              </a>
 
-          </div>
+            </div>
 
 
 
 
-        </div>        <!-- wrapper-->
+          </div>          <!-- wrapper-->
 
-        <style tal:define="colors view/get_colors">
+          <style tal:define="colors view/get_colors">
         .text-right {text-align: right; padding-top: 1rem;}
             .newproject {color: yellow}
             .appWrapper .sideBar,
@@ -93,7 +94,7 @@
               color: ${color|None};
             }
 
-            <!-- .color-0 { background-color: ${python: colors[0]} }
+                        <!-- .color-0 { background-color: ${python: colors[0]} }
             .color-1 { background-color: ${python: colors[1]} }
             .color-2 { background-color: ${python: colors[2]} }
             .color-3 { background-color: ${python: colors[3]} }
@@ -101,11 +102,11 @@
             .color-5 { background-color: ${python: colors[0]} } -->
 
             <!-- .color-0 , .color-1 , .color-2 , .color-3, .color-4, .color-4  { background-color:${python: button['project_color']} } -->
-           
 
 
-        
-        <!-- body:not(.userrole-manager) #edit-zone {display: block !important; width: 240px}  -->
+
+
+            <!-- body:not(.userrole-manager) #edit-zone {display: block !important; width: 240px}  -->
         .pat-toolbar, #edit-bar, #edit-zone {
             border-radius: 0 20px 20px 0;
             xbackground: #976100;
@@ -113,14 +114,14 @@
             
         }
         .small {font-size: 1rem !important; font-weight: normal; color: #DDD}    
-
+<!-- 
         a#personaltools-menulink {
-          margin-top: 30vh;
+          xmargin-top: 30vh;
           background: white; 
           color: #976100 !important; 
           border-radius:  10px 0 0 10px ;
           margin-left: 1rem; 
-        } 
+        }  -->
 
         #edit-zone .personaltools-wrapper  {border-top: 0 none;}
 
@@ -129,11 +130,11 @@
 
 
             
-        </style>
+          </style>
 
-      </main>
+        </main>
 
-    </metal:block>
-  </metal:content-core>
-</body>
+      </metal:block>
+    </metal:content-core>
+  </body>
 </html>
