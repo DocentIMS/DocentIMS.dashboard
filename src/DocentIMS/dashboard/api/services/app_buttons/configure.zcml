@@ -9,7 +9,7 @@
     for="zope.interface.Interface"
     factory=".get.AppButtonsGet"
     name="@app_buttons"
-    permission="zope2.View"
+    permission="zope.Public"
     />
 
 </configure>
