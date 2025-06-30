@@ -1,0 +1,15 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:plone="http://namespaces.plone.org/plone">
+
+  <adapter factory=".get.AppButtons" name="app_buttons"/>
+
+  <plone:service
+    method="GET"
+    for="zope.interface.Interface"
+    factory=".get.AppButtonsGet"
+    name="@app_buttons"
+    permission="zope2.View"
+    />
+
+</configure>

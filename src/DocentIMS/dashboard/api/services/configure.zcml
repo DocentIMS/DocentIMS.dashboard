@@ -5,6 +5,7 @@
     i18n_domain="DocentIMS.dashboard">
 
   <!-- -*- extra stuff goes here -*- -->
+<include package=".app_buttons" />
 <include package=".dashboard_sites" />
 <!-- <include package=".add_user" /> -->
 
