@@ -6,6 +6,9 @@ from zope.component import adapter
 from zope.interface import Interface
 from zope.interface import implementer
 
+# curl -i -X GET https://dashboard.docentims.com/@app_buttons  -H "Accept: application/json"   -k --user admin:admin
+
+
 
 @implementer(IExpandableElement)
 @adapter(Interface, Interface)
