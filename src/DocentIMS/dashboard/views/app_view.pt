@@ -123,6 +123,8 @@
         body:not(.userrole-manager)  div.toolbar-header, 
         body:not(.userrole-manager) ul.plone-toolbar-main { display: none}
 
+        body { background: #FAF9F6}
+
 
             
           </style>
