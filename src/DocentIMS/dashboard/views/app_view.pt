@@ -114,14 +114,7 @@
             
         }
         .small {font-size: 1rem !important; font-weight: normal; color: #DDD}    
-            <!-- 
-        a#personaltools-menulink {
-          xmargin-top: 30vh;
-          background: white; 
-          color: #976100 !important; 
-          border-radius:  10px 0 0 10px ;
-          margin-left: 1rem; 
-        }  -->
+          
 
         a#personaltools-menulink { background-color: black; }
 
