@@ -9,14 +9,14 @@
             <div class="card-body">
                 <tal:repeat tal:repeat="portlet_content python: portletdata['portlet_content']">
                     <h5>
-                        <a target="_blank" href="${python: portlet_content['url']}" tal:content="structure python: portlet_content['title']"/>
+                        <a target="_blank" href="${python: portlet_content['url']}/news" tal:content="structure python: portlet_content['title']"/>
                     </h5>
                     <p tal:content="structure python: portlet_content['description']" />
                     <hr/>
                 </tal:repeat>
             </div>
             <div class="card-footer">
-                <a target="_blank"  href="${python: portletdata['url']}">All News from ${python: portletdata['short_name']}</a>
+                <a target="_blank"  href="${python: portletdata['url']}/news">All News from ${python: portletdata['short_name']}</a>
             </div>
         </div>
     </div>
