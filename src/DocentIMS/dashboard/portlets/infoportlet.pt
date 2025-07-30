@@ -2,6 +2,8 @@
     No News
 </div> -->
 
+${view/portlet_data}
+
 <tal:condition tal:condition="view/_data|none" tal:define="data view/_data">
     <div tal:repeat="portletdata data" class="info_portlet portletWrapper ${python: portletdata['short_name']}">
         <div class="portlet card">

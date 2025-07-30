@@ -6,6 +6,10 @@ from zope.interface import Interface
 import requests
 from plone import api
 
+
+
+
+
 # from AccessControl.SecurityManagement import getSecurityManager
 
 # from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -46,5 +50,32 @@ class AppInjectView(BrowserView):
                 return body
             
         return None
+    
+    
+    
+    def portlet_data(self):
+        siteurl = self.request.get('siteurl', 'http://mymeadows.org')        
+        result = []    
+        try:                
+            response = requests.get(f'{siteurl}/@item_count?user={self.get_current()}', timeout=3,
+                                            headers={'Accept': 'application/json', 'Content-Type': 'application/json'})
+            if response.status_code == 200:
+                body = response.json()
+                if body['dashboard-list'] != None:
+                    result.append({
+                                        'name': body['dashboard-list']['short_name'], 
+                                        'url': siteurl, 
+                                        'short_name':  body['dashboard-list']['short_name'],
+                                        'project_color': body['dashboard-list']['project_color'],
+                                        'portlet_content': body['dashboard-list']['portlet_content'],
+                            })                
+        except requests.exceptions.ConnectionError:
+                    print("Failed to connect to the server. Please check your network or URL.")
+        except requests.exceptions.Timeout:
+                    print("The request timed out. Try again later.")
+        except requests.exceptions.RequestException as e:
+                    print(f"An error occurred: {e}")
+            
+        return result
      
  
