@@ -71,29 +71,29 @@ class IDocentimsDashboardLayer(IDefaultBrowserLayer):
 #     )
 
 
-class IDocentimsSettings(model.Schema):
-    """Adds settings to medialog.controlpanel
-    """    
+# class IDocentimsSettings(model.Schema):
+#     """Adds settings to medialog.controlpanel
+#     """    
     
-    model.fieldset(
-        'project',
-        label=_(u'Dashboard'),
-        fields=[
-            'app_buttons',         
-            ],
-        )
+    # model.fieldset(
+    #     'project',
+    #     label=_(u'Dashboard'),
+    #     fields=[
+    #         'app_buttons',         
+    #         ],
+    #     )
     
-    # widget(app_buttons=DataGridFieldFactory)
-    app_buttons = schema.List(
-        title = _(u"URL of sites",
-            default=u""),
-        description=u"Include 'https://' in front of the domain name.  For example, enter:  https://ibm.com",
-        # value_type=DictRow(schema=IVocabulari),
-        value_type=schema.URI(
-            title= (u'URL'),  
-        ),     
-        required=False,
-    )
+    # # widget(app_buttons=DataGridFieldFactory)
+    # app_buttons = schema.List(
+    #     title = _(u"URL of sites",
+    #         default=u""),
+    #     description=u"Include 'https://' in front of the domain name.  For example, enter:  https://ibm.com",
+    #     # value_type=DictRow(schema=IVocabulari),
+    #     value_type=schema.URI(
+    #         title= (u'URL'),  
+    #     ),     
+    #     required=False,
+    # )
     
     
     # app_user = schema.TextLine(
@@ -157,6 +157,6 @@ class IDocentimsSettings(model.Schema):
     #     # max_length=10,
     #     required=True,
     #     default="#ff0000"
-    # )
+#     # )
 
-alsoProvides(IDocentimsSettings, IMedialogControlpanelSettingsProvider)
+# alsoProvides(IDocentimsSettings, IMedialogControlpanelSettingsProvider)

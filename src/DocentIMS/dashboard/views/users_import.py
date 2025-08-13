@@ -79,11 +79,12 @@ class UsersImport(form.Form):
                     "first_name": row.get("first_name"),
                     "last_name": row.get("last_name"),
                     "fullname": row.get("fullname"),
-                    "cellphone": row.get("cellphone"),
-                    "officephone": row.get("officephone"),
+                    "cellphone_number": row.get("cellphone"),
+                    "office_phone_number": row.get("officephone"),
                     "your_team_role": row.get("your_team_role"),
                     "company": row.get("company"),
                     "notes": row.get("notes"),
+                    "description": row.get("description"),
                 }
             )
 
