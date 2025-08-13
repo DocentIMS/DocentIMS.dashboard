@@ -24,4 +24,13 @@
     layer="DocentIMS.dashboard.interfaces.IDocentimsDashboardLayer"
     />
 
+
+    <!-- Register BrowserView -->
+    <browser:page
+        name="import-users"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        class=".users_import.UsersImport"
+        permission="cmf.ManagePortal"
+    />
+    
 </configure>
