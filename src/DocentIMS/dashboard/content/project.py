@@ -222,7 +222,8 @@ class IProject(model.Schema):
         default=u"Project Control Panel"),
         description=_(u"",
                       default=u""),
-         required=not_required_in_debug_mode(),
+        required=not_required_in_debug_mode(),
+        default=u"Project Control Panel",
     )
     
     
