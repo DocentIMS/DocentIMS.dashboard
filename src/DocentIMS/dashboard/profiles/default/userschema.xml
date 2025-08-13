@@ -36,7 +36,7 @@
       <title>Phone Number</title>
     </field>
 
-    <field name="company" type="zope.schema.Text" users:forms="">
+    <field name="company" type="zope.schema.TextLine" users:forms="">
       <description>Which company do you work for?</description>
       <required>False</required>
       <title>Company</title>
