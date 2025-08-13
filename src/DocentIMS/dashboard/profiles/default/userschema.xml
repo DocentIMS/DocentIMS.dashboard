@@ -18,12 +18,12 @@
         <description/>
         <title>First Name</title>
       </field>
-    <field name="your_team_role" type="zope.schema.Choice" users:forms="In User Profile">
+    <!-- <field name="your_team_role" type="zope.schema.Choice" users:forms="In User Profile">
       <description>What is your role on this team?</description>
       <required>True</required>
       <title>Your Team Role</title>
       <vocabulary>DocentIMS.ActionItems.ProjectRolesVocabulary</vocabulary>
-    </field>
+    </field> -->
 
   <!-- <field name="office_phone_number" type="zope.schema.TextLine" users:forms="In User Profile">
     <description/>
@@ -36,11 +36,11 @@
       <title>Phone Number</title>
     </field>
 
-    <field name="company" type="zope.schema.Choice" users:forms="">
+    <field name="company" type="zope.schema.Text" users:forms="">
       <description>Which company do you work for?</description>
       <required>False</required>
       <title>Company</title>
-      <vocabulary>DocentIMS.ActionItems.CompanyVocabulary</vocabulary>
+      <!-- <vocabulary>DocentIMS.dashboard.CompanyVocabulary</vocabulary> -->
     </field>
     <field name="description" type="zope.schema.Text" users:forms="In User Profile">
       <description i18n:translate="help_biography">
