@@ -23,4 +23,5 @@
  <property name="description" type="text"></property>
  <property name="location" type="string"></property>
  <property name="returning" type="boolean">False</property>
+ <property name="notes" type="string">False</property>
 </object>

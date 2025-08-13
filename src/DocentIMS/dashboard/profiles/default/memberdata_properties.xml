@@ -6,7 +6,7 @@
  <property name="login_time">2000/01/01 00:00:00</property>
  <property name="last_login_time">2000/01/01 00:00:00</property>
  <property name="fullname"></property>
-  <property name="last_name" type="string"></property>
+ <property name="last_name" type="string"></property>
  <property name="first_name" type="string"></property>
  <property name="error_log_update" type="float">0.0</property>
  <property name="language" type="string"></property>
@@ -23,4 +23,5 @@
  <property name="description" type="text"></property>
  <property name="location" type="string"></property>
  <property name="returning" type="boolean">False</property>
+ <property name="notes" type="string">False</property>
 </object>
