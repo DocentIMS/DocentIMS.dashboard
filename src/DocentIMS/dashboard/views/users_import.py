@@ -7,8 +7,9 @@ from Products.Five import BrowserView
 from zope.interface import Interface
 from zope.schema import Bytes
 from z3c.form import form, field, button
-from plone.autoform import directives as form_directives
-from plone.namedfile.file import NamedBlobImage
+# from plone.autoform import directives as form_directives
+from plone.namedfile.file import NamedBlobImage 
+from plone.namedfile.field import NamedBlobFile 
 from io import BytesIO
 import pandas as pd  # needs openpyxl installed
 
@@ -18,9 +19,15 @@ class IUsersImport(Interface):
     """ Marker Interface for IUsersImport"""
 
 class ICSVImportFormSchema(Interface):
-    csv_file = Bytes(
-        title=u"Excel File",
-        description=u"Upload a Excel file with user data",
+    # csv_file = Bytes(
+    #     title=u"Excel File",
+    #     description=u"Upload a Excel file with user data",
+    #     required=True
+    # )
+    
+    csv_file = NamedBlobFile(
+        title=u"CSV File",
+        description=u"Upload a CSV file to import.",
         required=True
     )
  
