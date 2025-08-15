@@ -38,7 +38,15 @@ class AppView(BrowserView):
 
     def get_buttons(self):
         
-        urls = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons')
+        #urls = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons')
+        # 1) Find all 'Project' items
+        urls = None
+        projects = api.content.find(portal_type='Project')
+
+        # 2) Create a list of URLs
+        if projects:
+            urls = [brain.project_url for brain in projects]
+        
         buttons = []        
         
         if urls:
