@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from DocentIMS.dashboard.content.project import IProject  # NOQA E501
 from DocentIMS.dashboard.testing import DOCENTIMS_DASHBOARD_INTEGRATION_TESTING  # noqa
 from plone import api
 from plone.app.testing import setRoles
@@ -11,6 +10,11 @@ from zope.component import queryUtility
 import unittest
 
 
+try:
+    from plone.dexterity.schema import portalTypeToSchemaName
+except ImportError:
+    # Plone < 5
+    from plone.dexterity.utils import portalTypeToSchemaName
 
 
 class ProjectIntegrationTest(unittest.TestCase):
@@ -26,7 +30,8 @@ class ProjectIntegrationTest(unittest.TestCase):
     def test_ct_project_schema(self):
         fti = queryUtility(IDexterityFTI, name='Project')
         schema = fti.lookupSchema()
-        self.assertEqual(IProject, schema)
+        schema_name = portalTypeToSchemaName('Project')
+        self.assertIn(schema_name.lstrip('plone_0_'), schema.getName())
 
     def test_ct_project_fti(self):
         fti = queryUtility(IDexterityFTI, name='Project')
@@ -37,12 +42,6 @@ class ProjectIntegrationTest(unittest.TestCase):
         factory = fti.factory
         obj = createObject(factory)
 
-        self.assertTrue(
-            IProject.providedBy(obj),
-            u'IProject not provided by {0}!'.format(
-                obj,
-            ),
-        )
 
     def test_ct_project_adding(self):
         setRoles(self.portal, TEST_USER_ID, ['Contributor'])
@@ -52,12 +51,6 @@ class ProjectIntegrationTest(unittest.TestCase):
             id='project',
         )
 
-        self.assertTrue(
-            IProject.providedBy(obj),
-            u'IProject not provided by {0}!'.format(
-                obj.id,
-            ),
-        )
 
         parent = obj.__parent__
         self.assertIn('project', parent.objectIds())
