@@ -213,17 +213,17 @@ class IDocentimsSettings(model.Schema):
     #         ],
     #     )
     
-    # widget(app_buttons=DataGridFieldFactory)
-    # app_buttons = schema.List(
-    #     title = _(u"URL of sites",
-    #         default=u""),
-    #     description=u"Include 'https://' in front of the domain name.  For example, enter:  https://ibm.com",
-    #     # value_type=DictRow(schema=IVocabulari),
-    #     value_type=schema.URI(
-    #         title= (u'URL'),  
-    #     ),     
-    #     required=False,
-    # )
+    widget(app_buttons=DataGridFieldFactory)
+    app_buttons = schema.List(
+        title = _(u"URL of sites",
+            default=u""),
+        description=u"Include 'https://' in front of the domain name.  For example, enter:  https://ibm.com",
+        # value_type=DictRow(schema=IVocabulari),
+        value_type=schema.URI(
+            title= (u'URL'),  
+        ),     
+        required=False,
+    )
     
      
     # model.fieldset(
@@ -300,13 +300,13 @@ class IDocentimsSettings(model.Schema):
         )
 
      
-    # widget(vokabularies=DataGridFieldFactory)
-    # vokabularies = schema.List(
-    #     title = _(u" ",
-    #         default=u""),
-    #     value_type=DictRow(schema=IVocabulari),
-    #     required=not_required_in_debug_mode(),
-    # )
+    widget(vokabularies=DataGridFieldFactory)
+    vokabularies = schema.List(
+        title = _(u" ",
+            default=u""),
+        value_type=DictRow(schema=IVocabulari),
+        required=not_required_in_debug_mode(),
+    )
     
     widget(vokabularies3=DataGridFieldFactory)
     vokabularies3 = schema.List(
