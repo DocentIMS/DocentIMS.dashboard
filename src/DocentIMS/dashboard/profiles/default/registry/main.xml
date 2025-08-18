@@ -3,11 +3,11 @@
 
     <!-- -*- Controlpanel -*- -->
     <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_buttons" />
-    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.location_names" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="location_names"/>
-    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="vokabularies"/>
+    <!-- <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.location_names" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="location_names"/> -->
+    <!-- <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="vokabularies"/>
     <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies3" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="vokabularies3"/>
     <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.meeting_types" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="meeting_types"/>
-    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.companies" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="companies"/>
+    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.companies" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="companies"/> -->
         
     <!-- <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_user" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_user">
         <field type="plone.registry.field.TextLine">
