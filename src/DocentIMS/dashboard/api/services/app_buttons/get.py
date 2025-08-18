@@ -28,8 +28,15 @@ class AppButtons(object):
         }
         if not expand:
             return result
+        
+        
+        result = None
+        projects = api.content.find(portal_type='Project')
 
-        result['app_buttons']['items'] = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons')
+        # 2) Create a list of URLs
+        if projects:
+            result = [brain.project_url for brain in projects]
+        
         return result
 
 

@@ -96,10 +96,15 @@ class Renderer(base.Renderer):
     
     
     def _data(self):        
-        urls = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons')
+        urls = None
+        
         result = []    
         
-        #import pdb; pdb.set_trace()
+        projects = api.content.find(portal_type='Project')
+
+        # 2) Create a list of URLs
+        if projects:
+            urls = [brain.project_url for brain in projects]
         
         if urls:
             for siteurl in urls:

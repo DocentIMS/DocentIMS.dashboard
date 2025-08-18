@@ -30,7 +30,12 @@ class DashboardSites(object):
             return result
 
         # === Return list of sites ===    
-        sites = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons')
+        sites = None
+        projects = api.content.find(portal_type='Project')
+
+        # 2) Create a list of URLs
+        if projects:
+            sites = [brain.project_url for brain in projects]
         buttons = []
         
         # if some_secret = something;        
