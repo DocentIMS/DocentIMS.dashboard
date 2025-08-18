@@ -9,5 +9,10 @@
               handler=".add_users_on_project_site.handler"
               />
 
+  <subscriber for="plone.dexterity.interfaces.IDexterityContent
+                   zope.lifecycleevent.interfaces.IObjectAddedEvent"
+              handler=".add_users_on_project_site.handler"
+              />
+
 
 </configure>
