@@ -1,24 +1,39 @@
 <?xml version='1.0' encoding='utf8'?>
-<model xmlns:i18n="http://xml.zope.org/namespaces/i18n" xmlns:marshal="http://namespaces.plone.org/supermodel/marshal" xmlns:form="http://namespaces.plone.org/supermodel/form" xmlns:security="http://namespaces.plone.org/supermodel/security" xmlns:indexer="http://namespaces.plone.org/supermodel/indexer" xmlns:lingua="http://namespaces.plone.org/supermodel/lingua" xmlns:users="http://namespaces.plone.org/supermodel/users" xmlns="http://namespaces.plone.org/supermodel/schema">
-  <schema>       
-      <field name="project_url" type="zope.schema.URI">
-        <description>Full path to site.  no need for 'http..</description>
-        <title>Project URL</title>
-      </field>
-      <field name="project_color" type="zope.schema.TextLine">
-        <description/>
-        <required>False</required>
-        <title>project_color</title>
-      </field>
-      <field name="project_members" type="zope.schema.List">
-        <description/>
-        <required>False</required>
-        <title>Project Members</title>
-        <value_type type="zope.schema.TextLine">
-          <values/>
-        </value_type>
-      </field> 
- 
+<model xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  xmlns:marshal="http://namespaces.plone.org/supermodel/marshal"
+  xmlns:form="http://namespaces.plone.org/supermodel/form"
+  xmlns:security="http://namespaces.plone.org/supermodel/security"
+  xmlns:indexer="http://namespaces.plone.org/supermodel/indexer"
+  xmlns:lingua="http://namespaces.plone.org/supermodel/lingua"
+  xmlns:users="http://namespaces.plone.org/supermodel/users"
+  xmlns="http://namespaces.plone.org/supermodel/schema">
+  <schema>
+    <field name="project_url" type="zope.schema.URI">
+      <description>Full path to site.  no need for 'http..</description>
+      <title>Project URL</title>
+    </field>
+    <field name="project_color" type="zope.schema.TextLine">
+      <description/>
+      <required>False</required>
+      <title>project_color</title>
+    </field>
+    <field name="project_members" type="zope.schema.List">
+      <description/>
+      <required>False</required>
+      <title>Project Members</title>
+      <value_type type="zope.schema.TextLine">
+        <values/>
+      </value_type>
+    </field>
+
+    <field name="add_users" type="zope.schema.Set">
+      <description>We will use this to add users to project site. Later we will use field above</description>
+      <required>False</required>
+      <title>Add users </title>
+      <value_type type="zope.schema.Choice">
+        <vocabulary>plone.app.vocabularies.Users</vocabulary>
+      </value_type>
+    </field>
     <fieldset name="other_details" label="Other Details" description="Remaining details to complete.">
       <field name="project_contract_number" type="zope.schema.TextLine">
         <description>Enter the full project contract number</description>
