@@ -3,6 +3,7 @@
     i18n_domain="DocentIMS.dashboard">
 
  <!-- -*- extra stuff goes here -*- -->
+ <!-- Not registered to content type since no content will be added to site -->
 
   <subscriber for="plone.dexterity.interfaces.IDexterityContent
                    zope.lifecycleevent.interfaces.IObjectModifiedEvent"

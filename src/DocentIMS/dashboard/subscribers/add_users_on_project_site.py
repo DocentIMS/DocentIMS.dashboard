@@ -5,9 +5,9 @@ from plone import api
 
 def handler(obj, event):
     """ Event handler which will add users to project sites
+    Not registered to content type since no content will be added to site
     """
     
-    import pdb; pdb.set_trace()
     if obj.portal_type == "Project":
     
         project_url = obj.project_url
