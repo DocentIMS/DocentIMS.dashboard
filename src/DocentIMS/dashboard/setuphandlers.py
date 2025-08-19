@@ -23,47 +23,49 @@ def post_install(context):
     
     #portal.default_page='app-view'
     portal.layout = 'app-view'
+    
+    # Button has been moved to 'Project' content type
     # api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons', 
     #                                      [{'location_name': 'https://team.chelseamallproject.com'}, 
     #                                       {'location_name': 'https://team.reverebeachproject.com'}
     #  
     # ])
-    # plone.api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.location_names', 
-    #                                      [{'location_name': 'MS Teams'}, 
-    #                                       {'location_name': 'Client Office'},
-    #                                       {'location_name': 'Client Office and MS Teams'}
-    #                                      ])
+    plone.api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.location_names', 
+                                         [{'location_name': 'MS Teams'}, 
+                                          {'location_name': 'Client Office'},
+                                          {'location_name': 'Client Office and MS Teams'}
+                                         ])
     
     
-    # plone.api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies',
-    #                                     [{'vocabulary_entry': 'Project Manager'},
-    #                                      {'vocabulary_entry': 'Secretary'},
-    #                                      {'vocabulary_entry': 'Treasurer'}, 
-    #                                      {'vocabulary_entry': 'At Large'}, 
-    #                                     ])
+    plone.api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies',
+                                        [{'vocabulary_entry': 'Project Manager'},
+                                         {'vocabulary_entry': 'Secretary'},
+                                         {'vocabulary_entry': 'Treasurer'}, 
+                                         {'vocabulary_entry': 'At Large'}, 
+                                        ])
     
 
-    # plone.api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies3',
-    #                                     [   {'vocabulary_entry': 'Prime'},
-    #                                         {'vocabulary_entry': 'Architect'},
-    #                                         {'vocabulary_entry': 'Geotechnical'},
-    #                                         {'vocabulary_entry': 'Outreach'},                                              
-    #                                     ])  
+    plone.api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies3',
+                                        [   {'vocabulary_entry': 'Prime'},
+                                            {'vocabulary_entry': 'Architect'},
+                                            {'vocabulary_entry': 'Geotechnical'},
+                                            {'vocabulary_entry': 'Outreach'},                                              
+                                        ])  
     
-    # plone.api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.meeting_types',
-    #   [ {'meeting_type': 'Project Team Meeting', 
-    #      'meeting_title': 'Project Team Meeting', 
-    #      'meeting_summary': 'Project Meeting' 
-    #      },
-    #     {'meeting_type': 'Community Meeting', 
-    #      'meeting_title': 'Community Outreach Meeting', 
-    #      'meeting_summary': 'Community Outreach Meeting' 
-    #      },
-    #     {'meeting_type': 'Executive Team Meeting', 
-    #      'meeting_title': 'Executive Team Meeting', 
-    #      'meeting_summary': 'Executive Meeting' 
-    #     },
-    #   ])
+    plone.api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.meeting_types',
+      [ {'meeting_type': 'Project Team Meeting', 
+         'meeting_title': 'Project Team Meeting', 
+         'meeting_summary': 'Project Meeting' 
+         },
+        {'meeting_type': 'Community Meeting', 
+         'meeting_title': 'Community Outreach Meeting', 
+         'meeting_summary': 'Community Outreach Meeting' 
+         },
+        {'meeting_type': 'Executive Team Meeting', 
+         'meeting_title': 'Executive Team Meeting', 
+         'meeting_summary': 'Executive Meeting' 
+        },
+      ])
     
     # Do something at the end of the installation of this package.
 

@@ -193,12 +193,12 @@ class IDocentimsDashboardLayer(IDefaultBrowserLayer):
 #     encrypted_password = b'supersekretpasswordsupersekretpa'
 #     return decrypt_password('encrypted_password')
 
-class IVocabulari(model.Schema):
-    location_name = schema.URI(
-        title=_(u'Site URL', 'Sites'),
-        description=u"Sites",
-        required=False,
-    )
+# class IVocabulari(model.Schema):
+#     location_name = schema.URI(
+#         title=_(u'Site URL', 'Sites'),
+#         description=u"Sites",
+#         required=False,
+#     )
 
 
 class IDocentimsSettings(model.Schema):
@@ -213,17 +213,17 @@ class IDocentimsSettings(model.Schema):
     #         ],
     #     )
     
-    widget(app_buttons=DataGridFieldFactory)
-    app_buttons = schema.List(
-        title = _(u"URL of sites",
-            default=u""),
-        description=u"Include 'https://' in front of the domain name.  For example, enter:  https://ibm.com",
-        # value_type=DictRow(schema=IVocabulari),
-        value_type=schema.URI(
-            title= (u'URL'),  
-        ),     
-        required=False,
-    )
+    # widget(app_buttons=DataGridFieldFactory)
+    # app_buttons = schema.List(
+    #     title = _(u"URL of sites",
+    #         default=u""),
+    #     description=u"Include 'https://' in front of the domain name.  For example, enter:  https://ibm.com",
+    #     # value_type=DictRow(schema=IVocabulari),
+    #     value_type=schema.URI(
+    #         title= (u'URL'),  
+    #     ),     
+    #     required=False,
+    # )
     
      
     # model.fieldset(
@@ -247,91 +247,91 @@ class IDocentimsSettings(model.Schema):
     
     
     
-    # widget(location_names=DataGridFieldFactory)
-    # location_names = schema.List(
-    #     title = _(u" ",
-    #         default=u""),
-    #     value_type=DictRow(schema=IVocabulari4),
-    #     required=not_required_in_debug_mode(),
-    # )
+    widget(location_names=DataGridFieldFactory)
+    location_names = schema.List(
+        title = _(u" ",
+            default=u""),
+        value_type=DictRow(schema=IVocabulari4),
+        required=not_required_in_debug_mode(),
+    )
    
 
-    # model.fieldset(
-    #     'vocabularies',
-    #     label=_(u'Member Roles'),
-    #     fields=[
-    #         'vokabularies', 
-    #     ] 
-    # )
+    model.fieldset(
+        'vocabularies',
+        label=_(u'Member Roles'),
+        fields=[
+            'vokabularies', 
+        ] 
+    )
     
-    # model.fieldset(
-    #     'locations',
-    #     label=_(u'Locations'),
-    #     fields=[
-    #         'location_names'
-    #     ] 
-    # )
+    model.fieldset(
+        'locations',
+        label=_(u'Locations'),
+        fields=[
+            'location_names'
+        ] 
+    )
 
-    # model.fieldset(
-    #     'meeting_types',
-    #     label=_(u'Meeting Types'),
-    #     fields=[
-    #         'meeting_types'
-    #     ] 
-    # )
+    model.fieldset(
+        'meeting_types',
+        label=_(u'Meeting Types'),
+        fields=[
+            'meeting_types'
+        ] 
+    )
 
 
-    # model.fieldset(
-    #     'vocabularies3',
-    #     label=_(u'Company Roles'),
-    #     fields=[
-    #         'vokabularies3',
-    #     ] 
-    # )
+    model.fieldset(
+        'vocabularies3',
+        label=_(u'Company Roles'),
+        fields=[
+            'vokabularies3',
+        ] 
+    )
 
  
-    # model.fieldset(
-    #     'companies',
-    #     label=_(u'Companies'),
-    #     description=u"Please create all project companies involved in this project.",
-    #     fields=[
-    #         'companies',
-    #         ],
-    #     )
+    model.fieldset(
+        'companies',
+        label=_(u'Companies'),
+        description=u"Please create all project companies involved in this project.",
+        fields=[
+            'companies',
+            ],
+        )
 
      
-    # widget(vokabularies=DataGridFieldFactory)
-    # vokabularies = schema.List(
-    #     title = _(u" ",
-    #         default=u""),
-    #     value_type=DictRow(schema=IVocabulari),
-    #     required=not_required_in_debug_mode(),
-    # )
+    widget(vokabularies=DataGridFieldFactory)
+    vokabularies = schema.List(
+        title = _(u" ",
+            default=u""),
+        value_type=DictRow(schema=IVocabulari),
+        required=not_required_in_debug_mode(),
+    )
     
-    # widget(vokabularies3=DataGridFieldFactory)
-    # vokabularies3 = schema.List(
-    #     title = _(u" ",
-    #         default=u""),
-    #     value_type=DictRow(schema=IVocabulari3),
-    #     required=not_required_in_debug_mode(),
-    # )
+    widget(vokabularies3=DataGridFieldFactory)
+    vokabularies3 = schema.List(
+        title = _(u" ",
+            default=u""),
+        value_type=DictRow(schema=IVocabulari3),
+        required=not_required_in_debug_mode(),
+    )
     
-    # widget(meeting_types=DataGridFieldFactory)
-    # meeting_types = schema.List(
-    #     title = _(u" ",
-    #         default=u""),
-    #     value_type=DictRow(schema=IMeetingRows),
-    #     required=not_required_in_debug_mode(),
-    # )
+    widget(meeting_types=DataGridFieldFactory)
+    meeting_types = schema.List(
+        title = _(u" ",
+            default=u""),
+        value_type=DictRow(schema=IMeetingRows),
+        required=not_required_in_debug_mode(),
+    )
 
-    # widget(companies=DataGridFieldFactory)
-    # companies = schema.List(
-    #     title = _(u"Companies",
-    #         default=u"Companies"),
-    #     value_type=DictRow(schema=ICompany), 
-    #      required=not_required_in_debug_mode(),
+    widget(companies=DataGridFieldFactory)
+    companies = schema.List(
+        title = _(u"Companies",
+            default=u"Companies"),
+        value_type=DictRow(schema=ICompany), 
+         required=not_required_in_debug_mode(),
         
-    # )
+    )
  
  
 

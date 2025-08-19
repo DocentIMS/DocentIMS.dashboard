@@ -2,24 +2,13 @@
 <registry xmlns:i18n="http://xml.zope.org/namespaces/i18n" i18n:domain="DocentIMS.dashboard">
 
     <!-- -*- Controlpanel -*- -->
-    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_buttons" />
-    <!-- <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.location_names" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="location_names"/> -->
-    <!-- <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="vokabularies"/>
+    <!-- <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_buttons" /> -->
+    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.location_names" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="location_names"/>
+    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="vokabularies"/>
     <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies3" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="vokabularies3"/>
     <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.meeting_types" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="meeting_types"/>
-    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.companies" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="companies"/> -->
+    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.companies" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="companies"/>
         
-    <!-- <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_user" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_user">
-        <field type="plone.registry.field.TextLine">
-            <element>admin</element>
-        </field>
-    </record>
-
-    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.app_password" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="app_password">
-        <field type="plone.registry.field.TextLine">
-            <element>admin</element>
-        </field>
-    </record> -->
 
     <record interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="color1">
         <field type="plone.registry.field.TextLine">
