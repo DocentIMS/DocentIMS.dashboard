@@ -52,10 +52,9 @@ def handler(obj, event):
                 portal_membership = api.portal.get_tool('portal_membership')
                 portrait = portal_membership.getPersonalPortrait(userid) 
                 if portrait:
-                    import pdb; pdb.set_trace()
                     portrait_bytes = portrait.data       # the binary image
-                    mime_type = portrait.mime_type     # e.g., "image/png" or "image/jpeg"
-                    filename = portrait.filename or "portrait"
+                    mime_type = portrait.content_type     # e.g., "image/png" or "image/jpeg"
+                    filename = portrait.__name__ or "portrait"
                     portrait_endpoint = f"{users_endpoint}/{username}/@portrait"
                     portrait_headers = {"Accept": "application/json"}  # no Content-Type for files
                     files = {"file": (filename, BytesIO(portrait_bytes), mime_type)}
