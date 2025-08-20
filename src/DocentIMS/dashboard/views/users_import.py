@@ -67,8 +67,8 @@ class UsersImport(form.Form):
         # Iterate correctly over dict rows
         rows = df.to_dict(orient="records")
         
-
         created_users = []
+        portal_membership = api.portal.get_tool('portal_membership')
         for row in rows:
             email = row.get("email")
             if not email:
@@ -102,9 +102,9 @@ class UsersImport(form.Form):
                     if portrait_url.startswith("http"):
                         resp = requests.get(portrait_url)
                         if resp.status_code == 200:
-                            img_data = NamedBlobImage(data=resp.content,
-                                                      filename=u"portrait.jpg")
-                            user.setMemberProperties({'portrait': img_data})
+                            img_file = BytesIO(resp.content)
+                            img_file.filename = "portrait.jpg"  
+                            portal_membership.changeMemberPortrait(img_file, user.getUserId())
                     # Local file handling could be added here
                 except Exception:
                     pass
