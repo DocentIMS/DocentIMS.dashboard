@@ -12,6 +12,8 @@ from plone.namedfile.file import NamedBlobImage
 from plone.namedfile.field import NamedBlobFile 
 from io import BytesIO
 import pandas as pd  # needs openpyxl installed
+from openpyxl import load_workbook
+import requests
 
 
 
@@ -46,8 +48,8 @@ class UsersImport(form.Form):
             return
 
         file_data = data['csv_file']
-        
-        # Get raw bytes from the upload (works for NamedBlobFile, FileUpload, or raw bytes)
+
+        # Get raw bytes from the upload
         if hasattr(file_data, 'data'):                 # plone.namedfile NamedBlobFile
             raw = file_data.data
         elif hasattr(file_data, 'read'):               # ZPublisher FileUpload
@@ -57,26 +59,33 @@ class UsersImport(form.Form):
         else:
             raise ValueError("Unsupported upload type for Excel file")
 
-        # Read first sheet as strings; requires 'openpyxl' for .xlsx and 'xlrd<2.0' for legacy .xls
+        # Read the sheet as strings for the rest of the data
         df = pd.read_excel(BytesIO(raw), sheet_name=0, dtype=str)
-
-        # Clean NaNs and make headers predictable (optional but helpful)
         df = df.fillna("")
         df.columns = [str(c).strip().lower() for c in df.columns]
-
-        # Iterate correctly over dict rows
         rows = df.to_dict(orient="records")
-        
+
+        # Load workbook with openpyxl to access images
+        wb = load_workbook(filename=BytesIO(raw))
+        ws = wb.active
+
+        # Map images to cells
+        image_map = {}
+        for img in ws._images:  # _images contains all images in the sheet
+            cell = img.anchor._from.row - 1, img.anchor._from.col  # zero-based row/col
+            image_map[cell] = img
+
         created_users = []
         portal_membership = api.portal.get_tool('portal_membership')
-        for row in rows:
+
+        for row_idx, row in enumerate(rows):
             email = row.get("email")
             if not email:
-                continue  # skip if no email
+                continue
 
             username = email.lower().strip()
             if api.user.get(username=username):
-                continue  # skip existing
+                continue
 
             user = api.user.create(
                 username=username,
@@ -95,19 +104,28 @@ class UsersImport(form.Form):
                 }
             )
 
-            # Handle portrait (URL or local path)
-            portrait_url = row.get("portrait")
-            if portrait_url:
+            # Handle portrait
+            portrait_img = None
+
+            # First try embedded image
+            portrait_col_index = df.columns.get_loc("portrait")
+            cell_key = (row_idx, portrait_col_index)
+            if cell_key in image_map:
+                portrait_img = BytesIO(image_map[cell_key]._data())  # get image bytes
+                portrait_img.filename = "portrait.jpg"
+
+            # If no embedded image, fallback to URL
+            elif row.get("portrait") and row.get("portrait").startswith("http"):
                 try:
-                    if portrait_url.startswith("http"):
-                        resp = requests.get(portrait_url)
-                        if resp.status_code == 200:
-                            img_file = BytesIO(resp.content)
-                            img_file.filename = "portrait.jpg"  
-                            portal_membership.changeMemberPortrait(img_file, user.getUserId())
-                    # Local file handling could be added here
+                    resp = requests.get(row.get("portrait"))
+                    if resp.status_code == 200:
+                        portrait_img = BytesIO(resp.content)
+                        portrait_img.filename = "portrait.jpg"
                 except Exception:
                     pass
+
+            if portrait_img:
+                portal_membership.changeMemberPortrait(portrait_img, user.getUserId())
 
             created_users.append(username)
 
