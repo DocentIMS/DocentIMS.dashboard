@@ -49,7 +49,8 @@ def handler(obj, event):
             if response.status_code in (200, 201):  # 201 = created
                 print(f"✅ User {email} created")
                 # Upload portrait if exists
-                portrait = user.getProperty("portrait")  # usually this is a binary image
+                portal_membership = api.portal.get_tool('portal_membership')
+                portrait = portal_membership.getPersonalPortrait(userid)
                 if portrait:
                     portrait_bytes = portrait.data       # the binary image
                     mime_type = portrait.contentType     # e.g., "image/png" or "image/jpeg"
