@@ -157,7 +157,7 @@ class ICompany(model.Schema):
         title=_(u"label_company_city", default=u"City")
         )
     
-    company_ZIP = schema.TextLine(
+    company_zip = schema.TextLine(
         required = False,
         title=_(u"label_company_ZIP", default=u"ZIP code")
         )

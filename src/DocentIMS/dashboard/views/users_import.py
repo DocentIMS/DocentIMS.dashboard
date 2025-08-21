@@ -28,8 +28,8 @@ class ICSVImportFormSchema(Interface):
     # )
     
     csv_file = NamedBlobFile(
-        title=u"CSV File",
-        description=u"Upload a CSV file to import.",
+        title=u"Excel File",
+        description=u"Upload a Excel file to import.",
         required=True
     )
  
