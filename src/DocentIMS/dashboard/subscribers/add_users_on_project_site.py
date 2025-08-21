@@ -15,7 +15,7 @@ def handler(obj, event):
         project_url = obj.project_url
         user_list = obj.add_users
         
-        #TO DO: Change
+        #Dummy password, TO DO: Change / get from some settings
         auth = ("admin", "admin")
         users_endpoint = f"{project_url}/@users"
         
@@ -62,6 +62,8 @@ def handler(obj, event):
             
             
             response = requests.post(users_endpoint, auth=auth, headers=headers, json=payload)
+            
+            import pdb; pdb.set_trace()
             
 
             if response.status_code in (200, 201):  # 201 = created
