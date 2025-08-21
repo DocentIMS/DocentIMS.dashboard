@@ -49,7 +49,7 @@ def handler(obj, event):
                 "email": email,
                 "fullname": fullname,
                 "sendPasswordReset": True,
-                "last_name" : user.getProperty("last_namel"),
+                "last_name" : user.getProperty("last_name"),
                 "first_name" : user.getProperty("first_name"),
                 "your_team_role" : user.getProperty("your_team_role"),
                 "office_phone_number" : user.getProperty("office_phone_number"),
