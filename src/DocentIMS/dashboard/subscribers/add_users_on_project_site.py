@@ -2,6 +2,7 @@
 import requests
 from plone import api
 from io import BytesIO
+import base64
 
 
 def handler(obj, event):
@@ -34,6 +35,7 @@ def handler(obj, event):
             username = user.getUserName()
             fullname = user.getProperty("fullname")
             email = user.getProperty("email")
+            #TO DO: other fields
 
             payload = {
                 "email": email,
@@ -48,17 +50,40 @@ def handler(obj, event):
 
             if response.status_code in (200, 201):  # 201 = created
                 print(f"✅ User {email} created")
+                import pdb; pdb.set_trace()
                 # Upload portrait if exists
                 portal_membership = api.portal.get_tool('portal_membership')
                 portrait = portal_membership.getPersonalPortrait(userid) 
                 if portrait:
+                    portrait_endpoint = f"{users_endpoint}/{username}" # /@portrait"
                     portrait_bytes = portrait.data       # the binary image
-                    mime_type = portrait.content_type     # e.g., "image/png" or "image/jpeg"
+                    portrait_filename = getattr(portrait, "filename", "portrait")
+                    portrait_mime = getattr(portrait, "contentType", "image/jpeg")
                     filename = portrait.__name__ or "portrait"
-                    portrait_endpoint = f"{users_endpoint}/{username}/@portrait"
                     portrait_headers = {"Accept": "application/json"}  # no Content-Type for files
-                    files = {"file": (filename, BytesIO(portrait_bytes), mime_type)}
-                    r = requests.put(portrait_endpoint, auth=auth, headers=portrait_headers, files=files)
+                    portrait_b64 = base64.b64encode(portrait_bytes).decode("utf-8")
+                    
+                    # Prepare PATCH payload
+                    portrait_payload = {
+                        "portrait": {
+                            "filename": portrait_filename,
+                            "content-type": portrait_mime,
+                            "encoding": "base64",
+                            "data": portrait_b64
+                        }
+                    }
+                    
+                    r = requests.patch(portrait_endpoint, auth=auth, headers=headers, json=portrait_payload)
+
+
+                    r = requests.patch(portrait_endpoint, 
+                                       headers={'Accept': 'application/json', 'Content-Type': 'application/json'}, 
+                                       json={'portrait': {'content-type': portrait.content_type , 
+                                                          'data': portrait_bytes, 
+                                                          'encoding': portrait.encoding, 
+                                                          'filename': filename}}, 
+                                       auth=auth)
+                    
                     if r.status_code == 204:
                         print(f"✅ Portrait for '{userid}' uploaded successfully")
                     else:
