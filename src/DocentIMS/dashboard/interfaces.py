@@ -154,7 +154,12 @@ class ICompany(model.Schema):
 
     company_city = schema.TextLine(
         required = False,
-        title=_(u"label_company_citye", default=u"City")
+        title=_(u"label_company_city", default=u"City")
+        )
+    
+    company_ZIP = schema.TextLine(
+        required = False,
+        title=_(u"label_company_ZIP", default=u"ZIP code")
         )
     
     company_state = schema.TextLine(
