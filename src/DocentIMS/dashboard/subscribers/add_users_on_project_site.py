@@ -50,42 +50,31 @@ def handler(obj, event):
 
             if response.status_code in (200, 201):  # 201 = created
                 print(f"✅ User {email} created")
-                import pdb; pdb.set_trace()
                 # Upload portrait if exists
                 portal_membership = api.portal.get_tool('portal_membership')
                 portrait = portal_membership.getPersonalPortrait(userid) 
                 if portrait:
-                    portrait_endpoint = f"{users_endpoint}/{username}" # /@portrait"
-                    portrait_bytes = portrait.data       # the binary image
-                    portrait_mime = getattr(portrait, "contentType", "image/jpeg")
-                    filename = portrait.__name__ or "portrait"
-                    portrait_b64 = base64.b64encode(portrait_bytes).decode("utf-8")
+                    portrait_endpoint = f"{users_endpoint}/{username}" # 
+                    portrait_bytes = portrait.data or None # the binary image, None if it is the 'default image'
                     
-                    # # Prepare PATCH payload
-                    # portrait_payload = {
-                    #     "portrait": {
-                    #         "filename": portrait_filename,
-                    #         "content-type": portrait_mime,
-                    #         "encoding": "base64",
-                    #         "data": portrait_b64
-                    #     }
-                    # }
-                    
-                    # r = requests.patch(portrait_endpoint, auth=auth, headers=headers, json=portrait_payload)
-
-
-                    r = requests.patch(portrait_endpoint, 
-                                       headers={'Accept': 'application/json', 'Content-Type': 'application/json'}, 
-                                       json={'portrait': {'content-type': portrait_mime , 
-                                                          'data': portrait_b64, 
-                                                          'encoding': "base64", 
-                                                          'filename': filename}}, 
-                                       auth=auth)
-                    
-                    if r.status_code == 204:
-                        print(f"✅ Portrait for '{userid}' uploaded successfully")
-                    else:
-                        print(f"⚠️ Failed to upload portrait for '{userid}'")
+                    if portrait_bytes:                        
+                        portrait_mime = getattr(portrait, "contentType", "image/jpeg")
+                        # filename = portrait.__name__ or "portrait"
+                        filename =  "portrait"
+                        portrait_b64 = base64.b64encode(portrait_bytes).decode("utf-8")
+                        
+                        r = requests.patch(portrait_endpoint, 
+                                        headers={'Accept': 'application/json', 'Content-Type': 'application/json'}, 
+                                        json={'portrait': {'content-type': portrait_mime , 
+                                                            'data': portrait_b64, 
+                                                            'encoding': "base64", 
+                                                            'filename': filename}}, 
+                                        auth=('admin', 'admin'))
+                        
+                        if r.status_code == 204:
+                            print(f"✅ Portrait for '{userid}' uploaded successfully")
+                        else:
+                            print(f"⚠️ Failed to upload portrait for '{userid}'")
             elif response.status_code == 409:
                 print(f"⚠️ User {email} already exists")
             else:
