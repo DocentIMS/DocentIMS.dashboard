@@ -48,6 +48,7 @@ def handler(obj, event):
             payload = {
                 "email": email,
                 "fullname": fullname,
+                "username": email, 
                 "sendPasswordReset": True,
                 "last_name" : user.getProperty("last_name"),
                 "first_name" : user.getProperty("first_name"),
@@ -59,20 +60,15 @@ def handler(obj, event):
                 "notes" : user.getProperty("notes"),
             }
             
-            
-            
             response = requests.post(users_endpoint, auth=auth, headers=headers, json=payload)
             
-            import pdb; pdb.set_trace()
-            
-
             if response.status_code in (200, 201):  # 201 = created
                 print(f"✅ User {email} created")
                 # Upload portrait if exists
                 portal_membership = api.portal.get_tool('portal_membership')
                 portrait = portal_membership.getPersonalPortrait(userid) 
                 if portrait:
-                    portrait_endpoint = f"{users_endpoint}/{username}" # 
+                    portrait_endpoint = response.json()['@id']
                     portrait_bytes = portrait.data or None # the binary image, None if it is the 'default image'
                     
                     if portrait_bytes:                        
