@@ -35,20 +35,11 @@ def handler(obj, event):
             username = user.getUserName()
             fullname = user.getProperty("fullname")
             email = user.getProperty("email")
-            # last_name  = user.getProperty("last_namel")
-            # first_name  = user.getProperty("first_name")
-            # your_team_role  = user.getProperty("your_team_role")
-            # office_phone_number  = user.getProperty("office_phone_number")
-            # cellphone_number  = user.getProperty("cellphone_number") 
-            # company  = user.getProperty("company")
-            # description = user.getProperty("description")
-            # notes  = user.getProperty("notes")
-            #TO DO: other fields
 
             payload = {
                 "email": email,
                 "fullname": fullname,
-                "username": email, 
+                # "username": email, 
                 "sendPasswordReset": True,
                 "last_name" : user.getProperty("last_name"),
                 "first_name" : user.getProperty("first_name"),
