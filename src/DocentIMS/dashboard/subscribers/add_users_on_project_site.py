@@ -58,9 +58,9 @@ def handler(obj, event):
                 # Upload portrait if exists
                 portal_membership = api.portal.get_tool('portal_membership')
                 portrait = portal_membership.getPersonalPortrait(userid) 
-                if portrait:
+                if portrait and hasattr(portrait, 'data'):
                     portrait_endpoint = response.json()['@id']
-                    portrait_bytes = portrait.data or None # the binary image, None if it is the 'default image'
+                    portrait_bytes = portrait.data # the binary image, None if it is the 'default image'
                     
                     if portrait_bytes:                        
                         portrait_mime = getattr(portrait, "contentType", "image/jpeg")
