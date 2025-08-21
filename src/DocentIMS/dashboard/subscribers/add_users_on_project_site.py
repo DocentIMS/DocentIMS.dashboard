@@ -57,30 +57,28 @@ def handler(obj, event):
                 if portrait:
                     portrait_endpoint = f"{users_endpoint}/{username}" # /@portrait"
                     portrait_bytes = portrait.data       # the binary image
-                    portrait_filename = getattr(portrait, "filename", "portrait")
                     portrait_mime = getattr(portrait, "contentType", "image/jpeg")
                     filename = portrait.__name__ or "portrait"
-                    portrait_headers = {"Accept": "application/json"}  # no Content-Type for files
                     portrait_b64 = base64.b64encode(portrait_bytes).decode("utf-8")
                     
-                    # Prepare PATCH payload
-                    portrait_payload = {
-                        "portrait": {
-                            "filename": portrait_filename,
-                            "content-type": portrait_mime,
-                            "encoding": "base64",
-                            "data": portrait_b64
-                        }
-                    }
+                    # # Prepare PATCH payload
+                    # portrait_payload = {
+                    #     "portrait": {
+                    #         "filename": portrait_filename,
+                    #         "content-type": portrait_mime,
+                    #         "encoding": "base64",
+                    #         "data": portrait_b64
+                    #     }
+                    # }
                     
-                    r = requests.patch(portrait_endpoint, auth=auth, headers=headers, json=portrait_payload)
+                    # r = requests.patch(portrait_endpoint, auth=auth, headers=headers, json=portrait_payload)
 
 
                     r = requests.patch(portrait_endpoint, 
                                        headers={'Accept': 'application/json', 'Content-Type': 'application/json'}, 
-                                       json={'portrait': {'content-type': portrait.content_type , 
-                                                          'data': portrait_bytes, 
-                                                          'encoding': portrait.encoding, 
+                                       json={'portrait': {'content-type': portrait_mime , 
+                                                          'data': portrait_b64, 
+                                                          'encoding': "base64", 
                                                           'filename': filename}}, 
                                        auth=auth)
                     
