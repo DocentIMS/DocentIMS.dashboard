@@ -51,20 +51,24 @@ def handler(obj, event):
                 "company" : user.getProperty("company"),
                 "description" : user.getProperty("description"),
                 "notes" : user.getProperty("notes"),
-                "groups" : ["PrjTeam"]
+                "groups" : [{"@id": "PrjTeam"}]
             }
             
             
             response = requests.post(users_endpoint, headers=headers, json=payload)
             
-            # Add user to group:
-            import pdb; pdb.set_trace()
-            group_endpoint = f"{project_url}/@groups/PrjTeam"
-            response = requests.patch(group_endpoint, headers=headers, json={"users": {username: 'true'} })
-
-            # Add image to user
+            
+            
+            # Add image to user and add user to group
+            
             if response.status_code in (200, 201):  # 201 = created
                 print(f"✅ User {email} created")
+                
+                # Add user to group:
+                import pdb; pdb.set_trace()
+                group_endpoint = f"{project_url}/@groups/PrjTeam"
+                group_response = requests.patch(group_endpoint, headers=headers, json={"users": {username: 'true'} })
+                
                 # Upload portrait if exists
                 portal_membership = api.portal.get_tool('portal_membership')
                 portrait = portal_membership.getPersonalPortrait(userid) 
