@@ -12,9 +12,6 @@ def handler(obj, event):
     """
     
     if obj.portal_type == "Project":
-        import pdb; pdb.set_trace()
-            
-    
         project_url = obj.project_url
         user_list = obj.add_users
         
@@ -61,8 +58,8 @@ def handler(obj, event):
             
             # Add user to group:
             group_endpoint = f"{project_url}/@groups/PrjTeam"
-            username = response.json()['username']
-            response = requests.post(group_endpoint, headers=headers, json={"id": username})
+            group_user = response.json()['username']
+            response = requests.patch(group_endpoint, headers=headers, json={"users": {group_user: 'true'} })
 
             # Add image to user
             if response.status_code in (200, 201):  # 201 = created
