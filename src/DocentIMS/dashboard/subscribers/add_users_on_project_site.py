@@ -54,7 +54,7 @@ def handler(obj, event):
                 "notes" : user.getProperty("notes"),
             }
             
-            response = requests.post(users_endpoint, auth=basik, headers=headers, json=payload)
+            response = requests.post(users_endpoint, headers=headers, json=payload)
             
             if response.status_code in (200, 201):  # 201 = created
                 print(f"✅ User {email} created")
