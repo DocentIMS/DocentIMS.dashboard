@@ -60,7 +60,7 @@ def handler(obj, event):
             response = requests.post(users_endpoint, headers=headers, json=payload)
             
             # Add user to group:
-            group_endpoint = f"{project_url}/@groups/PrjTeam/users"
+            group_endpoint = f"{project_url}/@groups/PrjTeam"
             username = response.json()['username']
             response = requests.post(group_endpoint, headers=headers, json={"id": username})
 
