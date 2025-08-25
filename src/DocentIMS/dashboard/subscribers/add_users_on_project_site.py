@@ -51,14 +51,15 @@ def handler(obj, event):
                 "company" : user.getProperty("company"),
                 "description" : user.getProperty("description"),
                 "notes" : user.getProperty("notes"),
+                "groups" : ["PrjTeam"]
             }
             
             
             response = requests.post(users_endpoint, headers=headers, json=payload)
             
             # Add user to group:
-            group_endpoint = f"{project_url}/@groups/PrjTeam"
-            response = requests.patch(group_endpoint, headers=headers, json={"users": {username: 'true'} })
+            # group_endpoint = f"{project_url}/@groups/PrjTeam"
+            # response = requests.patch(group_endpoint, headers=headers, json={"users": {username: 'true'} })
 
             # Add image to user
             if response.status_code in (200, 201):  # 201 = created
