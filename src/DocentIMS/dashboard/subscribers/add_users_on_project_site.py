@@ -56,10 +56,16 @@ def handler(obj, event):
             
             response = requests.post(users_endpoint, headers=headers, json=payload)
             
+            # Add user to group:
+            group_endpoint = f"{project_url}/@groups/PrjTeam/users"
+            response = requests.post(group_endpoint, headers=headers, json={"id": email})
+
+            # Add image to user
             if response.status_code in (200, 201):  # 201 = created
                 print(f"✅ User {email} created")
                 # Upload portrait if exists
                 portal_membership = api.portal.get_tool('portal_membership')
+                PrjTeam
                 portrait = portal_membership.getPersonalPortrait(userid) 
                 if portrait and hasattr(portrait, 'data'):
                     portrait_endpoint = response.json()['@id']
