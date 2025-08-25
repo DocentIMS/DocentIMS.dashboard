@@ -68,6 +68,8 @@ def handler(obj, event):
                 import pdb; pdb.set_trace()
                 group_endpoint = f"{project_url}/@groups/PrjTeam"
                 group_response = requests.patch(group_endpoint, headers=headers, json={"users": {username: 'true'} })
+                groups_response = requests.patch(group_endpoint, headers=headers, json={"users": {response.json().get('username'): 'true'} })               
+                
                 
                 # Upload portrait if exists
                 portal_membership = api.portal.get_tool('portal_membership')
