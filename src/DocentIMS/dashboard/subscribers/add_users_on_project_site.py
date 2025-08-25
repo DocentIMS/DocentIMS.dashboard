@@ -3,6 +3,7 @@ import requests
 from plone import api
 from io import BytesIO
 import base64
+from  ..interfaces import IDocentimsSettings
 
 
 def handler(obj, event):
@@ -16,12 +17,14 @@ def handler(obj, event):
         user_list = obj.add_users
         
         #Dummy password, TO DO: Change / get from some settings
-        auth = ("admin", "admin")
+        # auth = ("admin", "admin")
+        basik =  api.portal.get_registry_record('dashboard', interface=IDocentimsSettings) or ''
         users_endpoint = f"{project_url}/@users"
         
         headers = {
             "Accept": "application/json",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            'Authorization': f'Basic {basik}'
         }
 
         for userid in user_list:
@@ -51,7 +54,7 @@ def handler(obj, event):
                 "notes" : user.getProperty("notes"),
             }
             
-            response = requests.post(users_endpoint, auth=auth, headers=headers, json=payload)
+            response = requests.post(users_endpoint, auth=basik, headers=headers, json=payload)
             
             if response.status_code in (200, 201):  # 201 = created
                 print(f"✅ User {email} created")

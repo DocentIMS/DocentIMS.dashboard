@@ -8,7 +8,13 @@
     <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies3" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="vokabularies3"/>
     <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.meeting_types" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="meeting_types"/>
     <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.companies" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="companies"/>
-        
+
+    <record interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="dashboard">
+        <field type="plone.registry.field.TextLine">
+        </field>
+        <value></value>
+    </record>
+
 
     <record interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="color1">
         <field type="plone.registry.field.TextLine">

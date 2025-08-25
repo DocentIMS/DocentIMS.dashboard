@@ -10,6 +10,8 @@ from zope.interface import alsoProvides
 # from collective.z3cform.colorpicker.colorpicker  import ColorpickerFieldWidget
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.registry import DictRow
+from z3c.form.browser.password import PasswordFieldWidget
+
 
 from plone import api
 from zope.interface import implementer
@@ -250,7 +252,12 @@ class IDocentimsSettings(model.Schema):
     #         ],
     #     )
     
-    
+    widget(dashboard=PasswordFieldWidget)
+    dashboard  = schema.TextLine(
+        title=_(u'Basic', 'Basic'),
+        description=u"Basic",
+        required=True,
+    )
     
     widget(location_names=DataGridFieldFactory)
     location_names = schema.List(
