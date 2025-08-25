@@ -65,7 +65,7 @@ def handler(obj, event):
                 print(f"✅ User {email} created")
                 
                 # Add user to group:
-                import pdb; pdb.set_trace()
+                # TO DO: Keep only one when I know why users are not added with email instead of random username
                 group_endpoint = f"{project_url}/@groups/PrjTeam"
                 group_response = requests.patch(group_endpoint, headers=headers, json={"users": {username: 'true'} })
                 groups_response = requests.patch(group_endpoint, headers=headers, json={"users": {response.json().get('username'): 'true'} })               
