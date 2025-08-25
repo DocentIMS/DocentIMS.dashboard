@@ -12,6 +12,8 @@ def handler(obj, event):
     """
     
     if obj.portal_type == "Project":
+        import pdb; pdb.set_trace()
+            
     
         project_url = obj.project_url
         user_list = obj.add_users
@@ -54,7 +56,6 @@ def handler(obj, event):
                 "notes" : user.getProperty("notes"),
             }
             
-            import pdb; pdb.set_trace()
             
             response = requests.post(users_endpoint, headers=headers, json=payload)
             
