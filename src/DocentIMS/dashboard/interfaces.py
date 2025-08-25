@@ -95,7 +95,7 @@ class IVocabulari4(model.Schema):
  
 class IVocabulari(model.Schema):
     vocabulary_entry = schema.TextLine(
-        title=_(u'Vocabulary entries', 'Team Roles'),
+        title=_(u'Vocabulary entries', 'Roles'),
         description=u"Each team member will be assigned a “Role” during their membership creation.  The role for each member must be created here before their account can be created.",
         required=False,
     )
