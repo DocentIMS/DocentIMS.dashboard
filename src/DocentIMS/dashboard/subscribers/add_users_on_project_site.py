@@ -77,12 +77,12 @@ def handler(obj, event):
                         portrait_b64 = base64.b64encode(portrait_bytes).decode("utf-8")
                         
                         r = requests.patch(portrait_endpoint, 
-                                        headers={'Accept': 'application/json', 'Content-Type': 'application/json'}, 
+                                        headers= headers,
                                         json={'portrait': {'content-type': portrait_mime , 
                                                             'data': portrait_b64, 
                                                             'encoding': "base64", 
                                                             'filename': filename}}, 
-                                        auth=auth)
+                                        )
                         
                         if r.status_code == 204:
                             print(f"✅ Portrait for '{userid}' uploaded successfully")
