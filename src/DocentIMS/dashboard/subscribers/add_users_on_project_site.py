@@ -58,8 +58,7 @@ def handler(obj, event):
             
             # Add user to group:
             group_endpoint = f"{project_url}/@groups/PrjTeam"
-            group_user = response.json()['username']
-            response = requests.patch(group_endpoint, headers=headers, json={"users": {group_user: 'true'} })
+            response = requests.patch(group_endpoint, headers=headers, json={"users": {username: 'true'} })
 
             # Add image to user
             if response.status_code in (200, 201):  # 201 = created
