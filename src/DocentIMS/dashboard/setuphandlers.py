@@ -68,6 +68,12 @@ def post_install(context):
       ])
     
     # Do something at the end of the installation of this package.
+    # add user vbauser
+    portal = plone.api.portal.get()
+    try:
+        plone.api.user.create(email='vbauser@docentims.com', username='vbauser@docentims.com', password=None, roles=('Member', 'Manager',), properties={'fullname': "VBA User", 'first_name': 'VBA', 'last_name': 'User'})
+    except ValueError: 
+        pass
 
 
 def uninstall(context):
