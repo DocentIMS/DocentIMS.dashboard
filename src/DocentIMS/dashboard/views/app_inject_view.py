@@ -41,10 +41,11 @@ class AppInjectView(BrowserView):
         
     def __call__(self):
         # Implement your own actions:
+        dashboard_info = self.get_dashboard_info()
+        portlet_data = self.get_portlet_data()
         return self.index()
     
     
-    @ram.cache(cache_key_subbuttons)
     def get_current(self):
         current = api.user.get_current()
         return current.getProperty('email')
@@ -69,7 +70,7 @@ class AppInjectView(BrowserView):
     
     
     @ram.cache(cache_key_subbuttons)   
-    def portlet_data(self):
+    def get_portlet_data(self):
         print('getting dashboard portlets')
         #Should happen every 30 minutes or on reload ?
         siteurl = self.request.get('siteurl', 'http://mymeadows.org')        

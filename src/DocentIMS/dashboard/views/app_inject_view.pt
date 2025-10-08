@@ -7,8 +7,8 @@
       <metal:block define-macro="content">
 
         <div id="appWrapper">
-          <div tal:define="dashboard_items view/get_dashboard_info">
-            <main class="appWrapper" tal:define="dashboard_items view/get_dashboard_info; 
+          <div tal:define="dashboard_items view/dashboard_info">
+            <main class="appWrapper" tal:define="dashboard_items view/dashboard_info; 
             dashboard_list dashboard_items/dashboard-list;
             url dashboard_list/site_url">
 
