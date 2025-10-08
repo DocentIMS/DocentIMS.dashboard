@@ -41,8 +41,8 @@ class AppInjectView(BrowserView):
         
     def __call__(self):
         # Implement your own actions:
-        dashboard_info = self.get_dashboard_info()
-        portlet_data = self.get_portlet_data()
+        self.dashboard_info = self.get_dashboard_info()
+        self.portlet_data = self.get_portlet_data()
         return self.index()
     
     
