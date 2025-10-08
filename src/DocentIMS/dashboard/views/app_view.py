@@ -6,12 +6,23 @@ from zope.interface import Interface
 import requests
 from plone import api
 from DocentIMS.ActionItems.interfaces import IDocentimsSettings
+from plone.memoize import ram
+import time
 from datetime import datetime
 import socket
 
 # from zope.globalrequest import getRequest
 import requests
 
+# 30 minutes in seconds
+CACHE_TIMEOUT = 30 * 60
+
+def cache_key_buttons(method, self):
+    # Use a key based on user and current time rounded to timeout
+    user = self.get_current()
+    # rounding to nearest CACHE_TIMEOUT to make cache last exactly 30 min
+    t = int(time.time() / CACHE_TIMEOUT)
+    return f"buttons-{user}-{t}"
 
 
 
@@ -35,7 +46,7 @@ class AppView(BrowserView):
         # return now.strftime('%A, %d %B %Y, %I:%M %p')
         return now.strftime('%d %b %I:%M %p')
 
-
+    @ram.cache(cache_key_buttons)
     def get_buttons(self):
         
         #urls = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons')
@@ -83,6 +94,7 @@ class AppView(BrowserView):
         #return current.getId()
         return current.getProperty('fullname')
     
+    @ram.cache(cache_key_buttons)
     def get_colors(self):
         color1=  api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.color1')
         color2=  api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.color2')
@@ -92,18 +104,20 @@ class AppView(BrowserView):
         return[color1, color2, color3, color4, color5]
     
     
+    @ram.cache(cache_key_buttons)
     def get_server_ip(self):
         try:
             return socket.gethostbyname(socket.gethostname())
         except Exception as e:
             return f"Error: {e}"
-        
+    
+    @ram.cache(cache_key_buttons)
     def get_served_domain(self):
         """Retrieve the domain dynamically from the request"""
         return self.request.get("HTTP_HOST") or "0.0.0.0"
         
         
-        
+    @ram.cache(cache_key_buttons)  
     def get_served_domain_ip(self):
         """Get the public IP of the domain serving the Plone site"""
         try:
