@@ -17,7 +17,7 @@ def cache_key_subbuttons(method, self):
     user = self.get_current()
     # rounding to nearest CACHE_TIMEOUT to make cache last exactly 30 min
     t = int(time.time() / CACHE_TIMEOUT)
-    return f"buttons-{user}-{t}"
+    return f"subbuttons-{user}-{t}"
 
 
 
