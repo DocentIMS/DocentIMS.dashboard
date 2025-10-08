@@ -9,8 +9,8 @@ from plone import api
 from plone.memoize import ram
 import time 
 
-# 30 minutes in seconds
-CACHE_TIMEOUT = 30 * 60
+# 15 minutes in seconds
+CACHE_TIMEOUT = 15 * 60
 
 def cache_key_subbuttons(method, self):
     # Use a key based on user and current time rounded to timeout
