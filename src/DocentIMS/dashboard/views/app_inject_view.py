@@ -6,7 +6,18 @@ from zope.interface import Interface
 import requests
 from plone import api
 
+from plone.memoize import ram
+import time 
 
+# 30 minutes in seconds
+CACHE_TIMEOUT = 30 * 60
+
+def cache_key_buttons(method, self):
+    # Use a key based on user and current time rounded to timeout
+    user = self.get_current()
+    # rounding to nearest CACHE_TIMEOUT to make cache last exactly 30 min
+    t = int(time.time() / CACHE_TIMEOUT)
+    return f"buttons-{user}-{t}"
 
 
 
@@ -32,11 +43,13 @@ class AppInjectView(BrowserView):
         # Implement your own actions:
         return self.index()
     
+    
+    @ram.cache(cache_key_buttons)
     def get_current(self):
         current = api.user.get_current()
         return current.getProperty('email')
     
-    
+    @ram.cache(cache_key_buttons)
     def get_dashboard_info(self):
         # TO DO: dont use admin 
         print('getting dashboard info')
@@ -55,7 +68,7 @@ class AppInjectView(BrowserView):
         return None
     
     
-    
+    @ram.cache(cache_key_buttons)   
     def portlet_data(self):
         print('getting dashboard portlets')
         #Should happen every 30 minutes or on reload ?
