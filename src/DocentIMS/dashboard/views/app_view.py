@@ -49,6 +49,8 @@ class AppView(BrowserView):
     @ram.cache(cache_key_buttons)
     def get_buttons(self):
         
+        print('getting buttons')
+        
         #urls = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons')
         # 1) Find all 'Project' items
         urls = None
