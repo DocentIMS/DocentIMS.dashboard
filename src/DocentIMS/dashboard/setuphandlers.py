@@ -31,20 +31,22 @@ def post_install(context):
     #  
     # ])
     plone.api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.location_names', 
-                                         [{'location_name': 'MS Teams'}, 
+                                         [{'location_name': 'Teams'}, 
+                                          {'location_name': 'Zoom'}
                                           {'location_name': 'Client Office'},
-                                          {'location_name': 'Client Office and MS Teams'}
+                                          {'location_name': 'Client Office and Teams'},
+                                          {'location_name': 'Client Office and Zoom'}
                                          ])
     
-    
+    #Is member roles
     plone.api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies',
-                                        [{'vocabulary_entry': 'Project Manager'},
-                                         {'vocabulary_entry': 'Secretary'},
-                                         {'vocabulary_entry': 'Treasurer'}, 
-                                         {'vocabulary_entry': 'At Large'}, 
-                                        ])
+                                        [   {'vocabulary_entry': 'Project Manager'},
+                                            {'vocabulary_entry': 'Quality Manager'},
+                                            {'vocabulary_entry': 'Client'},
+                                            {'vocabulary_entry': 'Electrical'},                                              
+                                        ])  
     
-
+    #Is company roles
     plone.api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies3',
                                         [   {'vocabulary_entry': 'Prime'},
                                             {'vocabulary_entry': 'Architect'},
