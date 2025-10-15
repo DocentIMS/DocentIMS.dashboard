@@ -32,7 +32,7 @@ def post_install(context):
     # ])
     plone.api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.location_names', 
                                          [{'location_name': 'Teams'}, 
-                                          {'location_name': 'Zoom'}
+                                          {'location_name': 'Zoom'},
                                           {'location_name': 'Client Office'},
                                           {'location_name': 'Client Office and Teams'},
                                           {'location_name': 'Client Office and Zoom'}
