@@ -50,7 +50,7 @@ class AppInjectView(BrowserView):
         current = api.user.get_current()
         return current.getProperty('email')
     
-    @ram.cache(cache_key_subbuttons)
+    # @ram.cache(cache_key_subbuttons)
     def get_dashboard_info(self):
         # TO DO: dont use admin 
         print('getting dashboard info')
