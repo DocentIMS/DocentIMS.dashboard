@@ -291,6 +291,15 @@ class IDocentimsSettings(model.Schema):
             'meeting_types'
         ] 
     )
+    
+    model.fieldset(
+        'companies',
+        label=_(u'Companies'),
+        description=u"Please create all project companies involved in this project.",
+        fields=[
+            'companies',
+            ],
+        )
 
 
     model.fieldset(
@@ -302,14 +311,7 @@ class IDocentimsSettings(model.Schema):
     )
 
  
-    model.fieldset(
-        'companies',
-        label=_(u'Companies'),
-        description=u"Please create all project companies involved in this project.",
-        fields=[
-            'companies',
-            ],
-        )
+
 
      
     widget(vokabularies=DataGridFieldFactory)
