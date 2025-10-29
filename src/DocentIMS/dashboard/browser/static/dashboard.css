@@ -1,5 +1,9 @@
 body { background: #FAF9F6}
 
+#contentview-user_data-personal-preferences {
+    display: none;
+}
+
 body.plone-toolbar-top #edit-zone .personaltools-wrapper {
     margin-left: 0 !important;
 }
