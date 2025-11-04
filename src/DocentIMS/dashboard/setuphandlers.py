@@ -24,6 +24,14 @@ def post_install(context):
     #portal.default_page='app-view'
     portal.layout = 'app-view'
     
+    # Add the default team group
+    if not plone.api.group.get(groupname='PrjTeam'):
+        group = plone.api.group.create(
+            groupname='PrjTeam',
+            title='Team',
+            roles=['Reader', ],
+        )
+        
     # Button has been moved to 'Project' content type
     # api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons', 
     #                                      [{'location_name': 'https://team.chelseamallproject.com'}, 
