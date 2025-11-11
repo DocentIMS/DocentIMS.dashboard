@@ -31,12 +31,13 @@
       <title>Cellphone Number</title>
     </field>
 
-    <field name="company" type="zope.schema.TextLine" users:forms="">
+    <field name="company" type="zope.schema.Choice" users:forms="">
       <description>Which company do you work for?</description>
       <required>False</required>
       <title>Company</title>
-      <!-- <vocabulary>DocentIMS.dashboard.CompanyVocabulary</vocabulary> -->
+      <vocabulary>DocentIMS.dashboard.CompanyVocabulary</vocabulary>
     </field>
+
     <field name="description" type="zope.schema.Text" users:forms="In User Profile">
       <description i18n:translate="help_biography">
           A short overview of who you are and what you do. Will be displayed on your author page, linked from the items you create.
