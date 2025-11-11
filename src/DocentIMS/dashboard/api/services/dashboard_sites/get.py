@@ -6,6 +6,8 @@ from zope.component import adapter
 from zope.interface import Interface
 from zope.interface import implementer
 import requests
+from AccessControl import getSecurityManager
+from plone.restapi.services import Service
 
 
 @implementer(IExpandableElement)
@@ -17,8 +19,11 @@ class DashboardSites(object):
         self.request = request
 
     def __call__(self, expand=False):
+        user = api.user.get_current()
         usermail = self.request.get('email', None)
-        some_secret = self.request.get('some_secret', None)
+        if user.id is not 'admin':
+            usermail = user.getProperty('email')
+        # some_secret = self.request.get('some_secret', None)
         result = {
             'dashboard_sites': {
                 '@id': '{}/@dashboard_sites'.format(
@@ -39,9 +44,7 @@ class DashboardSites(object):
         buttons = []
         
         # if some_secret = something;        
-        if usermail:  
-            
-            
+        if usermail and sites:           
             for siteurl in sites:
                 try:                
                     response = requests.get(f'{siteurl}/@item_count?user={usermail}', 
@@ -80,5 +83,7 @@ class DashboardSites(object):
 class DashboardSitesGet(Service):
 
     def reply(self):
+        if api.user.is_anonymous():
+            return {"error": "Anonymous access not allowed"}
         service_factory = DashboardSites(self.context, self.request)
         return service_factory(expand=True)['dashboard_sites']

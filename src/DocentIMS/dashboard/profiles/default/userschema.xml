@@ -28,7 +28,7 @@
     <field name="cellphone_number" type="zope.schema.TextLine" users:forms="In User Profile">
       <description/>
        <required>False</required>
-      <title>Phone Number</title>
+      <title>Cellphone Number</title>
     </field>
 
     <field name="company" type="zope.schema.TextLine" users:forms="">

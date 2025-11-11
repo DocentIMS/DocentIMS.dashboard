@@ -9,7 +9,7 @@
     for="zope.interface.Interface"
     factory=".get.DashboardSitesGet"
     name="@dashboard_sites"
-    permission="zope.Public"
+    permission="zope2.View"
   />
 
 </configure>
