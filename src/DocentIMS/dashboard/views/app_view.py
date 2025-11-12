@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-
-# from DocentIMS.ActionItems import _
 from Products.Five.browser import BrowserView
 from zope.interface import Interface
 import requests
 from plone import api
-from DocentIMS.ActionItems.interfaces import IDocentimsSettings
 from plone.memoize import ram
 import time
 from datetime import datetime

@@ -36,7 +36,6 @@ from zope.schema.interfaces import  InvalidValue
 
 # # Create a Fernet instance with the derived key
 # fernet = Fernet(key)
-# from DocentIMS.ActionItems.interfaces import IDocentimsSettings
 # from DocentIMS.dashboard.interfaces import IDocentimsSettings 
 # KEY = base64.urlsafe_b64encode(b'suxxxxpersekretpasswordsupersekretpa')
 # fernet = Fernet(KEY)

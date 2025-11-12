@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# from DocentIMS.ActionItems import _
 from Products.Five.browser import BrowserView
 from zope.interface import Interface
 import requests

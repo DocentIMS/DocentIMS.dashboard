@@ -35,7 +35,7 @@
       <description>Which company do you work for?</description>
       <required>False</required>
       <title>Company</title>
-      <vocabulary>DocentIMS.dashboard.CompanyVocabulary</vocabulary>
+      <vocabulary>DocentIMS.dashboard.CompanyVocabulary</vocabulary> 
     </field>
 
     <field name="description" type="zope.schema.Text" users:forms="In User Profile">
@@ -52,11 +52,11 @@
       <required>False</required>
       <title i18n:translate="label_portrait">Portrait</title>
     </field>
-    <field name="notes" type="zope.schema.Text" users:forms="">
+    <!-- <field name="notes" type="zope.schema.Text" users:forms="">
       <description>Notes</description>
       <required>False</required>
       <title>Notes</title> 
-    </field>
+    </field> -->
     
   </schema>
 </model>
