@@ -12,6 +12,7 @@ class HiddenProfiles(object):
             "DocentIMS.dashboard:uninstall",
             "plone.app.iterate:default",
             "plone.volto:default",
+            "plone.app.multilingual:default",
         ]
 
     def getNonInstallableProducts(self):
