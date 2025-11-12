@@ -53,7 +53,8 @@ setup(
         # -*- Extra requirements: -*-
         'collective.z3cform.datagridfield',
         'z3c.jbot',
-        'pandas',            
+        'pandas',
+        'openpyxl',            
         'plone.api>=1.8.4',
         'plone.app.dexterity',
         'medialog.controlpanel',
