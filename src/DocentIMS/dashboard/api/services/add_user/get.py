@@ -55,11 +55,27 @@ class AddUser(object):
             body = self.request.get('BODY', '{}')
             request_data = json.loads(body) if body else {}
             fullname = request_data.get('fullname')
+            first_name = request_data.get('first_name')
+            last_name = request_data.get('last_name')
+            office_phone_number = request_data.get('office_phone_number')
+            cellphone_number = request_data.get('cellphone_number')
+            company = request_data.get('company')
+            description = request_data.get('description')
             email = request_data.get('email')
             username = request_data.get("username", None)
             password = request_data.get("password", None)
             # roles = request_data.get("roles", ["Member"])
-            self.__create_user__(email=email, username=username, password=password, roles=('Member',), fullname=fullname)
+            self.__create_user__(email=email, 
+                                username=username, 
+                                password=password, 
+                                first_name = first_name,
+                                last_name = last_name,
+                                office_phone_number =  office_phone_number,
+                                cellphone_number =  cellphone_number,
+                                company = company,
+                                description = description,
+                                roles=('Member',), 
+                                fullname=fullname)
             result = {'status': 'success', 'message': 'User created'}
         except Exception as e:
             result = {'status': 'error', 'message': str(e)}
