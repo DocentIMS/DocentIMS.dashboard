@@ -99,7 +99,6 @@ class UsersImport(form.Form):
                     "office_phone_number": row.get("officephone"),
                     "your_team_role": row.get("your_team_role"),
                     "company": row.get("company"),
-                    "notes": row.get("notes"),
                     "description": row.get("description"),
                 }
             )

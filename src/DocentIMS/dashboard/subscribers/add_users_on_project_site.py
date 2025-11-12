@@ -50,7 +50,6 @@ def handler(obj, event):
                 "cellphone_number" : user.getProperty("cellphone_number"),
                 "company" : user.getProperty("company"),
                 "description" : user.getProperty("description"),
-                "notes" : user.getProperty("notes"),
                 "groups" : [{"@id": "PrjTeam"}]
             }
             
