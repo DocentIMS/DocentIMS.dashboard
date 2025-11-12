@@ -10,7 +10,8 @@ class HiddenProfiles(object):
         """Hide uninstall and others profiles from site-creation and quickinstaller."""
         return [
             "DocentIMS.dashboard:uninstall",
-            "plone.app.iterate:default"
+            "plone.app.iterate:default",
+            "plone.volto:default",
         ]
 
     def getNonInstallableProducts(self):
