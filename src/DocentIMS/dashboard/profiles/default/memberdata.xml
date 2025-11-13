@@ -6,8 +6,8 @@
  <property name="login_time">2000/01/01 00:00:00</property>
  <property name="last_login_time">2000/01/01 00:00:00</property>
  <property name="fullname"></property>
-  <property name="last_name" type="string"></property>
-  <property name="first_name" type="string"></property>
+ <property name="last_name" type="string"></property>
+ <property name="first_name" type="string"></property>
  <property name="error_log_update" type="float">0.0</property>
  <property name="language" type="string"></property>
  <property name="ext_editor" type="boolean">False</property>

@@ -10,42 +10,42 @@
 
     
   <schema name="member-fields">
-      <field name="last_name" type="zope.schema.TextLine" users:forms="In User Profile">
+      <field name="last_name" type="zope.schema.TextLine" users:forms="On Registration|In User Profile">
         <description/>
         <title>Last Name</title>
       </field>
-      <field name="first_name" type="zope.schema.TextLine" users:forms="In User Profile">
+      <field name="first_name" type="zope.schema.TextLine" users:forms="On Registration|In User Profile">
         <description/>
         <title>First Name</title>
       </field>
 
-    <field name="office_phone_number" type="zope.schema.TextLine" users:forms="In User Profile">
+    <field name="office_phone_number" type="zope.schema.TextLine" users:forms="On Registration|In User Profile">
       <description/>
       <required>False</required>
       <title>Office Phone Number</title>
     </field>
 
-    <field name="cellphone_number" type="zope.schema.TextLine" users:forms="In User Profile">
+    <field name="cellphone_number" type="zope.schema.TextLine" users:forms="On Registration|In User Profile">
       <description/>
        <required>False</required>
       <title>Cellphone Number</title>
     </field>
 
-    <field name="company" type="zope.schema.Choice" users:forms="">
+    <field name="company" type="zope.schema.Choice" users:forms="On Registration|In User Profile">
       <description>Which company do you work for?</description>
       <required>False</required>
       <title>Company</title>
       <vocabulary>DocentIMS.dashboard.CompanyVocabulary</vocabulary> 
     </field>
 
-    <field name="description" type="zope.schema.Text" users:forms="In User Profile">
+    <field name="description" type="zope.schema.Text" users:forms="On Registration|In User Profile">
       <description i18n:translate="help_biography">
           A short overview of who you are and what you do. Will be displayed on your author page, linked from the items you create.
       </description>
       <required>False</required>
       <title i18n:translate="label_biography">Key Project-Related Skills</title>
     </field>
-    <field name="portrait" type="plone.namedfile.field.NamedBlobImage" users:forms="In User Profile">
+    <field name="portrait" type="plone.namedfile.field.NamedBlobImage" users:forms="On Registration|In User Profile">
       <description i18n:translate="help_portrait">
           To add or change the portrait: click the "Browse" button; select a picture of yourself. Recommended image size is 75 pixels wide by 100 pixels tall.
       </description>

@@ -17,8 +17,14 @@ class HiddenProfiles(object):
 
     def getNonInstallableProducts(self):
         """Hide the upgrades package from site-creation and quickinstaller."""
-        return ["DocentIMS.dashboard.upgrades", "plone.app.multilingual:default"]
-
+        return ["DocentIMS.dashboard.upgrades", 
+             "plone.app.discussion",
+             "plone.app.iterate",
+             "plone.app.multilingual",
+             "plone.session",
+             "plone.volto",
+             "Products.CMFPlacefulWorkflow",
+        ]
 
 def post_install(context):
     """Post install script"""
