@@ -1,8 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
   xmlns:metal="http://xml.zope.org/namespaces/metal"
   xmlns:tal="http://xml.zope.org/namespaces/tal"
-  xmlns:i18n="http://xml.zope.org/namespaces/i18n" 
-  i18n:domain="DocentIMS.dashboard" metal:use-macro="context/main_template/macros/master">
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n" i18n:domain="DocentIMS.dashboard" metal:use-macro="context/main_template/macros/master">
   <body>
     <metal:content-core fill-slot="content">
       <metal:block define-macro="content">
@@ -45,7 +44,10 @@
                             <br/>
                                   New Project</span>
                         </a>
-
+                    
+                        <p class="center" tal:condition="view/check_editperm">
+                          <a href="${python: button['edit_url']}/edit">✎</a>
+                        </p>
                       </li>
                     </tal:repeat>
                     <!-- <li>Updated: ${view/get_current_time} <br/>
@@ -95,7 +97,7 @@
               color: ${color|None};
             }
 
-                                    <!-- .color-0 { background-color: ${python: colors[0]} }
+                                                <!-- .color-0 { background-color: ${python: colors[0]} }
             .color-1 { background-color: ${python: colors[1]} }
             .color-2 { background-color: ${python: colors[2]} }
             .color-3 { background-color: ${python: colors[3]} }

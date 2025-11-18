@@ -56,12 +56,13 @@ class AppView(BrowserView):
 
         # 2) Create a list of URLs
         if projects:
-            urls = [brain.project_url for brain in projects]
+            # urls = [brain.project_url for brain in projects]
+            urls = [(brain.project_url, brain.getURL()) for brain in projects]
         
         buttons = []        
         
         if urls:
-            for siteurl in urls:
+            for siteurl, absolute_url in urls:
                 try:                
                     response = requests.get(f'{siteurl}/@item_count?user={self.get_current()}', timeout=3,
                                             headers={'Accept': 'application/json', 'Content-Type': 'application/json'})
@@ -71,6 +72,7 @@ class AppView(BrowserView):
                             buttons.append({
                                         'name': body['dashboard-list']['short_name'], 
                                         'url': siteurl, 
+                                        'edit_url': absolute_url,
                                         'project_color': body['dashboard-list']['project_color'],
                                         'last_login_time': body['dashboard-list']['last_login_time'], 
                                         })
@@ -88,6 +90,14 @@ class AppView(BrowserView):
         current = api.user.get_current()
         #return current.getId()
         return current.getProperty('email')
+    
+    def check_editperm(self):
+        user = api.user.get_current()
+        if 'Manager' in user.getRoles():
+            return True
+        if 'Site Administrator' in user.getRoles():
+            return True
+        return False
     
     def get_fullname(self):
         current = api.user.get_current()
