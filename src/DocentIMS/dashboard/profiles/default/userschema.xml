@@ -52,11 +52,11 @@
       <required>False</required>
       <title i18n:translate="label_portrait">Portrait</title>
     </field>
-    <!-- <field name="notes" type="zope.schema.Text" users:forms="">
+    <field name="notes" type="zope.schema.Text" users:forms="">
       <description>Notes</description>
       <required>False</required>
       <title>Notes</title> 
-    </field> -->
+    </field> 
     
   </schema>
 </model>

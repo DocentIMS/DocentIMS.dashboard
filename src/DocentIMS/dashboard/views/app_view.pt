@@ -68,8 +68,17 @@
 
 
             <div id="appWrapper" class="projectPreview">
-              <a tal:condition="not: current|None" class="loginbutton plone-btn plone-btn-large plone-btn-primary pat-plone-modal" data-pat-plone-modal="width: 400" title="Log in" href="login" icon="plone-login">Please Log in first
+              <a tal:condition="not: current|None" 
+                class="loginbutton plone-btn plone-btn-large plone-btn-primary pat-plone-modal" 
+                data-pat-plone-modal="width: 400" title="Log in" href="login" icon="plone-login">Please Log in first
               </a>
+
+              <div>
+              <p>&nbsp;</p>
+                <p><a href="${context/absolute_url}/@@login-help" tal:condition="not: current|None"  >Set Password
+             
+              </a></p>
+              </div> 
 
             </div>
 

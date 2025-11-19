@@ -7,6 +7,6 @@
     <dependency>profile-collective.z3cform.datagridfield:default</dependency>
     <dependency>profile-plone.restapi:default</dependency>
     <dependency>profile-plone.app.dexterity:default</dependency>
-     <!-- <dependency>profile-medialog.controlpanel:default</dependency> -->
+     <dependency>profile-medialog.controlpanel:default</dependency>
   </dependencies>
 </metadata>

@@ -77,11 +77,29 @@ class UsersImport(form.Form):
 
         created_users = []
         portal_membership = api.portal.get_tool('portal_membership')
+        
+        
 
         for row_idx, row in enumerate(rows):
             email = row.get("email")
             if not email:
                 continue
+            
+            required_fields = [
+                "first_name",
+                "last_name",
+                "fullname",
+                "cellphone",
+                "officephone",
+                "company"
+            ]
+
+            missing = [field for field in required_fields if not row.get(field)]
+
+            if missing:
+                self.status = f"Missing required fields: {', '.join(missing)}"
+                continue                
+                
 
             username = email.lower().strip()
             if api.user.get(username=username):
@@ -99,7 +117,8 @@ class UsersImport(form.Form):
                     "office_phone_number": row.get("officephone"),
                     "your_team_role": row.get("your_team_role"),
                     "company": row.get("company"),
-                    "description": row.get("description"),
+                    "description": row.get("prj_related_skills"),
+                    "notes":  row.get("notes"),
                 }
             )
 
@@ -129,3 +148,6 @@ class UsersImport(form.Form):
             created_users.append(username)
 
         self.status = f"Imported {len(created_users)} users: {', '.join(created_users)}"
+        
+        if missing:
+            self.status += f"Missing required fields: {', '.join(missing)}"

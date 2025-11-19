@@ -32,5 +32,12 @@
         class=".users_import.UsersImport"
         permission="cmf.ManagePortal"
     />
+
+    <browser:page
+        name="import-companies"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        class=".company_import.CompaniesImport"
+        permission="cmf.ManagePortal"
+    />
     
 </configure>

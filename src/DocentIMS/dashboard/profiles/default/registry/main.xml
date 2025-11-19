@@ -68,7 +68,6 @@
         </records>
     </registry>
 
-
     <records interface="plone.base.interfaces.resources.IBundleRegistry" prefix="plone.bundles/dashboard">
         <value key="enabled">True</value>
         <value key="jscompilation">++plone++DocentIMS.dashboard/dashboard.js</value>
@@ -78,5 +77,24 @@
         <value key="depends">plone</value>
     </records>
 
+    <record name="plone.use_email_as_login" interface="plone.base.interfaces.controlpanel.ISecuritySchema" field="use_email_as_login">
+        <field type="plone.registry.field.Bool">
+            <default>False</default>
+            <description xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Allows users to login with their email address instead of specifying a separate login name. This also updates the login name of existing users, which may take a while on large sites. The login name is saved as lower case, but to be userfriendly it does not matter which case you use to login. When duplicates are found, saving this form will fail. You can use the @@migrate-to-emaillogin page to show the duplicates.</description>
+            <required>False</required>
+            <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Use email address as login name</title>
+        </field>
+        <value>True</value>
+    </record>
+
+    <record name="plone.enable_user_pwd_choice" interface="plone.base.interfaces.controlpanel.ISecuritySchema" field="enable_user_pwd_choice">
+        <field type="plone.registry.field.Bool">
+            <default>False</default>
+            <description xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">If not selected, a URL will be generated and e-mailed. Users are instructed to follow the link to reach a page where they can change their password and complete the registration process; this also verifies that they have entered a valid email address.</description>
+            <required>False</required>
+            <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Let users select their own passwords</title>
+        </field>
+        <value>True</value>
+    </record>
 
 </registry>

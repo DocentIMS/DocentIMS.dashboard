@@ -38,7 +38,8 @@ def handler(obj, event):
             fullname = user.getProperty("fullname")
             email = user.getProperty("email")
             
-            api.group.add_user(group='PrjTeam', user=user)
+            api.group.add_user(groupname='PrjTeam', username=username)
+            
 
             payload = {
                 "email": email,
