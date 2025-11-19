@@ -12,11 +12,11 @@
       <description>Full path to site.  no need for 'http..</description>
       <title>Project URL</title>
     </field>
-    <field name="project_color" type="zope.schema.TextLine">
+    <!-- <field name="project_color" type="zope.schema.TextLine">
       <description/>
       <required>False</required>
       <title>project_color</title>
-    </field>
+    </field> -->
     <field name="project_members" type="zope.schema.List">
       <description/>
       <required>False</required>

@@ -1,14 +1,8 @@
 <?xml version="1.0"?>
-<portlets
-    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    i18n:domain="plone">
+<portlets xmlns:i18n="http://xml.zope.org/namespaces/i18n" i18n:domain="plone">
   <!-- Extra portlets here  -->
 
-  <portlet
-    addview="DocentIMS.dashboard.portlets.Infoportlet"
-    title="InfoPortlet"
-    description="A portlet which can render weather of the given place."
-    i18n:attributes="title title_infoportlet;
+  <portlet addview="DocentIMS.dashboard.portlets.Infoportlet" title="InfoPortlet" description="A portlet which can render weather of the given place." i18n:attributes="title title_infoportlet;
                      description description_infoportlet">
 
     <!-- This will enable the portlet for right column,
@@ -22,6 +16,25 @@
     <!--<for interface="plone.app.portlets.interfaces.IDashboard" />-->
 
   </portlet>
-  
-  
+
+  <assignment name="title-1" category="context" key="/" 
+    manager="plone.rightcolumn" type="DocentIMS.dashboard.portlets.Infoportlet" visible="True">
+    <property name="tittel">Project News</property>
+  </assignment>
+  <assignment name="help" category="context" key="/" manager="plone.rightcolumn" type="plone.portlet.static.Static" visible="True">
+    <property name="footer"/>
+    <property name="header">Docent Help</property>
+    <property name="more_url"/>
+    <property name="omit_border">False</property>
+    <property name="text"></property>
+  </assignment>
+  <assignment name="personal-info" category="context" key="/" manager="plone.rightcolumn" type="plone.portlet.static.Static" visible="True">
+    <property name="footer"/>
+    <property name="header">Personal Info</property>
+    <property name="more_url"/>
+    <property name="omit_border">False</property>
+    <property name="text"></property>
+  </assignment>
+
+
 </portlets>
