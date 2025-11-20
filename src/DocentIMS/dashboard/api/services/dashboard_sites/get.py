@@ -77,7 +77,7 @@ class DashboardSites(object):
         return result
     
         
-    class DashboardSitesGet(Service):
+class DashboardSitesGet(Service):
         def reply(self):
             if api.user.is_anonymous():
                 return None
