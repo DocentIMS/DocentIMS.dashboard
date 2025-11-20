@@ -21,7 +21,7 @@ class DashboardSites(object):
     def __call__(self, expand=False):
         user = api.user.get_current()
         usermail = self.request.get('email', None)
-        if user.id is not 'admin':
+        if user.id  != 'admin':
             usermail = user.getProperty('email')
         # some_secret = self.request.get('some_secret', None)
         result = {
@@ -84,6 +84,6 @@ class DashboardSitesGet(Service):
 
     def reply(self):
         if api.user.is_anonymous():
-            return {"error": "Anonymous access not allowed"}
+            return None
         service_factory = DashboardSites(self.context, self.request)
         return service_factory(expand=True)['dashboard_sites']
