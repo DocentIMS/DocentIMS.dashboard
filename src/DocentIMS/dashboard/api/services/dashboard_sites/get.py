@@ -76,15 +76,10 @@ class DashboardSites(object):
                    
         return result
     
- 
         
-        
-
-class DashboardSitesGet(Service):
-
-    def reply(self):
-        import pdb; pdb.set_trace()
-        if api.user.is_anonymous():
-            return None
-        service_factory = DashboardSites(self.context, self.request)
-        return service_factory(expand=True)['dashboard_sites']
+    class DashboardSitesGet(Service):
+        def reply(self):
+            if api.user.is_anonymous():
+                return None
+            service_factory = DashboardSites(self.context, self.request)
+            return service_factory(expand=True)['dashboard_sites']
