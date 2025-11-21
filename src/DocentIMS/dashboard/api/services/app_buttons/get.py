@@ -19,6 +19,9 @@ class AppButtons(object):
         self.request = request
 
     def __call__(self, expand=False):
+        if api.user.is_anonymous():
+            return None
+        
         result = {
             'app_buttons': {
                 '@id': '{}/@app_buttons'.format(

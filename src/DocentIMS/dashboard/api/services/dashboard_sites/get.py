@@ -21,6 +21,10 @@ class DashboardSites(object):
     def __call__(self, expand=False):
         user = api.user.get_current()
         usermail = self.request.get('email', None)
+        
+        if api.user.is_anonymous():
+            return None
+        
         if user.id  != 'admin':
             usermail = user.getProperty('email')
         # some_secret = self.request.get('some_secret', None)
@@ -56,7 +60,7 @@ class DashboardSites(object):
                                 'name': body['dashboard-list']['short_name'], 
                                 'url': siteurl, 
                                 'project_color': body['dashboard-list']['project_color'],
-                                    'last_login_time': body['dashboard-list']['last_login_time'], 
+                                'last_login_time': body['dashboard-list']['last_login_time'], 
                             })
                 
                 except requests.exceptions.ConnectionError:
@@ -79,7 +83,7 @@ class DashboardSites(object):
         
 class DashboardSitesGet(Service):
         def reply(self):
-            if api.user.is_anonymous():
-                return None
+            # if api.user.is_anonymous():
+            #    return None
             service_factory = DashboardSites(self.context, self.request)
             return service_factory(expand=True)['dashboard_sites']
