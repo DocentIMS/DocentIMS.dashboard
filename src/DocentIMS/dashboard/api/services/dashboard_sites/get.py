@@ -85,10 +85,9 @@ class DashboardSites(object):
         
 class DashboardSitesGet(Service):
         def reply(self):
-            # if api.user.is_anonymous():
-            #    return None
-            service_factory = DashboardSites(self.context, self.request)
-            if service_factory:
+            try:
+                service_factory = DashboardSites(self.context, self.request)
                 return service_factory(expand=True)['dashboard_sites']
-            raise Unauthorized
-            
+            except Exception:
+                raise Unauthorized
+             
