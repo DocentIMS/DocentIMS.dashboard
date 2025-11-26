@@ -21,7 +21,8 @@ class DashboardSites(object):
 
     def __call__(self, expand=False):
         if api.user.is_anonymous():
-            raise Unauthorized
+            # raise Unauthorized
+            return Unauthorized
         
         user = api.user.get_current()
         usermail = self.request.get('email', None)        

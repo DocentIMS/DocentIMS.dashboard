@@ -5,6 +5,8 @@ from plone.restapi.services import Service
 from zope.component import adapter
 from zope.interface import Interface
 from zope.interface import implementer
+from plone.restapi.services import Service
+from zExceptions import Unauthorized
 
 # curl -i -X GET https://dashboard.docentims.com/@app_buttons  -H "Accept: application/json"   -k --user admin:admin
 
@@ -20,7 +22,7 @@ class AppButtons(object):
 
     def __call__(self, expand=False):
         if api.user.is_anonymous():
-            return None
+            raise Unauthorized
         
         result = {
             'app_buttons': {
