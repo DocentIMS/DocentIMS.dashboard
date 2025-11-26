@@ -21,8 +21,7 @@ class DashboardSites(object):
 
     def __call__(self, expand=False):
         if api.user.is_anonymous():
-            # raise Unauthorized
-            return Unauthorized
+            return None
         
         user = api.user.get_current()
         usermail = self.request.get('email', None)        
@@ -88,4 +87,7 @@ class DashboardSitesGet(Service):
             # if api.user.is_anonymous():
             #    return None
             service_factory = DashboardSites(self.context, self.request)
-            return service_factory(expand=True)['dashboard_sites']
+            if service_factory:
+                return service_factory(expand=True)['dashboard_sites']
+            raise Unauthorized
+            
