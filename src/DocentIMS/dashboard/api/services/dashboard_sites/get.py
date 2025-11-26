@@ -58,7 +58,6 @@ class DashboardSites(object):
                         body = response.json()
                         if body['dashboard-list'] != None:
                             buttons.append({
-                                'fullname': user.getProperty('fullname'),
                                 'name': body['dashboard-list']['short_name'], 
                                 'url': siteurl, 
                                 'project_color': body['dashboard-list']['project_color'],
@@ -76,7 +75,8 @@ class DashboardSites(object):
         result = {
                 'dashboard_sites': {
                     'sites': sites, 
-                    'buttons': buttons,   
+                    'buttons': buttons,
+                    'fullname': user.getProperty('fullname'),                                   
                 },
             } 
                    
