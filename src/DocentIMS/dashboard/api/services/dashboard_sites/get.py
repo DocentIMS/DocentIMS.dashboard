@@ -8,7 +8,8 @@ from zope.interface import implementer
 import requests
 from AccessControl import getSecurityManager
 from plone.restapi.services import Service
-
+from zExceptions import Unauthorized
+            
 
 @implementer(IExpandableElement)
 @adapter(Interface, Interface)
@@ -19,11 +20,11 @@ class DashboardSites(object):
         self.request = request
 
     def __call__(self, expand=False):
-        user = api.user.get_current()
-        usermail = self.request.get('email', None)
-        
         if api.user.is_anonymous():
-            return None
+            raise Unauthorized
+        
+        user = api.user.get_current()
+        usermail = self.request.get('email', None)        
         
         if user.id  != 'admin':
             usermail = user.getProperty('email')
