@@ -147,7 +147,14 @@ class UsersImport(form.Form):
 
             created_users.append(username)
 
-        self.status = f"Imported {len(created_users)} users: {', '.join(created_users)}"
+        if len(created_users) > 0:
+            self.status = f"Imported {len(created_users)} users: {', '.join(created_users)}"
+        else:
+            self.status = f"All users already exist"
         
         if missing:
             self.status += f"Missing required fields: {', '.join(missing)}"
+            
+        url = api.portal.get().absolute_url()
+        return self.request.REQUEST["RESPONSE"].redirect(url)
+        
