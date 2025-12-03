@@ -86,8 +86,8 @@ def stateConstraint(value):
 
 class IVocabulari4(model.Schema):
     location_name = schema.TextLine(
-        title=_(u'Vocabulary entries', 'Locations'),
-        description=u"Location Name",
+        title=_(u'Vocabulary entries', 'Meeting Locations'),
+        description=u"",
         required=False,
     )
  
@@ -277,7 +277,7 @@ class IDocentimsSettings(model.Schema):
     
     model.fieldset(
         'locations',
-        label=_(u'Locations'),
+        label=_(u'Meeting Locations'),
         fields=[
             'location_names'
         ] 
