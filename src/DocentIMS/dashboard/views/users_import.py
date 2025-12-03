@@ -146,14 +146,17 @@ class UsersImport(form.Form):
             if portrait_img:
                 portal_membership.changeMemberPortrait(portrait_img, user.getUserId())
 
+            # self.import_completed = True
             created_users.append(username)
 
         if len(created_users) > 0:
             self.status = f"Imported {len(created_users)} users: {', '.join(created_users)}" 
             self.import_completed = True
+            self.updateFields()
         else:
             self.status = f"All users already exist"
             self.import_completed = True
+            self.updateFields()
         
         if missing:
             self.status += f"Missing required fields: {', '.join(missing)}"
