@@ -15,23 +15,17 @@ import pandas as pd  # needs openpyxl installed
 from openpyxl import load_workbook
 import requests
 
-
 class IUsersImport(Interface):
     """ Marker Interface for IUsersImport"""
 
 class ICSVImportFormSchema(Interface):
-    # csv_file = Bytes(
-    #     title=u"Excel File",
-    #     description=u"Upload a Excel file with user data",
-    #     required=True
-    # )
     
     csv_file = NamedBlobFile(
         title=u"Excel File",
         description=u"Upload a Excel file to import.",
         required=True
     )
- 
+    
 class UsersImport(form.Form):
     fields = field.Fields(ICSVImportFormSchema)
     ignoreContext = True
@@ -48,12 +42,6 @@ class UsersImport(form.Form):
         if self.import_completed:
             if 'handleImport' in self.actions:
                 del self.actions['handleImport']
-
-
-class UsersImport(form.Form):
-    fields = field.Fields(ICSVImportFormSchema)
-    ignoreContext = True
-    label = u"Import Users from Excel"
 
     @button.buttonAndHandler(u"Import")
     def handleImport(self, action):
