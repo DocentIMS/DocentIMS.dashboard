@@ -33,12 +33,10 @@ class UsersImport(form.Form):
     import_completed = False
 
     def updateFields(self):
-        super().updateFields()
         if self.import_completed:
             self.fields = self.fields.omit('csv_file')
 
     def updateActions(self):
-        super().updateActions()
         if self.import_completed:
             if 'handleImport' in self.actions:
                 del self.actions['handleImport']
