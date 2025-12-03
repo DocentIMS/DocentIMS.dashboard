@@ -155,6 +155,6 @@ class UsersImport(form.Form):
         if missing:
             self.status += f"Missing required fields: {', '.join(missing)}"
             
-        url = api.portal.get().absolute_url()
+        url = api.portal.get().absolute_url() + '/@@usergroup-userprefs'
         return self.request.REQUEST["RESPONSE"].redirect(url)
         
