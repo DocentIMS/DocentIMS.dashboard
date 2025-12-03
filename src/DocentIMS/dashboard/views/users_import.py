@@ -16,7 +16,6 @@ from openpyxl import load_workbook
 import requests
 
 
-
 class IUsersImport(Interface):
     """ Marker Interface for IUsersImport"""
 
@@ -33,6 +32,22 @@ class ICSVImportFormSchema(Interface):
         required=True
     )
  
+class UsersImport(form.Form):
+    fields = field.Fields(ICSVImportFormSchema)
+    ignoreContext = True
+    label = u"Import Users from Excel"
+    import_completed = False
+
+    def updateFields(self):
+        super().updateFields()
+        if self.import_completed:
+            self.fields = self.fields.omit('csv_file')
+
+    def updateActions(self):
+        super().updateActions()
+        if self.import_completed:
+            if 'handleImport' in self.actions:
+                del self.actions['handleImport']
 
 
 class UsersImport(form.Form):
@@ -77,8 +92,6 @@ class UsersImport(form.Form):
 
         created_users = []
         portal_membership = api.portal.get_tool('portal_membership')
-        
-        
 
         for row_idx, row in enumerate(rows):
             email = row.get("email")
@@ -148,11 +161,11 @@ class UsersImport(form.Form):
             created_users.append(username)
 
         if len(created_users) > 0:
-            self.status = f"Imported {len(created_users)} users: {', '.join(created_users)}"
-            fields = None
-            self.fields = None
+            self.status = f"Imported {len(created_users)} users: {', '.join(created_users)}" 
+            self.import_completed = True
         else:
             self.status = f"All users already exist"
+            self.import_completed = True
         
         if missing:
             self.status += f"Missing required fields: {', '.join(missing)}"
