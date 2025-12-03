@@ -30,16 +30,7 @@ class UsersImport(form.Form):
     fields = field.Fields(ICSVImportFormSchema)
     ignoreContext = True
     label = u"Import Users from Excel"
-    import_completed = False
-
-    def updateFields(self):
-        if self.import_completed:
-            self.fields = self.fields.omit('csv_file')
-
-    def updateActions(self):
-        if self.import_completed:
-            if 'handleImport' in self.actions:
-                del self.actions['handleImport']
+    #  import_completed = False
 
     @button.buttonAndHandler(u"Import")
     def handleImport(self, action):
@@ -144,17 +135,14 @@ class UsersImport(form.Form):
             if portrait_img:
                 portal_membership.changeMemberPortrait(portrait_img, user.getUserId())
 
-            # self.import_completed = True
             created_users.append(username)
 
         if len(created_users) > 0:
             self.status = f"Imported {len(created_users)} users: {', '.join(created_users)}" 
-            self.import_completed = True
-            self.updateFields()
+            # self.import_completed = True
         else:
             self.status = f"All users already exist"
-            self.import_completed = True
-            self.updateFields()
+            # self.import_completed = True
         
         if missing:
             self.status += f"Missing required fields: {', '.join(missing)}"
