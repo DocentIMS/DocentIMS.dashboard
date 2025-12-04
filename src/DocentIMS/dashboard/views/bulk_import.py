@@ -1,0 +1,213 @@
+# -*- coding: utf-8 -*-
+import io
+import requests
+import pandas as pd
+from io import BytesIO
+
+from plone import api
+from Products.Five import BrowserView
+from zope.interface import Interface
+from zope.schema import Bytes
+from z3c.form import form, field, button
+from plone.namedfile.field import NamedBlobFile
+
+from plone.namedfile.file import NamedBlobImage
+from openpyxl import load_workbook
+
+
+class IBulkImportSchema(Interface):
+    """Shared schema for both Users and Companies imports"""
+    csv_file = NamedBlobFile(
+        title=u"Excel File",
+        description=u"Upload an Excel file to import.",
+        required=True
+    )
+
+
+class BulkImport(form.Form):
+    fields = field.Fields(IBulkImportSchema)
+    ignoreContext = True
+    label = u"Bulk Import (Users + Companies)"
+
+    #
+    # ----------- BUTTON: Users ----------------------------------------------
+    #
+    @button.buttonAndHandler(u"Import Users")
+    def handleImportUsers(self, action):
+        raw = self._extract_raw()
+        if raw is None:
+            return
+        msg = self.import_users(raw)
+        self.status = msg
+
+    #
+    # ----------- BUTTON: Companies ------------------------------------------
+    #
+    @button.buttonAndHandler(u"Import Companies")
+    def handleImportCompanies(self, action):
+        raw = self._extract_raw()
+        if raw is None:
+            return
+        msg = self.import_companies(raw)
+        self.status = msg
+
+    # -------------------------------------------------------------------------
+    # SHARED RAW EXTRACTOR
+    # -------------------------------------------------------------------------
+    def _extract_raw(self):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return None
+
+        file_data = data['csv_file']
+
+        # Convert upload to bytes
+        if hasattr(file_data, 'data'):                 # NamedBlobFile
+            return file_data.data
+        elif hasattr(file_data, 'read'):               # FileUpload
+            return file_data.read()
+        elif isinstance(file_data, (bytes, bytearray)):
+            return bytes(file_data)
+
+        raise ValueError("Unsupported upload type for Excel file")
+
+    # -------------------------------------------------------------------------
+    # USERS IMPORT
+    # -------------------------------------------------------------------------
+    def import_users(self, raw):
+
+        df = pd.read_excel(BytesIO(raw), sheet_name=0, dtype=str).fillna("")
+        df.columns = [str(c).strip().lower() for c in df.columns]
+        rows = df.to_dict(orient="records")
+
+        # Load workbook for image handling
+        wb = load_workbook(filename=BytesIO(raw))
+        ws = wb.active
+
+        image_map = {}
+        for img in ws._images:
+            cell = img.anchor._from.row - 1, img.anchor._from.col
+            image_map[cell] = img
+
+        created_users = []
+        portal_membership = api.portal.get_tool('portal_membership')
+
+        for row_idx, row in enumerate(rows):
+
+            email = row.get("email")
+            if not email:
+                continue
+
+            required_fields = [
+                "first_name", "last_name", "fullname",
+                "cellphone", "officephone", "company"
+            ]
+            missing = [f for f in required_fields if not row.get(f)]
+            if missing:
+                continue
+
+            username = email.lower().strip()
+            if api.user.get(username=username):
+                continue
+
+            user = api.user.create(
+                username=username,
+                email=email,
+                password=api.portal.get_tool("portal_registration").generatePassword(),
+                properties={
+                    "first_name": row.get("first_name"),
+                    "last_name": row.get("last_name"),
+                    "fullname": row.get("fullname"),
+                    "cellphone_number": row.get("cellphone"),
+                    "office_phone_number": row.get("officephone"),
+                    "your_team_role": row.get("your_team_role"),
+                    "company": row.get("company"),
+                    "description": row.get("prj_related_skills"),
+                    "notes": row.get("notes"),
+                }
+            )
+
+            # Handle portrait
+            portrait_img = None
+            if "portrait" in df.columns:
+                portrait_col = df.columns.get_loc("portrait")
+                cell_key = (row_idx, portrait_col)
+
+                # Embedded image
+                if cell_key in image_map:
+                    portrait_img = BytesIO(image_map[cell_key]._data())
+                    portrait_img.filename = "portrait.jpg"
+
+                # URL image
+                elif row.get("portrait", "").startswith("http"):
+                    try:
+                        resp = requests.get(row["portrait"])
+                        if resp.status_code == 200:
+                            portrait_img = BytesIO(resp.content)
+                            portrait_img.filename = "portrait.jpg"
+                    except Exception:
+                        pass
+
+            if portrait_img:
+                portal_membership.changeMemberPortrait(portrait_img, user.getUserId())
+
+            created_users.append(username)
+
+        if created_users:
+            return f"Imported {len(created_users)} users: {', '.join(created_users)}"
+        else:
+            return "No new users imported (all users already exist)."
+
+    # -------------------------------------------------------------------------
+    # COMPANIES IMPORT
+    # -------------------------------------------------------------------------
+    def import_companies(self, raw):
+
+        df = pd.read_excel(BytesIO(raw), sheet_name=0, dtype=str).fillna("")
+        df.columns = [str(c).strip().lower() for c in df.columns]
+        rows = df.to_dict(orient="records")
+
+        created_companies = 0
+
+        reg_key = 'DocentIMS.dashboard.interfaces.IDocentimsSettings.companies'
+        companies = list(api.portal.get_registry_record(reg_key) or [])
+        existing_codes = {c.get('company_letter_kode') for c in companies if c.get('company_letter_kode')}
+
+        for row in rows:
+
+            required_fields = [
+                "full_company_name",
+                "short_company_name",
+                "three_letter_code",
+                "street_address",
+                "city",
+                "state",
+                "zip_code",
+            ]
+            missing = [f for f in required_fields if not row.get(f)]
+            if missing:
+                continue
+
+            code = row.get("three_letter_code")
+            if code in existing_codes:
+                continue
+
+            companies.append({
+                'full_company_name': row.get("full_company_name"),
+                'short_company_name': row.get("short_company_name"),
+                'company_letter_kode': code,
+                'company_role': None,
+                'company_full_street_address': row.get("street_address"),
+                'company_other_address': row.get("other_address"),
+                'company_city': row.get("city"),
+                'company_state': row.get("state"),
+                'company_zip': row.get("zip_code"),
+            })
+
+            existing_codes.add(code)
+            created_companies += 1
+
+        api.portal.set_registry_record(reg_key, companies)
+
+        return f"Imported {created_companies} new companies."
