@@ -63,7 +63,7 @@ class MeetingImport(form.Form):
         for row_idx, row in enumerate(rows):
             
             required_fields = [
-                "meeting_types",
+                "meeting_type",
                 "meeting_title",
                 "meeting_tag"
             ]
@@ -78,13 +78,13 @@ class MeetingImport(form.Form):
             meetings = list(api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.meeting_types') or [])
             
             existing_codes = {c.get('meeting_type') for c in meetings if c.get('meeting_type')}
-            new_code = row.get("meeting_types")
+            new_code = row.get("meeting_type")
             
             # Only add if code does NOT already exist
             if new_code not in existing_codes:                
                 created_meeting += 1
                 new_meeting = {
-                            'meeting_type':      row.get("meeting_types"),
+                            'meeting_type':      row.get("meeting_type"),
                             'meeting_title':     row.get("meeting_title"),
                             'meeting_summary':   row.get("meeting_tag")
                         }
