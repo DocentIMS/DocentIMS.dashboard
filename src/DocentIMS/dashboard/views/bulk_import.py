@@ -27,7 +27,17 @@ class IBulkImportSchema(Interface):
 class BulkImport(form.Form):
     fields = field.Fields(IBulkImportSchema)
     ignoreContext = True
-    label = u"Bulk Import (Users + Companies)"
+    label = u"Import from Excel"
+    
+    def render(self):
+        result = super(BulkImport, self).render()
+        
+        # Add JavaScript to disable buttons after click
+        htmlcode = """ 
+        <h1>Some title</h1>
+        """
+        
+        return result + '<h1>Some title</h1><style>h1, h1 {color: red; }</style>'
 
     #
     # ----------- BUTTON: Users ----------------------------------------------
@@ -43,12 +53,53 @@ class BulkImport(form.Form):
     #
     # ----------- BUTTON: Companies ------------------------------------------
     #
-    @button.buttonAndHandler(u"Import Companies")
+    @button.buttonAndHandler(u"Companies")
     def handleImportCompanies(self, action):
         raw = self._extract_raw()
         if raw is None:
             return
         msg = self.import_companies(raw)
+        self.status = msg
+        
+
+    
+    # ----------------------------------------------------------------------
+    # ------------------ BUTTON: ROLES & LOCATIONS ------------------------
+    # ----------------------------------------------------------------------
+    @button.buttonAndHandler(u"Company Roles")
+    def handleImportRolesLoc(self, action):
+        raw = self._extract_raw()
+        if raw is None:
+            return
+        msg = self.import_roles_locations(raw)
+        self.status = msg
+
+    @button.buttonAndHandler(u"Team Roles")
+    def handleImportRolesLoc(self, action):
+        raw = self._extract_raw()
+        if raw is None:
+            return
+        msg = self.import_roles_locations(raw)
+        self.status = msg
+     
+    # ----------------------------------------------------------------------
+    # ------------------------- BUTTON: MEETINGS ---------------------------
+    # ----------------------------------------------------------------------
+    @button.buttonAndHandler(u"Meeting Types")
+    def handleImportMeetings(self, action):
+        raw = self._extract_raw()
+        if raw is None:
+            return
+        msg = self.import_meetings(raw)
+        self.status = msg
+
+   
+    @button.buttonAndHandler(u"Meeting Locations")
+    def handleImportRolesLoc(self, action):
+        raw = self._extract_raw()
+        if raw is None:
+            return
+        msg = self.import_roles_locations(raw)
         self.status = msg
 
     # -------------------------------------------------------------------------
@@ -211,3 +262,104 @@ class BulkImport(form.Form):
         api.portal.set_registry_record(reg_key, companies)
 
         return f"Imported {created_companies} new companies."
+
+
+
+    # ======================================================================
+    # ======================== MEETINGS IMPORT =============================
+    # ======================================================================
+    def import_meetings(self, raw):
+
+        df = pd.read_excel(BytesIO(raw), sheet_name=0, dtype=str).fillna("")
+        df.columns = [str(c).strip().lower() for c in df.columns]
+        rows = df.to_dict(orient="records")
+
+        reg_key = 'DocentIMS.dashboard.interfaces.IDocentimsSettings.meeting_types'
+        meetings = list(api.portal.get_registry_record(reg_key) or [])
+        existing = {m.get("meeting_type") for m in meetings if m.get("meeting_type")}
+
+        created = 0
+
+        for row in rows:
+            required = ["meeting_type", "meeting_title", "meeting_tag"]
+            missing = [f for f in required if not row.get(f)]
+            if missing:
+                continue
+
+            code = row.get("meeting_type")
+
+            if code not in existing:
+                created += 1
+                meetings.append({
+                    "meeting_type":    row.get("meeting_type"),
+                    "meeting_title":   row.get("meeting_title"),
+                    "meeting_summary": row.get("meeting_tag")
+                })
+                existing.add(code)
+
+        api.portal.set_registry_record(reg_key, meetings)
+        return f"Imported {created} New Meetings"
+
+    # ======================================================================
+    # =================== ROLES & LOCATIONS IMPORT =========================
+    # ======================================================================
+    def import_roles_locations(self, raw):
+
+        df = pd.read_excel(BytesIO(raw), sheet_name=0, dtype=str).fillna("")
+        df.columns = [str(c).strip().lower() for c in df.columns]
+        rows = df.to_dict(orient="records")
+
+        created = 0
+
+        # Registry keys
+        REG_MEMBER_ROLES   = 'DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies'
+        REG_LOCATIONS      = 'DocentIMS.dashboard.interfaces.IDocentimsSettings.location_names'
+        REG_COMPANY_ROLES  = 'DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies3'
+
+        member_roles     = list(api.portal.get_registry_record(REG_MEMBER_ROLES) or [])
+        location_names   = list(api.portal.get_registry_record(REG_LOCATIONS) or [])
+        company_roles    = list(api.portal.get_registry_record(REG_COMPANY_ROLES) or [])
+
+        existing_member  = {x.get('vocabulary_entry') for x in member_roles if x.get('vocabulary_entry')}
+        existing_loc     = {x.get('location_name')     for x in location_names if x.get('location_name')}
+        existing_company = {x.get('vocabulary_entry') for x in company_roles if x.get('vocabulary_entry')}
+
+        for row in rows:
+
+            # -----------------------
+            # Member Roles
+            # -----------------------
+            if row.get("member_roles"):
+                val = row["member_roles"]
+                if val not in existing_member:
+                    created += 1
+                    member_roles.append({'vocabulary_entry': val})
+                    existing_member.add(val)
+                api.portal.set_registry_record(REG_MEMBER_ROLES, member_roles)
+        
+
+            # -----------------------
+            # Meeting Locations
+            # -----------------------
+            if row.get("meeting_locations"):
+                val = row["meeting_locations"]
+                if val not in existing_loc:
+                    created += 1
+                    location_names.append({'location_name': val})
+                    existing_loc.add(val)
+                api.portal.set_registry_record(REG_LOCATIONS, location_names)
+        
+
+            # -----------------------
+            # Company Roles
+            # -----------------------
+            if row.get("company_roles"):
+                val = row["company_roles"]
+                if val not in existing_company:
+                    created += 1
+                    company_roles.append({'vocabulary_entry': val})
+                    existing_company.add(val)
+                # Save updated registries
+                api.portal.set_registry_record(REG_COMPANY_ROLES, company_roles)
+
+        return f"Imported {created} New Role/Location Entries"

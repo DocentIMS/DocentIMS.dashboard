@@ -44,21 +44,22 @@
       </object>
 
 
-      <object name="import_users" meta_type="CMF Action" i18n:domain="plone">
-         <property name="title" i18n:translate="">Import Users (Excel)</property>
+      <object name="import_from_excel" meta_type="CMF Action" i18n:domain="plone">
+         <property name="title" i18n:translate="">Import from Excel</property>
          <property name="description" i18n:translate=""></property>
-         <property name="url_expr">string:${portal_url}/import-users</property>
+         <property name="url_expr">string:${portal_url}/import-from-excel</property>
          <property name="link_target"></property>
          <property name="icon_expr">string:plone-controlpanel</property>
          <property name="available_expr"></property>
          <property name="permissions">
-            <element value="Plone Site Setup: Overview"/>
+            <!-- <element value="Plone Site Setup: Overview"/> -->
+            <element value="View"/>
          </property>
          <property name="visible">True</property>
       </object>
 
 
-      <object name="import_companies" meta_type="CMF Action" i18n:domain="plone">
+      <!-- <object name="import_companies" meta_type="CMF Action" i18n:domain="plone">
          <property name="title" i18n:translate="">Import Companies (Excel)</property>
          <property name="description" i18n:translate=""></property>
          <property name="url_expr">string:${portal_url}/import-companies</property>
@@ -69,9 +70,9 @@
             <element value="Plone Site Setup: Overview"/>
          </property>
          <property name="visible">True</property>
-      </object>
+      </object> -->
       
-      <object name="import_meetings" meta_type="CMF Action" i18n:domain="plone">
+      <!-- <object name="import_meetings" meta_type="CMF Action" i18n:domain="plone">
          <property name="title" i18n:translate="">Import Meeting Settings (Excel)</property>
          <property name="description" i18n:translate=""></property>
          <property name="url_expr">string:${portal_url}/import-meetings</property>
@@ -82,11 +83,11 @@
             <element value="Plone Site Setup: Overview"/>
          </property>
          <property name="visible">True</property>
-      </object>
+      </object> -->
 
 
             
-      <object name="roles_locations_meetings" meta_type="CMF Action" i18n:domain="plone">
+      <!-- <object name="roles_locations_meetings" meta_type="CMF Action" i18n:domain="plone">
          <property name="title" i18n:translate="">Import Roles and Locations Settings (Excel)</property>
          <property name="description" i18n:translate=""></property>
          <property name="url_expr">string:${portal_url}/import-roles-locations</property>
@@ -97,7 +98,7 @@
             <element value="Plone Site Setup: Overview"/>
          </property>
          <property name="visible">True</property>
-      </object>
+      </object> -->
 
 
 

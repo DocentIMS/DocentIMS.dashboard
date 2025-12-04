@@ -41,13 +41,13 @@
     /> -->
 
     <browser:page
-        name="import-companies"
+        name="import-from-excel"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         class=".bulk_import.BulkImport"
         permission="cmf.ManagePortal"
     />      
  
-    <browser:page
+    <!-- <browser:page
         name="import-meetings"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         class=".meeting_import.MeetingImport"
@@ -59,6 +59,6 @@
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         class=".roles_locations_import.RolesLocationsImport"
         permission="cmf.ManagePortal"
-    />
+    /> -->
 
 </configure>
