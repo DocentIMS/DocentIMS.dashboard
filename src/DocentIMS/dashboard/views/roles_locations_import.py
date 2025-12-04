@@ -62,76 +62,78 @@ class RolesLocationsImport(form.Form):
         
         for row_idx, row in enumerate(rows):
             
-            required_fields = [
-                "member_roles",
-                "company_roles",
-                "meeting_locations"
-            ]
+            # required_fields = [
+            #     "member_roles",
+            #     "company_roles",
+            #     "meeting_locations"
+            # ]
             
             # TO DO: Check only once
-            missing = [field for field in required_fields if not row.get(field)]
+            # missing = [field for field in required_fields if not row.get(field)]
 
-            if missing:
-                self.status = f"Missing required fields: {', '.join(missing)}"
-                continue 
+            # if missing:
+            #     self.status = f"Missing required fields: {', '.join(missing)}"
+            #     continue 
             
-            member_roles = list(api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies') or [])
-            
-            existing_codes = {c.get('vocabulary_entry') for c in member_roles if c.get('vocabulary_entry')}
-            new_code = row.get("member_roles")
-            
-            # Only add if code does NOT already exist
-            if new_code not in existing_codes:                
-                created  += 1
-                new_member_role = {
-                            'vocabulary_entry':     row.get("member_roles") 
-                        }
+            if row.get("member_roles"):
+                member_roles = list(api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies') or [])
+                existing_codes = {c.get('vocabulary_entry') for c in member_roles if c.get('vocabulary_entry')}
+                new_code = row.get("member_roles")
+                
+                # Only add if code does NOT already exist
+                if new_code not in existing_codes:                
+                    created  += 1
+                    new_member_role = {
+                                'vocabulary_entry':     row.get("member_roles") 
+                            }
 
-                member_roles.append(new_member_role)
-                                        
-            # Save back to the registry
-            api.portal.set_registry_record(
-                'DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies', member_roles
-            )
+                    member_roles.append(new_member_role)
+                                            
+                # Save back to the registry
+                api.portal.set_registry_record(
+                    'DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies', member_roles
+                )
             
             
-            location_names = list(api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.location_names') or [])
-            
-            existing_codes = {c.get('location_name') for c in location_names if c.get('location_name')}
-            new_code = row.get("meeting_locations")
-            
-            # Only add if code does NOT already exist
-            if new_code not in existing_codes:                
-                created  += 1
-                new_location_name = {
-                            'location_name':  row.get("meeting_locations") 
-                        }
+            if row.get("meeting_locations"):
+                location_names = list(api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.location_names') or [])
+                
+                existing_codes = {c.get('location_name') for c in location_names if c.get('location_name')}
+                new_code = row.get("meeting_locations")
+                
+                # Only add if code does NOT already exist
+                if new_code not in existing_codes:                
+                    created  += 1
+                    new_location_name = {
+                                'location_name':  row.get("meeting_locations") 
+                            }
 
-                location_names.append(new_location_name)
-                                        
-            # Save back to the registry
-            api.portal.set_registry_record(
-                'DocentIMS.dashboard.interfaces.IDocentimsSettings.location_names', location_names
-            )
+                    location_names.append(new_location_name)
+                                            
+                # Save back to the registry
+                api.portal.set_registry_record(
+                    'DocentIMS.dashboard.interfaces.IDocentimsSettings.location_names', location_names
+                )
+                
             
-            
-            company_roles = list(api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies3') or [])      
-            existing_codes = {c.get('vocabulary_entry') for c in company_roles if c.get('vocabulary_entry')}
-            new_code = row.get("company_roles")
-            
-            # Only add if code does NOT already exist
-            if new_code not in existing_codes:                
-                created  += 1
-                new_company_role = {
-                            'vocabulary_entry':     row.get("company_roles") 
-                        }
+            if row.get("company_roles"):
+                company_roles = list(api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies3') or [])      
+                existing_codes = {c.get('vocabulary_entry') for c in company_roles if c.get('vocabulary_entry')}
+                new_code = row.get("company_roles")
+                
+                # Only add if code does NOT already exist
+                if new_code not in existing_codes:                
+                    created  += 1
+                    new_company_role = {
+                                'vocabulary_entry':     row.get("company_roles") 
+                            }
 
-                company_roles.append(new_company_role)
-                                        
-            # Save back to the registry
-            api.portal.set_registry_record(
-                'DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies3', company_roles
-            )
+                    company_roles.append(new_company_role)
+                                            
+                # Save back to the registry
+                api.portal.set_registry_record(
+                    'DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies3', company_roles
+                )
                          
    
 
