@@ -1,5 +1,10 @@
 body { background: #FAF9F6}
 
+.duset {
+    opacity: 0.55;
+}
+.cancelbutton  {background:#378DA4 !important  }
+
 #contentview-user_data-personal-preferences {
     display: none;
 }

@@ -38,7 +38,7 @@
          <property name="icon_expr">string:plone-controlpanel</property>
          <property name="available_expr"></property>
          <property name="permissions">
-            <element value="Plone Site Setup: Overview"/>
+            <element value="DocentIMS.dashboard: Dashboard Manager"/>
          </property>
          <property name="visible">True</property>
       </object>
@@ -53,7 +53,7 @@
          <property name="available_expr"></property>
          <property name="permissions">
             <!-- <element value="Plone Site Setup: Overview"/> -->
-            <element value="View"/>
+            <element value="DocentIMS.dashboard: Dashboard Manager"/>
          </property>
          <property name="visible">True</property>
       </object>

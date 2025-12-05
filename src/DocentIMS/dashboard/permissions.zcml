@@ -11,7 +11,10 @@
         title="DocentIMS.dashboard: Add Project"
     />
 
-
+    <permission
+        id="DocentIMS.dashboard.DashboardManager"
+        title="DocentIMS.dashboard: Dashboard Manager"
+    />
 
   </configure>
 

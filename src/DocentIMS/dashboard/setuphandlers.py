@@ -40,15 +40,23 @@ def post_install(context):
             title='Team',
             roles=['Reader', ],
         )
-        
+
+    if not plone.api.group.get(groupname='DashboardManagers'):
+        group = plone.api.group.create(
+            groupname='DashboardManagers',
+            title='Dashboard Managers',
+            # roles=['Add Project', 'Dashboard Manager'],
+             roles=['Dashboard Manager'],
+        )
+                
      # Add the default team group
+        
     if not plone.api.group.get(groupname='PrjMgr'):
         group = plone.api.group.create(
             groupname='PrjMgr',
             title='Project Manager',
             roles=['Add Project', 'Reader', 'Site Administrator'],
         )
-        
     # Button has been moved to 'Project' content type
     # api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons', 
     #                                      [{'location_name': 'https://team.chelseamallproject.com'}, 

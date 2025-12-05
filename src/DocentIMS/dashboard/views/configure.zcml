@@ -26,12 +26,12 @@
 
 
     <!-- Register BrowserView -->
-    <browser:page
+    <!-- <browser:page
         name="import-users"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         class=".users_import.UsersImport"
         permission="cmf.ManagePortal"
-    />
+    /> -->
 
     <!-- <browser:page
         name="import-companies"
@@ -44,7 +44,7 @@
         name="import-from-excel"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         class=".bulk_import.BulkImport"
-        permission="cmf.ManagePortal"
+        permission="DocentIMS.dashboard.DashboardManager"
     />      
  
     <!-- <browser:page

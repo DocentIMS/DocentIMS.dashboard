@@ -3,6 +3,7 @@ import io
 import requests
 import pandas as pd
 from io import BytesIO
+from markupsafe import Markup
 
 from plone import api
 from Products.Five import BrowserView
@@ -29,26 +30,44 @@ class BulkImport(form.Form):
     ignoreContext = True
     label = u"Import from Excel"
     
-    def render(self):
-        result = super(BulkImport, self).render()
+    def updateActions(self):
+        super(BulkImport, self).updateActions()
+        self.actions["cancel"].addClass("cancelbutton")
         
-        # Add JavaScript to disable buttons after click
-        htmlcode = """ 
-        <h1>Some title</h1>
-        """
+        button_keys = [
+            { 'name': "companies",          'key' : 'DocentIMS.dashboard.interfaces.IDocentimsSettings.companies'},
+            { 'name': "meeting_types",      'key' : 'DocentIMS.dashboard.interfaces.IDocentimsSettings.meeting_types'},    
+            { 'name': "team_roles",         'key' : 'DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies'},
+            { 'name': "meeting_locations",  'key' : 'DocentIMS.dashboard.interfaces.IDocentimsSettings.location_names'},
+            { 'name': "company_roles",      'key' : 'DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies3'},
+        ]
         
-        return result + '<h1>Some title</h1><style>h1, h1 {color: red; }</style>'
+        # Change opacity if value already exists
+        for act_button in button_keys:
+            reg_key = act_button['key']
+            name = act_button['name']
+            key_content = list(api.portal.get_registry_record(reg_key) or [])
+            if len(key_content) > 1:
+                self.actions[name].addClass("duset")
+            
+    
+    @button.buttonAndHandler(u"Cancel")
+    def handleCancel(self, action):
+        url = api.portal.get().absolute_url()  
+        return self.request.REQUEST["RESPONSE"].redirect(url)
 
     #
     # ----------- BUTTON: Users ----------------------------------------------
     #
-    @button.buttonAndHandler(u"Import Users")
+    @button.buttonAndHandler(u"Import Users", name='import_users')
     def handleImportUsers(self, action):
         raw = self._extract_raw()
         if raw is None:
             return
         msg = self.import_users(raw)
         self.status = msg
+ 
+        
 
     #
     # ----------- BUTTON: Companies ------------------------------------------
@@ -60,47 +79,52 @@ class BulkImport(form.Form):
             return
         msg = self.import_companies(raw)
         self.status = msg
-        
-
+         
     
     # ----------------------------------------------------------------------
     # ------------------ BUTTON: ROLES & LOCATIONS ------------------------
     # ----------------------------------------------------------------------
-    @button.buttonAndHandler(u"Company Roles")
+    @button.buttonAndHandler(u"Company Roles", name = "company_roles")
     def handleImportRolesLoc(self, action):
         raw = self._extract_raw()
         if raw is None:
             return
         msg = self.import_roles_locations(raw)
         self.status = msg
+ 
 
-    @button.buttonAndHandler(u"Team Roles")
+    @button.buttonAndHandler(u"Team Roles", name='team_roles' )
     def handleImportRolesLoc(self, action):
         raw = self._extract_raw()
         if raw is None:
             return
         msg = self.import_roles_locations(raw)
         self.status = msg
+ 
      
     # ----------------------------------------------------------------------
     # ------------------------- BUTTON: MEETINGS ---------------------------
     # ----------------------------------------------------------------------
-    @button.buttonAndHandler(u"Meeting Types")
+    @button.buttonAndHandler(u"Meeting Types", name = "meeting_types")
     def handleImportMeetings(self, action):
         raw = self._extract_raw()
         if raw is None:
             return
         msg = self.import_meetings(raw)
         self.status = msg
+ 
 
    
-    @button.buttonAndHandler(u"Meeting Locations")
+    @button.buttonAndHandler(u"Meeting Locations", name='meeting_locations' )
     def handleImportRolesLoc(self, action):
         raw = self._extract_raw()
         if raw is None:
             return
         msg = self.import_roles_locations(raw)
         self.status = msg
+ 
+        
+
 
     # -------------------------------------------------------------------------
     # SHARED RAW EXTRACTOR
@@ -208,7 +232,7 @@ class BulkImport(form.Form):
         if created_users:
             return f"Imported {len(created_users)} users: {', '.join(created_users)}"
         else:
-            return "No new users imported (all users already exist)."
+            return "No new users imported."
 
     # -------------------------------------------------------------------------
     # COMPANIES IMPORT
