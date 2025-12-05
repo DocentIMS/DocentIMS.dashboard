@@ -3,7 +3,6 @@ import io
 import requests
 import pandas as pd
 from io import BytesIO
-from markupsafe import Markup
 
 from plone import api
 from Products.Five import BrowserView
