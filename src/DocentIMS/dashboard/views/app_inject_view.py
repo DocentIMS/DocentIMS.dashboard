@@ -47,7 +47,8 @@ class AppInjectView(BrowserView):
     
     def get_current(self):
         current = api.user.get_current()
-        return current.getProperty('email')
+        return current.getUserName()
+        # return current.getProperty('email')
     
     # @ram.cache(cache_key_subbuttons)
     def get_dashboard_info(self):

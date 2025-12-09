@@ -89,7 +89,8 @@ class Renderer(base.Renderer):
     def get_current(self):
         current = api.user.get_current()
         #return current.getId()
-        return current.getProperty('email')
+        return current.getUserName()
+        # return current.getProperty('email')
 
 
     # @memoize
