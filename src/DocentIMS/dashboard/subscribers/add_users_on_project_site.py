@@ -44,7 +44,7 @@ def handler(obj, event):
             payload = {
                 "email": email,
                 "fullname": fullname,
-                # "username": email, 
+                "username": username, 
                 "sendPasswordReset": True,
                 "last_name" : user.getProperty("last_name"),
                 "first_name" : user.getProperty("first_name"),
@@ -65,7 +65,6 @@ def handler(obj, event):
             # Add image to user and add user to group
             
             if response.status_code in (200, 201):  # 201 = created
-                print(f"✅ User {email} created")
                 
                 # Add user to group:
                 # TO DO: Keep only one when I know why users are not added with email instead of random username
@@ -100,7 +99,7 @@ def handler(obj, event):
                         else:
                             print(f"⚠️ Failed to upload portrait for '{userid}'")
             elif response.status_code == 409:
-                print(f"⚠️ User {email} already exists")
+                print(f"⚠️ User {username} already exists")
             else:
-                print(f"❌ Error creating {email}: {response.status_code} {response.text}")
+                print(f"❌ Error creating {username}: {response.status_code} {response.text}")
                 

@@ -76,6 +76,7 @@ class UsersImport(form.Form):
                 continue
             
             required_fields = [
+                "user_name",
                 "first_name",
                 "last_name",
                 "fullname",
@@ -91,7 +92,7 @@ class UsersImport(form.Form):
                 continue                
                 
 
-            username = email.lower().strip()
+            username = row.get("user_name"),
             if api.user.get(username=username):
                 continue
 

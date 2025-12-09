@@ -24,10 +24,14 @@ class DashboardSites(object):
             return None
         
         user = api.user.get_current()
-        usermail = self.request.get('email', None)        
+        usermail = self.request.get('email', None) 
+        username = self.request.get('email', None)   
+           
         
         if user.id  != 'admin':
             usermail = user.getProperty('email')
+            username = user.getUserName() 
+            
         # some_secret = self.request.get('some_secret', None)
         result = {
             'dashboard_sites': {
@@ -52,7 +56,7 @@ class DashboardSites(object):
         if usermail and sites:           
             for siteurl in sites:
                 try:                
-                    response = requests.get(f'{siteurl}/@item_count?user={usermail}', 
+                    response = requests.get(f'{siteurl}/@item_count?user={username}', 
                                             headers={'Accept': 'application/json', 'Content-Type': 'application/json'})
                     if response.status_code == 200:
                         body = response.json()
