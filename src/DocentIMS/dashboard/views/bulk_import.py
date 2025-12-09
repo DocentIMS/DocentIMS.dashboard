@@ -181,7 +181,7 @@ class BulkImport(form.Form):
             if missing:
                 continue
 
-            username = row.get("user_name"),
+            username = row.get("user_name")
             if api.user.get(username=username):
                 continue
 
