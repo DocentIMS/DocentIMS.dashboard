@@ -98,10 +98,10 @@ class UsersImport(form.Form):
 
             user = api.user.create(
                 username=username,
-                email=email,
                 password=api.portal.get_tool("portal_registration").generatePassword(),
                 properties={
                     "first_name": row.get("first_name"),
+                    "email": email,
                     "last_name": row.get("last_name"),
                     "fullname": row.get("fullname"),
                     "cellphone_number": row.get("cellphone"),

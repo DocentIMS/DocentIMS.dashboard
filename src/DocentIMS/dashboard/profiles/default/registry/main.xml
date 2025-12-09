@@ -84,7 +84,7 @@
             <required>False</required>
             <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Use email address as login name</title>
         </field>
-        <value>True</value>
+        <value>False</value>
     </record>
 
     <record name="plone.enable_user_pwd_choice" interface="plone.base.interfaces.controlpanel.ISecuritySchema" field="enable_user_pwd_choice">
@@ -94,7 +94,7 @@
             <required>False</required>
             <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Let users select their own passwords</title>
         </field>
-        <value>True</value>
+        <value>False</value>
     </record>
 
 </registry>
