@@ -74,6 +74,9 @@ class BulkImport(form.Form):
             return
         msg = self.import_users(raw)
         self.status = msg
+        
+        self.request.form['csv_file'] = None
+        self.widgets['csv_file'].value = None
  
         
 
@@ -87,6 +90,10 @@ class BulkImport(form.Form):
             return
         msg = self.import_companies(raw)
         self.status = msg
+        
+        self.request.form['csv_file'] = None
+        self.widgets['csv_file'].value = None
+ 
          
     
     # ----------------------------------------------------------------------
@@ -99,6 +106,10 @@ class BulkImport(form.Form):
             return
         msg = self.import_roles_locations(raw)
         self.status = msg
+        
+        self.request.form['csv_file'] = None
+        self.widgets['csv_file'].value = None
+ 
  
 
     @button.buttonAndHandler(u"Member Roles", name='team_roles' )
@@ -108,6 +119,10 @@ class BulkImport(form.Form):
             return
         msg = self.import_roles_locations(raw)
         self.status = msg
+        
+        self.request.form['csv_file'] = None
+        self.widgets['csv_file'].value = None
+ 
  
      
     # ----------------------------------------------------------------------
@@ -120,6 +135,10 @@ class BulkImport(form.Form):
             return
         msg = self.import_meetings(raw)
         self.status = msg
+        
+        self.request.form['csv_file'] = None
+        self.widgets['csv_file'].value = None
+ 
  
 
    
@@ -130,6 +149,10 @@ class BulkImport(form.Form):
             return
         msg = self.import_roles_locations(raw)
         self.status = msg
+        
+        self.request.form['csv_file'] = None
+        self.widgets['csv_file'].value = None
+ 
  
         
 
