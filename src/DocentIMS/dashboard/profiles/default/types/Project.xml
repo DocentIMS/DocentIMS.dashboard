@@ -7,7 +7,7 @@
   <!-- Basic properties -->
   <property
       i18n:translate=""
-      name="title">Project</property>
+      name="title">Project Connection</property>
   <property
       i18n:translate=""
       name="description">Projects that have their own website</property>

@@ -50,10 +50,19 @@ class BulkImport(form.Form):
                 self.actions[name].addClass("duset")
             
     
-    @button.buttonAndHandler(u"Cancel")
+    @button.buttonAndHandler(u"Done")
     def handleCancel(self, action):
-        url = api.portal.get().absolute_url()  
-        return self.request.REQUEST["RESPONSE"].redirect(url)
+         # Try to read "came_from" from the request
+        came_from = self.request.get('came_from')
+
+        if not came_from:
+            # fall back to site root (or any other default)
+            came_from = api.portal.get().absolute_url()
+
+        return self.request.response.redirect(came_from)
+    
+        # url = api.portal.get().absolute_url()  
+        # return self.request.REQUEST["RESPONSE"].redirect(url)
 
     #
     # ----------- BUTTON: Users ----------------------------------------------
@@ -92,7 +101,7 @@ class BulkImport(form.Form):
         self.status = msg
  
 
-    @button.buttonAndHandler(u"Team Roles", name='team_roles' )
+    @button.buttonAndHandler(u"Member Roles", name='team_roles' )
     def handleImportRolesLoc(self, action):
         raw = self._extract_raw()
         if raw is None:
