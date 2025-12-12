@@ -1,5 +1,8 @@
 body { background: #FAF9F6}
 
+.template-import-from-excel #portal-column-two { display: none;}
+
+
 .duset {
     opacity: 0.55;
 }
