@@ -50,7 +50,7 @@ class BulkImport(form.Form):
                 self.actions[name].addClass("duset")
             
     
-    @button.buttonAndHandler(u"Done")
+    @button.buttonAndHandler(u"Done", name = "cancel")
     def handleCancel(self, action):
          # Try to read "came_from" from the request
         came_from = self.request.get('came_from')
