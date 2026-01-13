@@ -30,7 +30,7 @@ class BulkImport(form.Form):
     fields = field.Fields(IBulkImportSchema)
     ignoreContext = True
     label = u"Import from Excel"
-    description = u"These buttons represent the data types that can be imported. Buttons that are greyed out mean the data is already on the site.  However, the buttons are still active and will work as normal"
+    description = u"Each button represents a data type you can import. If a button is greyed out, that data has already been imported—but you can click it again at any time to upload an updated Excel file and refresh the data on the website."
     
     def updateActions(self):
         super(BulkImport, self).updateActions()
