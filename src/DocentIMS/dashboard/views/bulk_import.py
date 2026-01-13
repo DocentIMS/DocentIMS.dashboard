@@ -35,7 +35,7 @@ class IBulkImportSchema(Interface):
     
     local_excel_file =  Choice(
         title=u"Select Excel file from site",
-        source=excel_files_only,
+        source=CatalogSource(portal_type="File"),
         required=False
     )
     
