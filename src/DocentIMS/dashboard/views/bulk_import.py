@@ -19,23 +19,45 @@ from zope.component.hooks import getSite
 from openpyxl import load_workbook
 
 
-@provider(IContextSourceBinder)
-def excel_files_only(context):
-    return CatalogSource(
-        portal_type="File",
-        query={
-            "file_extension": ["xls", "xlsx"]
-        }
-    )
+from zope.interface import implementer
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
+ 
 
+@implementer(IVocabularyFactory)
+class ExcelFilesVocabulary:
+
+    def __call__(self, context):
+        brains = api.content.find(portal_type="File")
+
+        terms = []
+        for brain in brains:
+            obj = brain.getObject()
+            if not obj.file:
+                continue
+
+            filename = obj.file.filename.lower()
+
+            if filename.endswith((".xls", ".xlsx")):
+                terms.append(
+                    SimpleTerm(
+                        value=obj,
+                        token=brain.UID,
+                        title=brain.Title or filename
+                    )
+                )
+
+        return SimpleVocabulary(terms)
+
+ 
 
 class IBulkImportSchema(Interface):
     """Shared schema for both Users and Companies imports"""
     
     
-    local_excel_file =  Choice(
+    local_excel_file = Choice(
         title=u"Select Excel file from site",
-        source=CatalogSource(portal_type="File"),
+        vocabulary="ExcelFilesVocabulary",
         required=False
     )
     

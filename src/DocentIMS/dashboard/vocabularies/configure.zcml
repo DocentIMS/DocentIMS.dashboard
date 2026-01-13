@@ -5,6 +5,12 @@
     <!-- -*- extra stuff goes here -*- -->
 
     <utility
+        component=".excel_files.ExcelFilesFactory"
+        name="DocentIMS.dashboard.ExcelFiles"
+    />
+
+
+    <utility
         component=".company_vocabulary.CompanyVocabularyFactory"
         name="DocentIMS.dashboard.CompanyVocabulary"
     />

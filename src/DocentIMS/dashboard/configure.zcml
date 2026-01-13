@@ -47,6 +47,9 @@
     <include package=".vocabularies" />
 
 
+    <include package=".vocabularies" />
+
+
   <include package=".subscribers" />
 
   <include package=".api" />
