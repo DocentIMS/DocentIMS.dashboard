@@ -12,42 +12,12 @@ from plone.app.vocabularies.catalog import CatalogSource
 from zope.schema import Choice
 from z3c.form import form, field, button
 from plone.namedfile.field import NamedBlobFile
-from zope.schema.interfaces import IContextSourceBinder
-from zope.interface import provider
-from zope.component.hooks import getSite
+# from zope.schema.interfaces import IContextSourceBinder
+# from zope.interface import provider
+# from zope.component.hooks import getSite
 # from plone.namedfile.file import NamedBlobImage
 from openpyxl import load_workbook
-
-
-from zope.interface import implementer
-from zope.schema.interfaces import IVocabularyFactory
-from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
  
-
-@implementer(IVocabularyFactory)
-class ExcelFilesVocabulary:
-
-    def __call__(self, context):
-        brains = api.content.find(portal_type="File")
-
-        terms = []
-        for brain in brains:
-            obj = brain.getObject()
-            if not obj.file:
-                continue
-
-            filename = obj.file.filename.lower()
-
-            if filename.endswith((".xls", ".xlsx")):
-                terms.append(
-                    SimpleTerm(
-                        value=obj,
-                        token=brain.UID,
-                        title=brain.Title or filename
-                    )
-                )
-
-        return SimpleVocabulary(terms)
 
  
 
@@ -57,12 +27,12 @@ class IBulkImportSchema(Interface):
     
     local_excel_file = Choice(
         title=u"Select Excel file from site",
-        vocabulary="ExcelFilesVocabulary",
+        vocabulary="DocentIMS.dashboard.ExcelFiles",
         required=False
     )
     
     csv_file = NamedBlobFile(
-        title=u"Alternatively: Upload Excel File",
+        title=u"Alternatively: Excel File",
         description=u"Upload an Excel file to import.",
         required=False
     )
