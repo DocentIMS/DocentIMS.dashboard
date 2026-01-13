@@ -8,22 +8,43 @@ from plone import api
 from Products.Five import BrowserView
 from zope.interface import Interface
 from zope.schema import Bytes
+from plone.app.vocabularies.catalog import CatalogSource
+from zope.schema import Choice
 from z3c.form import form, field, button
 from plone.namedfile.field import NamedBlobFile
-
-from plone.namedfile.file import NamedBlobImage
+from zope.schema.interfaces import IContextSourceBinder
+from zope.interface import provider
+from zope.component.hooks import getSite
+# from plone.namedfile.file import NamedBlobImage
 from openpyxl import load_workbook
+
+
+@provider(IContextSourceBinder)
+def excel_files_only(context):
+    return CatalogSource(
+        portal_type="File",
+        query={
+            "file_extension": ["xls", "xlsx"]
+        }
+    )
 
 
 class IBulkImportSchema(Interface):
     """Shared schema for both Users and Companies imports"""
-    csv_file = NamedBlobFile(
-        title=u"Excel File",
-        description=u"Upload an Excel file to import.",
-        required=True
+    
+    
+    local_excel_file =  Choice(
+        title=u"Select Excel file from site",
+        source=excel_files_only,
+        required=False
     )
     
-     
+    csv_file = NamedBlobFile(
+        title=u"Alternatively: Upload Excel File",
+        description=u"Upload an Excel file to import.",
+        required=False
+    )
+        
 
 
 class BulkImport(form.Form):
@@ -51,6 +72,9 @@ class BulkImport(form.Form):
             key_content = list(api.portal.get_registry_record(reg_key) or [])
             if len(key_content) > 1:
                 self.actions[name].addClass("duset")
+            users = api.user.get_users()
+            if len(list(users)) > 2:
+                self.actions['import_users'].addClass("duset")
             
     
     @button.buttonAndHandler(u"Done", name = "cancel")
@@ -170,16 +194,27 @@ class BulkImport(form.Form):
             return None
 
         file_data = data['csv_file']
+        
+        if file_data:
+            # 1 Convert upload to bytes
+            if hasattr(file_data, 'data'):                 # NamedBlobFile
+                return file_data.data
+            elif hasattr(file_data, 'read'):               # FileUpload
+                return file_data.read()
+            elif isinstance(file_data, (bytes, bytearray)):
+                return bytes(file_data)
 
-        # Convert upload to bytes
-        if hasattr(file_data, 'data'):                 # NamedBlobFile
-            return file_data.data
-        elif hasattr(file_data, 'read'):               # FileUpload
-            return file_data.read()
-        elif isinstance(file_data, (bytes, bytearray)):
-            return bytes(file_data)
+        # 
+        #file_data = data['local_excel_file']
+        # 1) Picked from site
+        excel_obj = data.get("local_excel_file")
+        if excel_obj:
+            # Should be bytes
+            return excel_obj.file.data
 
-        raise ValueError("Unsupported upload type for Excel file")
+        raise ValueError("Unsupported type for Excel file")
+
+
 
     # -------------------------------------------------------------------------
     # USERS IMPORT
