@@ -69,20 +69,7 @@ class BulkImport(form.Form):
                 self.actions['import_users'].addClass("duset")
             
     
-    @button.buttonAndHandler(u"Done", name = "cancel")
-    def handleCancel(self, action):
-         # Try to read "came_from" from the request
-        came_from = self.request.get('came_from')
-
-        if not came_from:
-            # fall back to site root (or any other default)
-            came_from = api.portal.get().absolute_url()
-
-        return self.request.response.redirect(came_from)
     
-        # url = api.portal.get().absolute_url()  
-        # return self.request.REQUEST["RESPONSE"].redirect(url)
-
     #
     # ----------- BUTTON: Users ----------------------------------------------
     #
@@ -173,7 +160,20 @@ class BulkImport(form.Form):
         self.widgets['csv_file'].value = None
  
  
-        
+ 
+    @button.buttonAndHandler(u"Done", name = "cancel")
+    def handleCancel(self, action):
+         # Try to read "came_from" from the request
+        came_from = self.request.get('came_from')
+
+        if not came_from:
+            # fall back to site root (or any other default)
+            came_from = api.portal.get().absolute_url()
+
+        return self.request.response.redirect(came_from)
+    
+        # url = api.portal.get().absolute_url()  
+        # return self.request.REQUEST["RESPONSE"].redirect(url)
 
 
     # -------------------------------------------------------------------------
