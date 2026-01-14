@@ -2,6 +2,7 @@ body { background: #FAF9F6}
 
 .template-import-from-excel #portal-column-two { display: none;}
 
+#formfield-form-widgets-csv_file { padding-top: 1rem; border-top: 1px solid silver;}
 
 .duset {
     opacity: 0.55;
