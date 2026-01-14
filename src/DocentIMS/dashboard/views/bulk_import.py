@@ -32,7 +32,7 @@ class IBulkImportSchema(Interface):
     )
     
     csv_file = NamedBlobFile(
-        title=u"Alternatively: Manually select Excel File",
+        title=u"Alternatively: Manually select Excel file",
         description=u"Upload an Excel file to import.",
         required=False
     )
