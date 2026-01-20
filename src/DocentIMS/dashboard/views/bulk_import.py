@@ -26,13 +26,13 @@ class IBulkImportSchema(Interface):
     
     
     local_excel_file = Choice(
-        title=u"Select Excel file from site",
+        title=u"Alternative 1: Select Excel file from site",
         vocabulary="DocentIMS.dashboard.ExcelFiles",
         required=False
     )
     
     csv_file = NamedBlobFile(
-        title=u"Alternatively: Manually select Excel file",
+        title=u"Alternative 2: Manually select Excel file",
         description=u"Upload an Excel file to import.",
         required=False
     )

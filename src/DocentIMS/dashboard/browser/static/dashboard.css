@@ -4,6 +4,8 @@ body { background: #FAF9F6}
 
 #formfield-form-widgets-csv_file { padding-top: 1rem; border-top: 1px solid silver;}
 
+#formfield-form-widgets-local_excel_file label { font-weight: bold;}
+
 .duset {
     opacity: 0.55;
 }
