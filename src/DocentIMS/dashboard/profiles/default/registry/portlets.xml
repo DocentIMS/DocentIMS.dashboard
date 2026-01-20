@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<portlets> 
+ <assignment name="title-1" category="context" key="/"
+    manager="plone.rightcolumn"
+    type="DocentIMS.dashboard.portlets.Infoportlet" visible="True">
+  <property name="tittel">Project News</property>
+ </assignment>
+ <assignment name="help" category="context" key="/"
+    manager="plone.rightcolumn" type="plone.portlet.static.Static"
+    visible="True">
+  <property name="footer">Docent Help</property>
+  <property name="header">Docent Help</property>
+  <property name="more_url"/>
+  <property name="omit_border">False</property>
+  <property
+     name="text">RichTextValue object. (Did you mean &lt;attribute&gt;.raw or &lt;attribute&gt;.output?)</property>
+ </assignment>  
+</portlets>
