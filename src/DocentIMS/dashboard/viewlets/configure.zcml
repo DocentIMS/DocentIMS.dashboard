@@ -8,12 +8,12 @@
 
   <browser:viewlet
      name="edit-button-viewlet"
-     for="plone.app.contenttypes.interfaces.IDocument"
-     manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+     for="plone.dexterity.interfaces.IDexterityItem"
+     manager="plone.app.layout.viewlets.interfaces.IBelowContent"
      layer="DocentIMS.dashboard.interfaces.IDocentimsDashboardLayer"
      class=".edit_button_viewlet.EditButtonViewlet"
      template="edit-button-viewlet.pt"
-     permission="zope2.View"
+     permission="cmf.ManagePortal"
      />
 
 

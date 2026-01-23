@@ -87,6 +87,10 @@ div.color-4 h4 {
     opacity: 0.5
 }
 
+.teal {
+    background: teal;
+}
+
 #main-container a.topalert {
     opacity: 1;
     border: 0 none;
