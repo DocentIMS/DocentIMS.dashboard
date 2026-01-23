@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<portlets> 
- <assignment name="title-1" category="context" key="/"
-    manager="plone.rightcolumn"
-    type="DocentIMS.dashboard.portlets.Infoportlet" visible="True">
-  <property name="tittel">Project News</property>
- </assignment>
- <assignment name="help" category="context" key="/"
-    manager="plone.rightcolumn" type="plone.portlet.static.Static"
-    visible="True">
-  <property name="footer">Docent Help</property>
-  <property name="header">Docent Help</property>
-  <property name="more_url"/>
-  <property name="omit_border">False</property>
-  <property
-     name="text">RichTextValue object. (Did you mean &lt;attribute&gt;.raw or &lt;attribute&gt;.output?)</property>
- </assignment>  
+<portlets>
+   <assignment name="title-1" category="context" key="/" manager="plone.rightcolumn" type="DocentIMS.dashboard.portlets.Infoportlet" visible="True">
+      <property name="tittel">Project News</property>
+   </assignment>
+
+   <assignment name="help" category="context" key="/" manager="plone.rightcolumn" type="plone.portlet.static.Static" visible="True">
+      <property name="footer">Docent Help</property>
+      <property name="header">Docent Help</property>
+      <property name="more_url"/>
+      <property name="omit_border">False</property>      
+      <property name="text" type="plone.app.textfield.value.RichTextValue" mimeType="text/html" outputMimeType="text/x-html-safe" encoding="utf-8">
+         <p>
+            <a href="https://help.docentdashboard.org/docent-250.html" title="Docent Help" target="_blank" rel="noopener">
+               <img src="https://help.docentdashboard.org/blob/main/Media/question_64x64.png" alt="Help Files" />
+            </a>
+         </p>
+         <p>
+            <a href="https://docentdashboard.org/online-help-guides" title="Docent Help Guides" target="_blank" rel="noopener">
+               <img src="https://help.docentdashboard.org/blob/main/Media/005-travel-guide-64px.png" alt="User Guides" />
+            </a>
+         </p>
+         <p>
+            <a href="https://docentdashboard.org/@@personal-information" title="Personal Information" target="_blank" rel="noopener">
+               <img src="https://help.docentdashboard.org/blob/main/Media/user_64x64.png" alt="User Information" />
+            </a>
+         </p>
+      </property>
+   </assignment>
 </portlets>

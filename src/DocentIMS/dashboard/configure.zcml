@@ -44,6 +44,8 @@
 
   <!-- -*- extra stuff goes here -*- -->
 
+  <include package=".viewlets" />
+
     <include package=".vocabularies" />
 
 
