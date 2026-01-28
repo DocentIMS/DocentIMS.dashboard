@@ -11,6 +11,9 @@ class EditButtonViewlet(ViewletBase):
 
     # def get_message(self):
     #     return u'My message'
+    
+    def get_url(self):
+        return self.context.absolute_url()
 
     def index(self):
         return super(EditButtonViewlet, self).render()
