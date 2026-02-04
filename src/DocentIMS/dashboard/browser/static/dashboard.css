@@ -23,6 +23,8 @@ body.plone-toolbar-top #edit-zone .personaltools-wrapper {
     display: none;
 }   
 
+.userrole-project-manager #edit-bar,
+.userrole-dashboard-manager #edit-bar,
 .userrole-manager #edit-bar {
     display: block;
 }

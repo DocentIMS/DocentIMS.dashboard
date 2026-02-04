@@ -46,7 +46,7 @@ def post_install(context):
             groupname='DashboardManagers',
             title='Dashboard Managers',
             # roles=['Add Project', 'Dashboard Manager'],
-             roles=['Dashboard Manager'],
+             roles=['Dashboard Manager', 'Site Administrator'],
         )
                 
      # Add the default team group
@@ -55,7 +55,7 @@ def post_install(context):
         group = plone.api.group.create(
             groupname='PrjMgr',
             title='Project Manager',
-            roles=['Add Project', 'Reader', 'Site Administrator'],
+            roles=['Add Project', 'Reader'],
         )
     # Button has been moved to 'Project' content type
     # api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_buttons', 
