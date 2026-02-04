@@ -98,6 +98,10 @@ class AppView(BrowserView):
             return True
         if 'Site Administrator' in user.getRoles():
             return True
+        if 'Dashboard Manager' in user.getRoles():
+            return True
+        if 'Project Manager' in user.getRoles():
+            return True
         return False
     
     def get_fullname(self):
