@@ -8,21 +8,19 @@ from plone import api
 from plone.memoize import ram
 import time 
 
+# from AccessControl.SecurityManagement import getSecurityManager
+# from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
+
 # 15 minutes in seconds
 CACHE_TIMEOUT = 15 * 60
 
 def cache_key_subbuttons(method, self):
     # Use a key based on user and current time rounded to timeout
     user = self.get_current()
-    # rounding to nearest CACHE_TIMEOUT to make cache last exactly 30 min
+    # rounding to nearest CACHE_TIMEOUT to make cache last exactly 15 min
     t = int(time.time() / CACHE_TIMEOUT)
     return f"subbuttons-{user}-{t}"
-
-
-
-# from AccessControl.SecurityManagement import getSecurityManager
-
-# from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
 class IAppInjectView(Interface):

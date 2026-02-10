@@ -12,7 +12,7 @@ import socket
 import requests
 
 # 30 minutes in seconds
-CACHE_TIMEOUT = 30 * 60
+CACHE_TIMEOUT = 15 * 60
 
 def cache_key_buttons(method, self):
     # Use a key based on user and current time rounded to timeout
