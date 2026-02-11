@@ -18,7 +18,11 @@
     <!-- <permission name="Dashboard Manager" acquire="False">
       <role name="Site Administrator" />
     </permission> -->
-  </permissions>
- 
 
+
+    <permission name="Modify portal content" acquire="True">
+      <role name="Dashboard Manager"/>
+    </permission>
+
+  </permissions>
 </rolemap>
