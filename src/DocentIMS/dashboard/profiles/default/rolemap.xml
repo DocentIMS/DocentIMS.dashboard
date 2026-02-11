@@ -20,13 +20,13 @@
     </permission> -->
 
 
-    <permission name="Modify portal content" acquire="True">
+    <!-- <permission name="Modify portal content" acquire="True">
       <role name="Dashboard Manager"/>
       <role name="Project Manager"/>
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner" />
-    </permission>
+    </permission> -->
 
   </permissions>
 </rolemap>
