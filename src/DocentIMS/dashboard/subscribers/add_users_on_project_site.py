@@ -37,6 +37,7 @@ def handler(obj, event):
             username = user.getUserName()
             fullname = user.getProperty("fullname")
             email = user.getProperty("email")
+            first_name = user.getProperty("first_name")
             
             api.group.add_user(groupname='PrjTeam', username=username)
             
@@ -47,7 +48,7 @@ def handler(obj, event):
                 "username": username, 
                 "sendPasswordReset": True,
                 "last_name" : user.getProperty("last_name"),
-                "first_name" : user.getProperty("first_name"),
+                "first_name" : first_name,
                 # "your_team_role" : user.getProperty("your_team_role"),
                 "your_team_role" : '--',
                 "office_phone_number" : user.getProperty("office_phone_number"),
@@ -66,12 +67,21 @@ def handler(obj, event):
             
             if response.status_code in (200, 201):  # 201 = created
                 
+                # user successfully added, lets send email
+                #code to send email here
+                
+                
                 # Add user to group:
                 # TO DO: Keep only one when I know why users are not added with email instead of random username
                 group_endpoint = f"{project_url}/@groups/PrjTeam"
                 group_response = requests.patch(group_endpoint, headers=headers, json={"users": {username: 'true'} })
                 groups_response = requests.patch(group_endpoint, headers=headers, json={"users": {response.json().get('username'): 'true'} })               
                 
+                api.portal.send_email(
+                    recipient       = email,
+                    subject         = "Welcome to Docent Dashboard site",
+                    body            = f"""  Hello {first_name},\nMy name is {fullname}, and I manage the Dashboard for all \nprojects. The Dashboard gives you a convenient, central place to view and access all your projects. You'll see more once you get started.\nYou're receiving this email because you've been added to your first project with <Docent Client name>.\n Welcome to the team!\n To get started, please follow these three steps:\n Follow this link <Standard Plone Registration Link to DB> to register with the Dashboard.\n Once registered, return to the Dashboard and review the Help files to familiarize yourself with the system.\nYou will receive a separate email from the project site with instructions on signing up for your specific project.\nThanks for taking a few minutes to get set up. If you have any questions, don't hesitate to reach out.\n Best regards,\n <DB Mgr full name>\n <Docent Client name> """
+                )
                 
                 # Upload portrait if exists
                 portal_membership = api.portal.get_tool('portal_membership')
