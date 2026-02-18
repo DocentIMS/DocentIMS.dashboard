@@ -92,7 +92,7 @@ def handler(obj, event):
                     
                     # 2. Find first person
                     if db_members:
-                        db_user = api.user.get(userid=db_members[0]).id
+                        db_user = api.user.get(userid=db_members[0])
                         
                         if db_user:
                             # 3. Full name
