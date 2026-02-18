@@ -90,8 +90,8 @@ def handler(obj, event):
                 #something =  api.portal.get_registry_record('something', interface=IDocentimsSettings) or ''
 
                 
-                dashboard_manager_fullname = ''
-                dashboard_manager_company = ''
+                dashboard_manager_fullname = 'My name'
+                dashboard_manager_company = 'My company'
                 portal = api.portal.get()
                 portal_url = portal.absolute_url()
                 register_url = f"{portal_url}/register"
@@ -166,7 +166,7 @@ def handler(obj, event):
                 
                 # self.construct_message()
                 registry = getUtility(IRegistry)
-                mail_settings = registry.forInterface(IMailSchema, prefix="plone")
+                # mail_settings = registry.forInterface(IMailSchema, prefix="plone")
                 
                 mailhost = getToolByName(portal, "MailHost")
                 if not mailhost:
