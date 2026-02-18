@@ -177,7 +177,7 @@ def handler(obj, event):
                     )
 
                 # ready to create multipart mail
-                email_charset = portal.mail_settings.email_charset        
+                # email_charset = portal.mail_settings.email_charset        
                 # message = self.construct_message()
                 outer = MIMEMultipart('alternative')
                 outer['Subject'] =  "Welcome to Docent Dashboard site"                  
