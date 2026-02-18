@@ -176,8 +176,10 @@ def handler(obj, event):
                     execute this action"
                     )
                     
+                message_html = MIMEText(message, 'html', _charset='UTF-8')
+                    
                 mailhost.send(
-                    message=message,
+                    message_html.as_string(),
                     mto=email,
                     mfrom=portal.getProperty("email_from_address"),
                     subject="Welcome to Docent Dashboard site",
