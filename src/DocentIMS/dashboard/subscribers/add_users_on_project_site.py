@@ -4,7 +4,8 @@ from plone import api
 from io import BytesIO
 import base64
 from  ..interfaces import IDocentimsSettings
-
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 def handler(obj, event):
     """ Event handler which will add users to project sites
@@ -153,10 +154,13 @@ def handler(obj, event):
                     </html>
                 """
                 
+                part2 = MIMEText(html_body, 'html')
+                msg = MIMEMultipart('alternative')
+                
                 api.portal.send_email(
                     recipient       = email,
                     subject         = "Welcome to Docent Dashboard site",
-                    body = html_body, 
+                    body=msg.as_string()
                 )
                 
                 # Upload portrait if exists
