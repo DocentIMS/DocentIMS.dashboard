@@ -2,7 +2,8 @@ body { background: #FAF9F6}
  
 .xxportaltype-project.template-edit #formfield-form-widgets-IBasic-title,
 .portaltype-project.template-edit #formfield-form-widgets-project_url,
-.portaltype-project.template-edit #form.widgets.IBasic.description { display: none !important}
+.portaltype-project.template-edit #form-widgets-IBasic-description 
+.portaltype-project.template-edit #formfield-form-widgets-IBasic-description{ display: none !important}
 
 .template-edit .editbutton {display: none}
 
