@@ -93,14 +93,14 @@ def handler(obj, event):
                     
                     # 2. Find first person
                     if members:
-                        user = api.user.get(userid=members[0])
+                        db_user = api.user.get(userid=members[0])
                         
-                        if user:
+                        if db_user:
                             # 3. Full name
-                            dashboard_manager_fullname = user.getProperty("fullname", "")
+                            dashboard_manager_fullname = db_user.getProperty("fullname", "")
                             
                             # 4. Company
-                            dashboard_manager_company = user.getProperty("company", "")
+                            dashboard_manager_company = db_user.getProperty("company", "")
 
                 # print(dashboard_manager_fullname)
                 # print(dashboard_manager_company)
