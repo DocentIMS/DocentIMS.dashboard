@@ -175,20 +175,29 @@ def handler(obj, event):
                         "You must have a Mailhost utility to \
                     execute this action"
                     )
+                    
+                mailhost.send(
+                    message=message,
+                    mto=email,
+                    mfrom=portal.getProperty("email_from_address"),
+                    subject="Welcome to Docent Dashboard site",
+                    msg_type="text/html",
+                    charset="UTF-8",
+                )
 
                 # ready to create multipart mail
                 # email_charset = portal.mail_settings.email_charset        
                 # message = self.construct_message()
-                outer = MIMEMultipart('alternative')
-                outer['Subject'] =  "Welcome to Docent Dashboard site"                  
-                outer['To'] = email
-                outer['From'] = mail_settings.email_from_address
-                outer.epilogue = ''
+                # outer = MIMEMultipart('alternative')
+                # outer['Subject'] =  "Welcome to Docent Dashboard site"                  
+                # outer['To'] = email
+                # outer['From'] = mail_settings.email_from_address
+                # outer.epilogue = ''
 
-                # Attach text part
-                html_text = MIMEText(message, 'html', _charset='UTF-8')
-                outer.attach(html_text)
-                mailhost.send(outer.as_string())
+                # # Attach text part
+                # html_text = MIMEText(message, 'html', _charset='UTF-8')
+                # outer.attach(html_text)
+                # mailhost.send(outer.as_string())
                 
                 # api.portal.send_email(
                 #     recipient       = email,
