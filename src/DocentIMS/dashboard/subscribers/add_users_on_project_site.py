@@ -59,8 +59,7 @@ def handler(obj, event):
             }
             
             
-            response = requests.post(users_endpoint, headers=headers, json=payload)
-            
+            response = requests.post(users_endpoint, headers=headers, json=payload)            
             
             
             # Add image to user and add user to group
@@ -82,6 +81,10 @@ def handler(obj, event):
                 
                 dashboard_manager_fullname = ''
                 dashboard_manager_company = ''
+                portal = api.portal.get()
+                portal_url = portal.absolute_url()
+
+                register_url = f"{portal_url}/register"
                 
                 # 1. Find group
                 group = api.group.get(groupname="DashboardManagers")
@@ -102,10 +105,60 @@ def handler(obj, event):
                 # print(dashboard_manager_fullname)
                 # print(dashboard_manager_company)
                 
+                html_body = f"""
+                    <html>
+                    <body>
+                        <p>Hello {first_name},</p>
+
+                        <p>
+                        My name is {dashboard_manager_fullname}, and I manage the Dashboard for all
+                        projects. The Dashboard gives you a convenient, central place to view and
+                        access all your projects. You'll see more once you get started.
+                        </p>
+
+                        <p>
+                        You're receiving this email because you've been added to your first project
+                        with {dashboard_manager_company};.
+                        </p>
+
+                        <p><strong>Welcome to the team!</strong></p>
+
+                        <p>To get started, please follow these three steps:</p>
+                        <ol>
+                        <li>
+                            Follow this link
+                            <a href="{register_url}">
+                            To register with the Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            Once registered, return to the Dashboard and review the Help files.
+                        </li>
+                        <li>
+                            You will receive a separate email from the project site with instructions
+                            on signing up for your specific project.
+                        </li>
+                        </ol>
+
+                        <p>
+                        Thanks for taking a few minutes to get set up. If you have any questions,
+                        don't hesitate to reach out.
+                        </p>
+
+                        <p>
+                        Best regards,<br>
+                        {dashboard_manager_fullname}<br>
+                        {dashboard_manager_company}
+                        </p>
+                    </body>
+                    </html>
+                """
+                
                 api.portal.send_email(
                     recipient       = email,
                     subject         = "Welcome to Docent Dashboard site",
-                    body            = f"""  Hello {first_name},\nMy name is {dashboard_manager_fullname}, and I manage the Dashboard for all \nprojects. The Dashboard gives you a convenient, central place to view and access all your projects. You'll see more once you get started.\nYou're receiving this email because you've been added to your first project with <Docent Client name>.\n Welcome to the team!\n To get started, please follow these three steps:\n Follow this link <Standard Plone Registration Link to DB> to register with the Dashboard.\n Once registered, return to the Dashboard and review the Help files to familiarize yourself with the system.\nYou will receive a separate email from the project site with instructions on signing up for your specific project.\nThanks for taking a few minutes to get set up. If you have any questions, don't hesitate to reach out.\n Best regards,\n {dashboard_manager_fullname}\n {dashboard_manager_company}"""
+                    body=html_body,
+                    subtype="html",
                 )
                 
                 # Upload portrait if exists
