@@ -97,13 +97,13 @@ def handler(obj, event):
                 register_url = f"{portal_url}/register"
                 
                 # 1. Find group
-                db_group = api.group.get(groupname="DashboardManagers")
+                db_group =  api.user.get_users(groupname="DashboardManagers")
                 if db_group:
                     db_members = db_group.getMemberIds()
                     
                     # 2. Find first person
                     if db_members:
-                        db_user = api.user.get(userid=db_members[0])
+                        db_user = db_group[0]
                         
                         if db_user:
                             # 3. Full name
@@ -122,7 +122,7 @@ def handler(obj, event):
 
                         <p>
                         My name is {dashboard_manager_fullname}, and I manage the Dashboard for all
-                        projects. The Dashboard gives you a convenient, central place to view and
+                        {dashboard_manager_company} projects. The Dashboard gives you a convenient, central place to view and
                         access all your projects. You'll see more once you get started.
                         </p>
 
