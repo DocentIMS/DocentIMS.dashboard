@@ -77,10 +77,37 @@ def handler(obj, event):
                 group_response = requests.patch(group_endpoint, headers=headers, json={"users": {username: 'true'} })
                 groups_response = requests.patch(group_endpoint, headers=headers, json={"users": {response.json().get('username'): 'true'} })               
                 
+                #something =  api.portal.get_registry_record('something', interface=IDocentimsSettings) or ''
+
+                
+                import pdb; pdb.set_trace()
+                
+                dashboard_manager_fullname = ''
+                dashboard_manager_company = ''
+                
+                # 1. Find group
+                group = api.group.get(groupname="DashboardManagers")
+                if group:
+                    members = group.getMemberIds()
+                    
+                    # 2. Find first person
+                    if members:
+                        user = api.user.get(userid=members[0])
+                        
+                        if user:
+                            # 3. Full name
+                            dashboard_manager_fullname = user.getProperty("fullname", "")
+                            
+                            # 4. Company
+                            dashboard_manager_company = user.getProperty("company", "")
+
+                # print(dashboard_manager_fullname)
+                # print(dashboard_manager_company)
+                
                 api.portal.send_email(
                     recipient       = email,
                     subject         = "Welcome to Docent Dashboard site",
-                    body            = f"""  Hello {first_name},\nMy name is {fullname}, and I manage the Dashboard for all \nprojects. The Dashboard gives you a convenient, central place to view and access all your projects. You'll see more once you get started.\nYou're receiving this email because you've been added to your first project with <Docent Client name>.\n Welcome to the team!\n To get started, please follow these three steps:\n Follow this link <Standard Plone Registration Link to DB> to register with the Dashboard.\n Once registered, return to the Dashboard and review the Help files to familiarize yourself with the system.\nYou will receive a separate email from the project site with instructions on signing up for your specific project.\nThanks for taking a few minutes to get set up. If you have any questions, don't hesitate to reach out.\n Best regards,\n <DB Mgr full name>\n <Docent Client name> """
+                    body            = f"""  Hello {first_name},\nMy name is {dashboard_manager_fullname}, and I manage the Dashboard for all \nprojects. The Dashboard gives you a convenient, central place to view and access all your projects. You'll see more once you get started.\nYou're receiving this email because you've been added to your first project with <Docent Client name>.\n Welcome to the team!\n To get started, please follow these three steps:\n Follow this link <Standard Plone Registration Link to DB> to register with the Dashboard.\n Once registered, return to the Dashboard and review the Help files to familiarize yourself with the system.\nYou will receive a separate email from the project site with instructions on signing up for your specific project.\nThanks for taking a few minutes to get set up. If you have any questions, don't hesitate to reach out.\n Best regards,\n {dashboard_manager_fullname}\n {dashboard_manager_company}"""
                 )
                 
                 # Upload portrait if exists
