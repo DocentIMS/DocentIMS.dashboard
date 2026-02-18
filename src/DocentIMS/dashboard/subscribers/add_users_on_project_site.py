@@ -177,15 +177,11 @@ def handler(obj, event):
                     )
                     
                 message_html = MIMEText(message, 'html', _charset='UTF-8')
+                message_html['Subject'] = "Welcome to Docent Dashboard site"
+                message_html['From'] = portal.getProperty("email_from_address")
+                message_html['To'] = email
                     
-                mailhost.send(
-                    message_html.as_string(),
-                    mto=email,
-                    mfrom=portal.getProperty("email_from_address"),
-                    subject="Welcome to Docent Dashboard site",
-                    msg_type="text/html",
-                    charset="UTF-8",
-                )
+                mailhost.send(message_html.as_string())
 
                 # ready to create multipart mail
                 # email_charset = portal.mail_settings.email_charset        
