@@ -99,13 +99,9 @@ def handler(obj, event):
                 # 1. Find group
                 db_group =  api.user.get_users(groupname="DashboardManagers")
                 if db_group:
-                    db_members = db_group.getMemberIds()
-                    
-                    # 2. Find first person
-                    if db_members:
-                        db_user = db_group[0]
+                    db_user = db_group[0]
                         
-                        if db_user:
+                    if db_user:
                             # 3. Full name
                             dashboard_manager_fullname = db_user.getProperty("fullname", "")
                             
