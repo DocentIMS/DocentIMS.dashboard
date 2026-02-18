@@ -114,7 +114,7 @@ def handler(obj, event):
                 message = f"""
                     <html>
                     <body>
-                        <img src="https://meridian.docentdashboard.org/@@site-logo" alt="Docent Logo" width="100" />
+                        <img src="https://meridian.docentdashboard.org/@@site-logo" alt="Docent Logo" width="200" />
                         <p>Hello {first_name},</p>
 
                         <p>
@@ -172,33 +172,15 @@ def handler(obj, event):
                         "You must have a Mailhost utility to \
                     execute this action"
                     )
-                    
+                
                 message_html = MIMEText(message, 'html', _charset='UTF-8')
                 message_html['Subject'] = "Welcome to Docent Dashboard site"
-                message_html['From'] = portal.getProperty("email_from_address")
+                message_html['From'] = api.portal.get_registry_record('plone.email_from_address') or ''
                 message_html['To'] = email
                     
                 mailhost.send(message_html.as_string())
 
-                # ready to create multipart mail
-                # email_charset = portal.mail_settings.email_charset        
-                # message = self.construct_message()
-                # outer = MIMEMultipart('alternative')
-                # outer['Subject'] =  "Welcome to Docent Dashboard site"                  
-                # outer['To'] = email
-                # outer['From'] = mail_settings.email_from_address
-                # outer.epilogue = ''
-
-                # # Attach text part
-                # html_text = MIMEText(message, 'html', _charset='UTF-8')
-                # outer.attach(html_text)
-                # mailhost.send(outer.as_string())
-                
-                # api.portal.send_email(
-                #     recipient       = email,
-                #     subject         = "Welcome to Docent Dashboard site",
-                #     body=msg.as_string()
-                # )
+                 
                 
                 # Upload portrait if exists
                 portal_membership = api.portal.get_tool('portal_membership')
