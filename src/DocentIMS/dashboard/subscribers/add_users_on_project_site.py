@@ -156,7 +156,7 @@ def handler(obj, event):
                 api.portal.send_email(
                     recipient       = email,
                     subject         = "Welcome to Docent Dashboard site",
-                    html=html_body, 
+                    body = html_body, 
                 )
                 
                 # Upload portrait if exists
