@@ -42,8 +42,8 @@
       <description>We will use this to add users to project site. Later we will use field above</description>
       <required>False</required>
       
-        <!-- <widget type="plone.app.z3cform.widgets.SelectFieldWidget" /> -->
-      <title>Add users </title>
+      <!-- <widget type="plone.app.z3cform.widgets.SelectFieldWidget" /> -->
+      <title>Add Employee(s)</title>
       <value_type type="zope.schema.Choice">
         <vocabulary>plone.app.vocabularies.Users</vocabulary>
       </value_type>
