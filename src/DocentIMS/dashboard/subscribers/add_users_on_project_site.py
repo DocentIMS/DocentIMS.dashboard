@@ -83,17 +83,16 @@ def handler(obj, event):
                 dashboard_manager_company = ''
                 portal = api.portal.get()
                 portal_url = portal.absolute_url()
-
                 register_url = f"{portal_url}/register"
                 
                 # 1. Find group
-                group = api.group.get(groupname="DashboardManagers")
-                if group:
-                    members = group.getMemberIds()
+                db_group = api.group.get(groupname="DashboardManagers")
+                if db_group:
+                    db_members = db_group.getMemberIds()
                     
                     # 2. Find first person
-                    if members:
-                        db_user = api.user.get(userid=members[0])
+                    if db_members:
+                        db_user = api.user.get(userid=db_members[0]).id
                         
                         if db_user:
                             # 3. Full name
@@ -157,7 +156,7 @@ def handler(obj, event):
                 api.portal.send_email(
                     recipient       = email,
                     subject         = "Welcome to Docent Dashboard site",
-                    body=html_body, 
+                    html=html_body, 
                 )
                 
                 # Upload portrait if exists
