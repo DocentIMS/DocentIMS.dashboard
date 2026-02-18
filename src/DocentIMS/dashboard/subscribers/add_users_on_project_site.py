@@ -6,6 +6,16 @@ import base64
 from  ..interfaces import IDocentimsSettings
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email import encoders
+from email.message import EmailMessage
+from email.mime.base import MIMEBase
+from email.utils import formataddr
+from zope.component import getUtility
+from plone.registry.interfaces import IRegistry
+from zope.interface.interfaces import ComponentLookupError
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces import IMailSchema
+from Acquisition import aq_inner
 
 def handler(obj, event):
     """ Event handler which will add users to project sites
@@ -105,7 +115,7 @@ def handler(obj, event):
                 # print(dashboard_manager_fullname)
                 # print(dashboard_manager_company)
                 
-                html_body = f"""
+                message = f"""
                     <html>
                     <body>
                         <p>Hello {first_name},</p>
@@ -154,14 +164,37 @@ def handler(obj, event):
                     </html>
                 """
                 
-                part2 = MIMEText(html_body, 'html')
-                msg = MIMEMultipart('alternative')
+                # self.construct_message()
+                registry = getUtility(IRegistry)
+                mail_settings = registry.forInterface(IMailSchema, prefix="plone")
                 
-                api.portal.send_email(
-                    recipient       = email,
-                    subject         = "Welcome to Docent Dashboard site",
-                    body=msg.as_string()
-                )
+                mailhost = getToolByName(portal, "MailHost")
+                if not mailhost:
+                    abc = 1
+                    raise ComponentLookupError(
+                        "You must have a Mailhost utility to \
+                    execute this action"
+                    )
+
+                # ready to create multipart mail
+                email_charset = portal.mail_settings.email_charset        
+                # message = self.construct_message()
+                outer = MIMEMultipart('alternative')
+                outer['Subject'] =  "Welcome to Docent Dashboard site"                  
+                outer['To'] = email
+                outer['From'] = mail_settings.email_from_address
+                outer.epilogue = ''
+
+                # Attach text part
+                html_text = MIMEText(message, 'html', _charset='UTF-8')
+                outer.attach(html_text)
+                mailhost.send(outer.as_string())
+                
+                # api.portal.send_email(
+                #     recipient       = email,
+                #     subject         = "Welcome to Docent Dashboard site",
+                #     body=msg.as_string()
+                # )
                 
                 # Upload portrait if exists
                 portal_membership = api.portal.get_tool('portal_membership')
