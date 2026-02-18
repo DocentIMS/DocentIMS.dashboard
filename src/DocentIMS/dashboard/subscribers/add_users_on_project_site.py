@@ -114,7 +114,7 @@ def handler(obj, event):
                 message = f"""
                     <html>
                     <body>
-                        <img src="https://meridian.docentdashboard.org/@@site-logo" alt="Docent Logo" />
+                        <img src="https://meridian.docentdashboard.org/@@site-logo" alt="Docent Logo" width="100" />
                         <p>Hello {first_name},</p>
 
                         <p>
