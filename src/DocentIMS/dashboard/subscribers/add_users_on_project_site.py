@@ -80,8 +80,6 @@ def handler(obj, event):
                 #something =  api.portal.get_registry_record('something', interface=IDocentimsSettings) or ''
 
                 
-                import pdb; pdb.set_trace()
-                
                 dashboard_manager_fullname = ''
                 dashboard_manager_company = ''
                 
