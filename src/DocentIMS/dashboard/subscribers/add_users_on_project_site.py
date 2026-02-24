@@ -67,8 +67,7 @@ def handler(obj, event):
                 "company" : user.getProperty("company"),
                 "description" : user.getProperty("description"),
                 "groups" : [{"@id": "PrjTeam"}]
-            }
-            
+            }            
             
             response = requests.post(users_endpoint, headers=headers, json=payload)            
             
@@ -88,7 +87,6 @@ def handler(obj, event):
                 groups_response = requests.patch(group_endpoint, headers=headers, json={"users": {response.json().get('username'): 'true'} })               
                 
                 #something =  api.portal.get_registry_record('something', interface=IDocentimsSettings) or ''
-
                 
                 dashboard_manager_fullname = 'My name'
                 dashboard_manager_company = 'My company'
@@ -156,6 +154,13 @@ def handler(obj, event):
                         Best regards,<br>
                         {dashboard_manager_fullname}<br>
                         {dashboard_manager_company}
+                        </p>
+                        <p>
+                            <hr/>
+                        </p>
+                        <p>
+                            You have also been added to {project_url}
+                            Set yourpassword at {project_url}/register for the Project site.
                         </p>
                     </body>
                     </html>

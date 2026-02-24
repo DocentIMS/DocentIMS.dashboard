@@ -5,6 +5,7 @@
   <body>
     <metal:content-core fill-slot="content">
       <metal:block define-macro="content">
+       <h4 style="font-family: 'Times', 'Times New Roman', 'Brush Script MT', 'Brush Script', 'Courier New', 'Courier'">Docent Dashboard</h4>
 
         <main class="appWrapper">
           <!-- sidebar -->
