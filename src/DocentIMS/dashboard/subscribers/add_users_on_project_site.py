@@ -147,7 +147,8 @@ def handler(obj, event):
                     "company" :  company, 
                     "dashboard_manager_company" : dashboard_manager_company,
                     "dashboard_manager_fullname" : dashboard_manager_fullname,
-                    "portal":  portal,             
+                    "portal":  portal,     
+                    "project_url": project_url,        
                 }
 
                 message = raw_message.format(**context_vars)
