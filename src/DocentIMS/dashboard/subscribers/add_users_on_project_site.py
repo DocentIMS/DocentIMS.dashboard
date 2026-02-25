@@ -17,6 +17,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IMailSchema
 from Acquisition import aq_inner
 
+
 def handler(obj, event):
     """ Event handler which will add users to project sites
     Not registered to content type since no content will be added to site
@@ -49,8 +50,13 @@ def handler(obj, event):
             fullname = user.getProperty("fullname")
             email = user.getProperty("email")
             first_name = user.getProperty("first_name")
+            groups = api.group.get_groups(username=username) 
+            import pdb; pdb.set_trace()
+            first_time = 'PrjTeam' not in [g.id for g in groups]
             
             api.group.add_user(groupname='PrjTeam', username=username)
+            last_name =  user.getProperty("last_name")
+            company = user.getProperty("company"),
             
 
             payload = {
@@ -58,13 +64,13 @@ def handler(obj, event):
                 "fullname": fullname,
                 "username": username, 
                 "sendPasswordReset": True,
-                "last_name" : user.getProperty("last_name"),
+                "last_name" : last_name,
                 "first_name" : first_name,
                 # "your_team_role" : user.getProperty("your_team_role"),
                 "your_team_role" : '--',
                 "office_phone_number" : user.getProperty("office_phone_number"),
                 "cellphone_number" : user.getProperty("cellphone_number"),
-                "company" : user.getProperty("company"),
+                "company" : company,
                 "description" : user.getProperty("description"),
                 "groups" : [{"@id": "PrjTeam"}]
             }            
@@ -109,7 +115,7 @@ def handler(obj, event):
                 # print(dashboard_manager_fullname)
                 # print(dashboard_manager_company)
                 
-                message = f"""
+                old_message = f"""
                     <html>
                     <body>
                         <img src="https://meridian.docentdashboard.org/@@site-logo" alt="Docent Logo" width="200" />
@@ -166,6 +172,25 @@ def handler(obj, event):
                     </html>
                 """
                 
+                mail_message = api.portal.get_registry_record('email_message', interface=IDocentimsSettings) or ''
+                raw_message = mail_message.raw
+                
+                context_vars = {                    
+                    "portal_url": portal_url,
+                    "register_url" : register_url,
+                    "email": email,
+                    "fullname": fullname,
+                    "username": username, 
+                    "last_name" :  last_name, 
+                    "first_name" : first_name,
+                    "company" :  company, 
+                    "dashboard_manager_company" : dashboard_manager_company,
+                    "portal":  portal,             
+                }
+
+                message = raw_message.format(**context_vars)
+                
+                
                 # self.construct_message()
                 registry = getUtility(IRegistry)
                 # mail_settings = registry.forInterface(IMailSchema, prefix="plone")
@@ -179,7 +204,11 @@ def handler(obj, event):
                     )
                 
                 message_html = MIMEText(message, 'html', _charset='UTF-8')
-                message_html['Subject'] = "Welcome to Docent Dashboard site"
+                mail_subject = "Welcome to a New Project"
+                if first_time:
+                     mail_subject = 'Welcome to Docent Dashboard site'
+                     
+                message_html['Subject'] = mail_subject
                 message_html['From'] = api.portal.get_registry_record('plone.email_from_address') or ''
                 message_html['To'] = email
                     

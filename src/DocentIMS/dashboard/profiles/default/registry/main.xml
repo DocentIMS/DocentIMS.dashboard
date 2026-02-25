@@ -8,6 +8,10 @@
     <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.vokabularies3" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="vokabularies3"/>
     <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.meeting_types" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="meeting_types"/>
     <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.companies" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="companies"/>
+    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.email_message" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="email_message">
+        <value>Email message</value>
+    </record>
+
 
     <record interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="dashboard">
         <field type="plone.registry.field.TextLine">

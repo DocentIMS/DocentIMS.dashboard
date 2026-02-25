@@ -11,6 +11,9 @@ from zope.interface import alsoProvides
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.registry import DictRow
 from z3c.form.browser.password import PasswordFieldWidget
+from plone.app.z3cform.widgets.richtext import RichTextFieldWidget
+from plone.app.textfield import RichText
+from plone.registry.field import PersistentField
 
 
 from plone import api
@@ -42,6 +45,23 @@ from zope.schema.interfaces import  InvalidValue
 
 from DocentIMS.dashboard import _
 
+
+class RichTextFieldRegistry(PersistentField, RichText):
+    """ persistent registry textfield """
+
+
+def richtextConstraint(value):
+    """ Workaround for bug 
+    """
+    value = value.output
+    return True 
+
+def richtextget(value):
+    """ Workaround for bug 
+    """
+     
+    value = value.output
+    return value 
 
      
 def not_required_in_debug_mode():
@@ -251,6 +271,16 @@ class IDocentimsSettings(model.Schema):
     #         ],
     #     )
     
+    widget(email_message=RichTextFieldWidget)
+    email_message = RichTextFieldRegistry(
+        title="Email message",
+        description="""You can use the following variables: 
+            {first_name}, {dashboard_manager_fullname}, {register_url}, {dashboard_manager_company} {project_url}         
+        """,
+        required=True,
+    )
+    
+    
     widget(dashboard=PasswordFieldWidget)
     dashboard  = schema.TextLine(
         title=_(u'Basic', 'Basic'),
@@ -306,6 +336,14 @@ class IDocentimsSettings(model.Schema):
         label=_(u'Company Roles'),
         fields=[
             'vokabularies3',
+        ] 
+    )
+    
+    model.fieldset(
+        'usermail',
+        label=_(u'Email messages'),
+        fields=[
+            'email_message',
         ] 
     )
 
