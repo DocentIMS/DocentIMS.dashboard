@@ -146,6 +146,7 @@ def handler(obj, event):
                     "first_name" : first_name,
                     "company" :  company, 
                     "dashboard_manager_company" : dashboard_manager_company,
+                    "dashboard_manager_fullname" : dashboard_manager_fullname,
                     "portal":  portal,             
                 }
 
