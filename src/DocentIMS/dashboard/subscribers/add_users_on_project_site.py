@@ -51,7 +51,6 @@ def handler(obj, event):
             email = user.getProperty("email")
             first_name = user.getProperty("first_name")
             groups = api.group.get_groups(username=username) 
-            import pdb; pdb.set_trace()
             first_time = 'PrjTeam' not in [g.id for g in groups]
             
             api.group.add_user(groupname='PrjTeam', username=username)
