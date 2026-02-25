@@ -163,7 +163,6 @@ class AddUser(object):
             raise Exception("Unknown Endpoint @users/%s/%s" % self.params)
 
         # Add a portal member
-        import pdb; pdb.set_trace()
         if not self.can_add_member:
             return self._error(
                 403,

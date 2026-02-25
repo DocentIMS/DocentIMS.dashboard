@@ -214,7 +214,6 @@ class IDocentimsDashboardLayer(IDefaultBrowserLayer):
 #     api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_password',  encrypted_password)
 
 # def retrieve_password():
-#     # import pdb; pdb.set_trace()
 #     encrypted_password = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_password',  default='admin') 
 #     encrypted_password = b'supersekretpasswordsupersekretpa'
 #     return decrypt_password('encrypted_password')
