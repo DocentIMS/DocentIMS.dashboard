@@ -273,13 +273,21 @@ class IDocentimsSettings(model.Schema):
     
     widget(email_message=RichTextFieldWidget)
     email_message = RichTextFieldRegistry(
-        title="Email message",
+        title="Email message for first added to a Project",
         description="""You can use the following variables: 
             {first_name}, {dashboard_manager_fullname}, {register_url}, {dashboard_manager_company} {project_url}         
         """,
         required=True,
     )
     
+    widget(email_message_returning=RichTextFieldWidget)
+    email_message_returning = RichTextFieldRegistry(
+        title="Email Message for Second Project etc ",
+        description="""You can use the following variables: 
+            {first_name}, {dashboard_manager_fullname}, {register_url}, {dashboard_manager_company} {project_url}         
+        """,
+        required=True,
+    )
     
     widget(dashboard=PasswordFieldWidget)
     dashboard  = schema.TextLine(
@@ -344,6 +352,7 @@ class IDocentimsSettings(model.Schema):
         label=_(u'Email messages'),
         fields=[
             'email_message',
+            'email_message_returning'
         ] 
     )
 

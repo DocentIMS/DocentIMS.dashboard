@@ -12,6 +12,12 @@
         <value>Email message</value>
     </record>
 
+    <record name="DocentIMS.dashboard.interfaces.IDocentimsSettings.email_message_returning" interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="email_message_returning">
+        <value>Email message second project</value>
+    </record>
+
+    
+
 
     <record interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="dashboard">
         <field type="plone.registry.field.TextLine">

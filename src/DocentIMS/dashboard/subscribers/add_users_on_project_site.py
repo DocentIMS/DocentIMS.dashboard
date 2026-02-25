@@ -55,8 +55,7 @@ def handler(obj, event):
             
             api.group.add_user(groupname='PrjTeam', username=username)
             last_name =  user.getProperty("last_name")
-            company = user.getProperty("company"),
-            
+            company = user.getProperty("company")
 
             payload = {
                 "email": email,
@@ -71,7 +70,22 @@ def handler(obj, event):
                 "cellphone_number" : user.getProperty("cellphone_number"),
                 "company" : company,
                 "description" : user.getProperty("description"),
-                "groups" : [{"@id": "PrjTeam"}]
+                "groups" : [{"@id": "PrjTeam"}],
+                "properties": {
+                    "email": email,
+                    "fullname": fullname,
+                    "username": username, 
+                    "sendPasswordReset": True,
+                    "last_name" : last_name,
+                    "first_name" : first_name,
+                    # "your_team_role" : user.getProperty("your_team_role"),
+                    "your_team_role" : '--',
+                    "office_phone_number" : user.getProperty("office_phone_number"),
+                    "cellphone_number" : user.getProperty("cellphone_number"),
+                    "company" : company,
+                    "description" : user.getProperty("description"),
+                    "groups" : [{"@id": "PrjTeam"}],
+                }
             }            
             
             response = requests.post(users_endpoint, headers=headers, json=payload)            
@@ -111,65 +125,13 @@ def handler(obj, event):
                             # 4. Company
                             dashboard_manager_company = db_user.getProperty("company", "")
 
-                # print(dashboard_manager_fullname)
-                # print(dashboard_manager_company)
-                
-                old_message = f"""
-                    <html>
-                    <body>
-                        <img src="https://meridian.docentdashboard.org/@@site-logo" alt="Docent Logo" width="200" />
-                        <p>Hello {first_name},</p>
-
-                        <p>
-                        My name is {dashboard_manager_fullname}, and I manage the Dashboard for all
-                        {dashboard_manager_company} projects. The Dashboard gives you a convenient, central place to view and
-                        access all your projects. You'll see more once you get started.
-                        </p>
-
-                        <p>
-                        You're receiving this email because you've been added to your first project
-                        with {dashboard_manager_company};.
-                        </p>
-
-                        <p><strong>Welcome to the team!</strong></p>
-
-                        <p>To get started, please follow these three steps:</p>
-                        <ol>
-                        <li>
-                            Follow this link
-                            <a href="{register_url}">
-                            To register with the Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            Once registered, return to the Dashboard and review the Help files.
-                        </li>
-                        <li>
-                            You will receive a separate email from the project site with instructions
-                            on signing up for your specific project.
-                        </li>
-                        </ol>
-
-                        <p>
-                        Thanks for taking a few minutes to get set up. If you have any questions,
-                        don't hesitate to reach out.
-                        </p>
-
-                        <p>
-                        Best regards,<br>
-                        {dashboard_manager_fullname}<br>
-                        {dashboard_manager_company}
-                        </p>
-                        <p>
-                            <hr/>
-                        </p>
-                        <p>
-                            You have also been added to {project_url}
-                            Set yourpassword at {project_url}/register for the Project site.
-                        </p>
-                    </body>
-                    </html>
-                """
+                #Different mail for first and next project
+                mail_subject = "Welcome to a New Project"
+                mail_message = api.portal.get_registry_record('email_message_returning', interface=IDocentimsSettings) or ''
+                     
+                if first_time:
+                     mail_subject = 'Welcome to Docent Dashboard site'
+                     mail_message = api.portal.get_registry_record('email_message', interface=IDocentimsSettings) or ''
                 
                 mail_message = api.portal.get_registry_record('email_message', interface=IDocentimsSettings) or ''
                 raw_message = mail_message.raw
@@ -188,9 +150,6 @@ def handler(obj, event):
                 }
 
                 message = raw_message.format(**context_vars)
-                
-                
-                # self.construct_message()
                 registry = getUtility(IRegistry)
                 # mail_settings = registry.forInterface(IMailSchema, prefix="plone")
                 
@@ -203,9 +162,7 @@ def handler(obj, event):
                     )
                 
                 message_html = MIMEText(message, 'html', _charset='UTF-8')
-                mail_subject = "Welcome to a New Project"
-                if first_time:
-                     mail_subject = 'Welcome to Docent Dashboard site'
+                
                      
                 message_html['Subject'] = mail_subject
                 message_html['From'] = api.portal.get_registry_record('plone.email_from_address') or ''
