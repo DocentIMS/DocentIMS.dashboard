@@ -219,6 +219,7 @@ def handler(obj, event):
                 api.portal.show_message(message=f"⚠️ User {username} already exists", type='info')
             elif response.status_code == 500:
                 api.portal.show_message(message=f"{fullname} not added to project site.  Will not send email to this user", type='info')
+                api.portal.show_message(message=f"❌ Error creating {username}: {response.status_code} {response.text}", type='warning')                
             elif response.status_code == 401:
                 api.portal.show_message(message=f"Password is incorrect. Fix it in control panel", type='warning ')
             else:
