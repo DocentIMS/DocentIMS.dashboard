@@ -175,8 +175,6 @@ def handler(obj, event):
                 # message = raw_message.format_map(SafeDict(context_vars))
                 message = build_message(raw_message, obj, context_vars)
                 
-                import pdb; pdb.set_trace()
-                
                 registry = getUtility(IRegistry)
                 
                 mailhost = getToolByName(portal, "MailHost")
@@ -195,9 +193,6 @@ def handler(obj, event):
                 message_html['To'] = email
                     
                 mailhost.send(message_html.as_string())
-
-                 
-                
                 # Upload portrait if exists
                 portal_membership = api.portal.get_tool('portal_membership')
                 portrait = portal_membership.getPersonalPortrait(userid) 
@@ -225,6 +220,14 @@ def handler(obj, event):
                             print(f"⚠️ Failed to upload portrait for '{userid}'")
             elif response.status_code == 409:
                 print(f"⚠️ User {username} already exists")
+                api.portal.show_message(message=f"⚠️ User {username} already exists", type='info')
+            elif response.status_code == 500:
+                api.portal.show_message(message=f"{fullname} not added to project site.  Will not send email to this user", type='info')
+            elif response.status_code == 401:
+                api.portal.show_message(message=f"Password is incorrect. Fix it in control panel", type='warning ')
             else:
                 print(f"❌ Error creating {username}: {response.status_code} {response.text}")
+                api.portal.show_message(message=f"❌ Error creating {username}: {response.status_code} {response.text}", type='warning')
+                
+            
                 
