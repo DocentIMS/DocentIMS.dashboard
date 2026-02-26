@@ -2,24 +2,23 @@ from plone.restapi.interfaces import IFieldSerializer
 from plone.app.textfield.interfaces import IRichText
 from zope.component import adapter
 from zope.interface import implementer
-from plone.registry.interfaces import IRegistryRecord
+from zope.schema.interfaces import IField
 
 
 @implementer(IFieldSerializer)
-@adapter(IRichText, IRegistryRecord)
+@adapter(IRichText, IField)
 class RegistryRichTextFieldSerializer:
-    def __init__(self, field, record, request):
+    def __init__(self, field, value, request):
         self.field = field
-        self.record = record
+        self.value = value
         self.request = request
 
     def __call__(self):
-        value = self.record.value
-        if not value:
+        if not self.value:
             return None
 
         return {
-            "data": value.raw,
-            "content-type": value.mimeType,
+            "data": self.value.raw,
+            "content-type": self.value.mimeType,
             "encoding": "utf-8",
         }

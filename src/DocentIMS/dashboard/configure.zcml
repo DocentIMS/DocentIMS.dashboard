@@ -61,9 +61,9 @@
   <include package=".api" /> 
   
   <include package=".views" />
-  
+
   <adapter
-    factory=".serializers.richtext.RegistryRichTextFieldSerializer"
+    factory=".serializers.RegistryRichTextFieldSerializer"
 />
 
 </configure>
