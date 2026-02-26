@@ -273,7 +273,8 @@ class IDocentimsSettings(model.Schema):
     widget(email_message=RichTextFieldWidget)
     email_message = RichTextFieldRegistry(
         title="Email message for first added to a Project",
-        description="""You can use the following variables: 
+        description="""Remember to include info about project site and link to where they should set password {project_url}.
+        You can use the following variables: 
             {first_name}, {dashboard_manager_fullname}, {register_url}, {dashboard_manager_company} {project_url}         
         """,
         required=True,
@@ -282,7 +283,7 @@ class IDocentimsSettings(model.Schema):
     widget(email_message_returning=RichTextFieldWidget)
     email_message_returning = RichTextFieldRegistry(
         title="Email Message for Second Project etc ",
-        description="""You can use the following variables: 
+        description="""Should include info about project site, not dashboard. Remember to link to password reset. You can use the following variables: 
             {first_name}, {dashboard_manager_fullname}, {register_url}, {dashboard_manager_company} {project_url}         
         """,
         required=True,

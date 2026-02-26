@@ -18,6 +18,12 @@ from Products.CMFPlone.interfaces import IMailSchema
 from Acquisition import aq_inner
 
 
+class SafeDict(dict):
+    def __missing__(self, key):
+        return "{" + key + "}"
+
+
+
 def handler(obj, event):
     """ Event handler which will add users to project sites
     Not registered to content type since no content will be added to site
@@ -61,7 +67,8 @@ def handler(obj, event):
                 "email": email,
                 "fullname": fullname,
                 "username": username, 
-                "sendPasswordReset": True,
+                # Dont send password reset, we should include it in our email below
+                "sendPasswordReset": False,
                 "last_name" : last_name,
                 "first_name" : first_name,
                 # "your_team_role" : user.getProperty("your_team_role"),
@@ -150,10 +157,12 @@ def handler(obj, event):
                     "portal":  portal,     
                     "project_url": project_url,        
                 }
-
-                message = raw_message.format(**context_vars)
+                
+                # DO variable substitution of mail body
+                import pdb; pdb.set_trace()
+                message = raw_message.format_map(SafeDict(context_vars))
+                
                 registry = getUtility(IRegistry)
-                # mail_settings = registry.forInterface(IMailSchema, prefix="plone")
                 
                 mailhost = getToolByName(portal, "MailHost")
                 if not mailhost:
