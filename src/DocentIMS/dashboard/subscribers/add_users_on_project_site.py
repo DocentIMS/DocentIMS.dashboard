@@ -82,7 +82,7 @@ def handler(obj, event):
                 "fullname": fullname,
                 "username": username, 
                 # Dont send password reset, we should include it in our email below
-                "sendPasswordReset": False,
+                # "sendPasswordReset": False,
                 "last_name" : last_name,
                 "first_name" : first_name,
                 # "your_team_role" : user.getProperty("your_team_role"),
@@ -95,17 +95,13 @@ def handler(obj, event):
                 "properties": {
                     "email": email,
                     "fullname": fullname,
-                    "username": username, 
-                    "sendPasswordReset": True,
                     "last_name" : last_name,
                     "first_name" : first_name,
                     # "your_team_role" : user.getProperty("your_team_role"),
-                    "your_team_role" : '--',
                     "office_phone_number" : user.getProperty("office_phone_number"),
                     "cellphone_number" : user.getProperty("cellphone_number"),
                     "company" : company,
                     "description" : user.getProperty("description"),
-                    "groups" : [{"@id": "PrjTeam"}],
                 }
             }            
             
