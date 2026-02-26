@@ -16,11 +16,25 @@ from zope.interface.interfaces import ComponentLookupError
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IMailSchema
 from Acquisition import aq_inner
+# from zope.component import getMultiAdapter
+from zope.globalrequest import getRequest
+from plone.stringinterp.interfaces import IStringInterpolator
 
 
 class SafeDict(dict):
     def __missing__(self, key):
         return "{" + key + "}"
+
+
+def build_message(raw_message, obj, context_vars):
+    # 1️⃣ Python {} variables
+    message = raw_message.format_map(SafeDict(context_vars))
+
+    # 2️⃣ Plone ${} variables
+    interpolator = IStringInterpolator(obj)
+    message = interpolator(message)
+
+    return message
 
 
 
@@ -139,9 +153,8 @@ def handler(obj, event):
                 if first_time:
                      mail_subject = 'Welcome to Docent Dashboard site'
                      mail_message = api.portal.get_registry_record('email_message', interface=IDocentimsSettings) or ''
-                
-                mail_message = api.portal.get_registry_record('email_message', interface=IDocentimsSettings) or ''
                 raw_message = mail_message.raw
+                
                 
                 context_vars = {                    
                     "portal_url": portal_url,
@@ -159,8 +172,10 @@ def handler(obj, event):
                 }
                 
                 # DO variable substitution of mail body
+                # message = raw_message.format_map(SafeDict(context_vars))
+                message = build_message(raw_message, obj, context_vars)
+                
                 import pdb; pdb.set_trace()
-                message = raw_message.format_map(SafeDict(context_vars))
                 
                 registry = getUtility(IRegistry)
                 
