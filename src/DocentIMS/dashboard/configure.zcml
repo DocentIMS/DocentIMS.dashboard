@@ -64,6 +64,9 @@
 
   <adapter
     factory=".serializers.RegistryRichTextFieldSerializer"
+    provides="plone.restapi.interfaces.IFieldSerializer"
 />
+
+
 
 </configure>

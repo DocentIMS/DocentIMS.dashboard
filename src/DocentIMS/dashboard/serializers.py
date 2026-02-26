@@ -5,20 +5,26 @@ from zope.interface import implementer
 from zope.schema.interfaces import IField
 
 
+def html_to_text(html):
+    h =  html2text.HTML2Text()
+    return h.handle(html)
+
+
 @implementer(IFieldSerializer)
 @adapter(IRichText, IField)
 class RegistryRichTextFieldSerializer:
-    def __init__(self, field, value, request):
+    def __init__(self, field, context, request):
         self.field = field
-        self.value = value
+        self.context = context
         self.request = request
 
     def __call__(self):
-        if not self.value:
-            return None
+        value = self.field.get(self.context)
 
-        return {
-            "data": self.value.raw,
-            "content-type": self.value.mimeType,
-            "encoding": "utf-8",
-        }
+        if not value:
+            return ""
+
+        return html_to_text(value.output)
+        
+ 
+ 
