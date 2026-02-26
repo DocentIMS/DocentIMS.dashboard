@@ -82,7 +82,7 @@ def handler(obj, event):
                 "fullname": fullname,
                 "username": username, 
                 # Dont send password reset, we should include it in our email below
-                # "sendPasswordReset": False,
+                "sendPasswordReset": True,
                 "last_name" : last_name,
                 "first_name" : first_name,
                 # "your_team_role" : user.getProperty("your_team_role"),
