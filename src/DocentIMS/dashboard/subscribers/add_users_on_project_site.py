@@ -225,7 +225,7 @@ def handler(obj, event):
                 api.portal.show_message(message=f"Password is incorrect. Fix it in control panel", type='warning ')
             else:
                 print(f"❌ Error creating {username}: {response.status_code} {response.text}")
-                api.portal.show_message(message=f"❌ Error creating {username}: {response.status_code} {response.text}", type='warning')
+                api.portal.show_message(message=f"{username} is probably already on the project", type='info')
                 
             
                 
