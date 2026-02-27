@@ -16,9 +16,6 @@
         <value>Email message second project</value>
     </record>
 
-    
-
-
     <record interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="dashboard">
         <field type="plone.registry.field.TextLine">
         </field>

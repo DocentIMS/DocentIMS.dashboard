@@ -11,11 +11,9 @@ from zope.interface import alsoProvides
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.registry import DictRow
 from z3c.form.browser.password import PasswordFieldWidget
-from plone.app.z3cform.widgets.richtext import RichTextFieldWidget
-from plone.app.textfield import RichText
-from plone.registry.field import PersistentField
-
-
+# from plone.app.z3cform.widgets.richtext import RichTextFieldWidget
+# from plone.app.textfield import RichText
+# from plone.registry.field import PersistentField
 from plone import api
 from zope.interface import implementer
 from zope.interface import Interface
@@ -46,8 +44,8 @@ from zope.schema.interfaces import  InvalidValue
 from DocentIMS.dashboard import _
 
 
-class RichTextFieldRegistry(PersistentField, RichText):
-    """ persistent registry textfield """
+# class RichTextFieldRegistry(PersistentField, RichText):
+#     """ persistent registry textfield """
 
 
 def richtextConstraint(value):
@@ -270,8 +268,9 @@ class IDocentimsSettings(model.Schema):
     #         ],
     #     )
     
-    widget(email_message=RichTextFieldWidget)
-    email_message = RichTextFieldRegistry(
+    
+    widget("email_message", klass="pat-tinymce")
+    email_message = schema.Text(
         title="Email message for first added to a Project",
         description="""Remember to include info about project site and link to where they should set password {project_url}.
         You can use the following variables: 
@@ -280,8 +279,8 @@ class IDocentimsSettings(model.Schema):
         required=True,
     )
     
-    widget(email_message_returning=RichTextFieldWidget)
-    email_message_returning = RichTextFieldRegistry(
+    widget("email_message_returning", klass="pat-tinymce")
+    email_message_returning  = schema.Text(
         title="Email Message for Second Project etc ",
         description="""Should include info about project site, not dashboard. Remember to link to password reset. You can use the following variables: 
             {first_name}, {dashboard_manager_fullname}, {register_url}, {dashboard_manager_company} {project_url}         

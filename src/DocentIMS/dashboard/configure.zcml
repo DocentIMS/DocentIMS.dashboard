@@ -62,10 +62,10 @@
   
   <include package=".views" />
 
-  <adapter
+  <!-- <adapter
     factory=".serializers.RegistryRichTextFieldSerializer"
     provides="plone.restapi.interfaces.IFieldSerializer"
-/>
+/> -->
 
 
 
