@@ -149,7 +149,8 @@ def handler(obj, event):
                 if first_time:
                      mail_subject = 'Welcome to Docent Dashboard site'
                      mail_message = api.portal.get_registry_record('email_message', interface=IDocentimsSettings) or ''
-                raw_message = mail_message.raw
+                # raw_message = mail_message.raw  if we can get rich text to work
+                raw_message = mail_message
                 
                 
                 context_vars = {                    
