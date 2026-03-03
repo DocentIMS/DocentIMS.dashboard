@@ -45,6 +45,7 @@ def handler(obj, event):
     
     if obj.portal_type == "Project":
         project_url = obj.project_url
+        project_title = obj.Title()
         user_list = obj.add_users
         
         #Dummy password, TO DO: Change / get from some settings
@@ -165,7 +166,10 @@ def handler(obj, event):
                     "dashboard_manager_company" : dashboard_manager_company,
                     "dashboard_manager_fullname" : dashboard_manager_fullname,
                     "portal":  portal,     
-                    "project_url": project_url,        
+                    "project_url": project_url,    
+                    "project_title": project_title,
+                    "user_name": username,
+                    "username": username,    
                 }
                 
                 # DO variable substitution of mail body
