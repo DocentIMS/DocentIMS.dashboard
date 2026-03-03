@@ -168,6 +168,7 @@ def handler(obj, event):
                     "portal":  portal,     
                     "project_url": project_url,    
                     "project_title": project_title,
+                    "project_name": project_title,
                     "user_name": username,
                     "username": username,    
                 }
