@@ -77,6 +77,13 @@ def handler(obj, event):
             api.group.add_user(groupname='PrjTeam', username=username)
             last_name =  user.getProperty("last_name")
             company = user.getProperty("company")
+            reset_tool = getToolByName(portal, 'portal_password_reset')
+
+            # Create token WITHOUT sending email
+            token = reset_tool._generateToken(userid)
+
+            # Build the reset URL exactly like Plone
+            reset_url = f"{portal.absolute_url()}/@@reset-password?token={token}"
 
             payload = {
                 "email": email,
@@ -170,7 +177,8 @@ def handler(obj, event):
                     "project_title": project_title,
                     "project_name": project_title,
                     "user_name": username,
-                    "username": username,    
+                    "username": username,   
+                    "reset_url": reset_url, 
                 }
                 
                 # DO variable substitution of mail body

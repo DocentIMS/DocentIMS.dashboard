@@ -274,7 +274,7 @@ class IDocentimsSettings(model.Schema):
         title="Email message for first added to a Project",
         description="""Remember to include info about project site and link to where they should set password {project_url}.
         You can use the following variables: 
-            {first_name}, {dashboard_manager_fullname}, {register_url}, {dashboard_manager_company} {project_url}         
+            {first_name}, {dashboard_manager_fullname}, {project_name}, {username}, {register_url}, {dashboard_manager_company} {project_url}         
         """,
         required=True,
     )
@@ -283,7 +283,7 @@ class IDocentimsSettings(model.Schema):
     email_message_returning  = schema.Text(
         title="Email Message for Second Project etc ",
         description="""Should include info about project site, not dashboard. Remember to link to password reset. You can use the following variables: 
-            {first_name}, {dashboard_manager_fullname}, {register_url}, {dashboard_manager_company} {project_url}         
+            {first_name}, {dashboard_manager_fullname}, {project_name}, {username}, {register_url}, {dashboard_manager_company} {project_url}         
         """,
         required=True,
     )
