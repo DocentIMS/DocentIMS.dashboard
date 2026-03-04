@@ -78,25 +78,18 @@ def handler(obj, event):
             last_name =  user.getProperty("last_name")
             company = user.getProperty("company")
             portal = api.portal.get()
-            reset_tool = getToolByName(portal, "portal_password_reset")
-
-            # Step 1: generate token (this stores it internally)
-            reset_tool.requestReset(userid)
-
-            # Step 2: retrieve the token from storage
-            storage = reset_tool._storage  # internal mapping
-
-            token = None
-            for key, value in storage.items():
-                if value.get("login") == userid:
-                    token = key
-                    break
-
-            if not token:
-                raise ValueError("No reset token generated")
-
-            # Step 3: build reset URL (Classic UI)
-            reset_url = f"{portal.absolute_url()}/@@reset-password?token={token}"
+            registration = getToolByName(portal, 'portal_registration')
+            
+            # Generate the reset token — same one Plone uses internally
+            token = registration.generateResetCode(userid)  # Plone 4 style
+            # OR for Plone 5/6:
+            pas_reset = getToolByName(portal, 'portal_password_reset')
+            reset_info = pas_reset.requestReset(userid)
+            token = reset_info['randomstring']
+            
+            portal_url = portal.absolute_url()
+            reset_url = f"{portal_url}/passwordreset/{token}?userid={userid}"
+ 
 
             payload = {
                 "email": email,
