@@ -185,6 +185,8 @@ def handler(obj, event):
                     "user_name": username,
                     "username": username,   
                     "reset_url": reset_url, 
+                    "dashboard_set_password_url": reset_url, 
+                    
                 }
                 
                 # DO variable substitution of mail body
