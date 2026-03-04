@@ -77,13 +77,25 @@ def handler(obj, event):
             api.group.add_user(groupname='PrjTeam', username=username)
             last_name =  user.getProperty("last_name")
             company = user.getProperty("company")
-            portal =   api.portal.get()
-            reset_tool = getToolByName(portal, 'portal_password_reset')
+            portal = api.portal.get()
+            reset_tool = getToolByName(portal, "portal_password_reset")
 
-            # Create token WITHOUT sending email
-            token = reset_tool._generateToken(userid)
+            # Step 1: generate token (this stores it internally)
+            reset_tool.requestReset(userid)
 
-            # Build the reset URL exactly like Plone
+            # Step 2: retrieve the token from storage
+            storage = reset_tool._storage  # internal mapping
+
+            token = None
+            for key, value in storage.items():
+                if value.get("login") == userid:
+                    token = key
+                    break
+
+            if not token:
+                raise ValueError("No reset token generated")
+
+            # Step 3: build reset URL (Classic UI)
             reset_url = f"{portal.absolute_url()}/@@reset-password?token={token}"
 
             payload = {
