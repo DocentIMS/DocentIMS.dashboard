@@ -77,7 +77,7 @@ def handler(obj, event):
             api.group.add_user(groupname='PrjTeam', username=username)
             last_name =  user.getProperty("last_name")
             company = user.getProperty("company")
-            portal =  plone.api.portal.get()
+            portal =   api.portal.get()
             reset_tool = getToolByName(portal, 'portal_password_reset')
 
             # Create token WITHOUT sending email
