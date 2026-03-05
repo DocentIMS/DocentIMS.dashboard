@@ -10,7 +10,6 @@
 <metal:custom_title fill-slot="content-title">
         <h1 class="documentFirstHeading"
             i18n:translate="heading_reset_password">Set your password</h1>
-            xxxxxxx
 </metal:custom_title>
 
 <metal:custom_desc fill-slot="content-description">
