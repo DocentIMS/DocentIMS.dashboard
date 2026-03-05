@@ -83,6 +83,8 @@ class UsersImport(form.Form):
                 "cellphone",
                 "officephone",
                 "company"
+                "prj_related_skills",
+                "notes" 
             ]
 
             missing = [field for field in required_fields if not row.get(field)]
