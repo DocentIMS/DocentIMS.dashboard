@@ -28,6 +28,15 @@
          </property>
          <property name="visible">True</property>
       </object>
+      <object name="sitemap" meta_type="CMF Action" i18n:domain="plone">
+         <property name="visible">False</property>
+      </object>
+      <object name="accessibility" meta_type="CMF Action" i18n:domain="plone">
+         <property name="visible">False</property>
+      </object>
+      <object name="contact" meta_type="CMF Action" i18n:domain="plone">
+         <property name="visible">False</property>
+      </object>
    </object>
    <object name="user" meta_type="CMF Action Category">
       <object name="manager_controlpanel" meta_type="CMF Action" i18n:domain="plone">
@@ -71,7 +80,7 @@
          </property>
          <property name="visible">True</property>
       </object> -->
-      
+
       <!-- <object name="import_meetings" meta_type="CMF Action" i18n:domain="plone">
          <property name="title" i18n:translate="">Import Meeting Settings (Excel)</property>
          <property name="description" i18n:translate=""></property>
@@ -86,7 +95,7 @@
       </object> -->
 
 
-            
+
       <!-- <object name="roles_locations_meetings" meta_type="CMF Action" i18n:domain="plone">
          <property name="title" i18n:translate="">Import Roles and Locations Settings (Excel)</property>
          <property name="description" i18n:translate=""></property>

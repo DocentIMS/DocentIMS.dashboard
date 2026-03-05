@@ -106,6 +106,7 @@ def handler(obj, event):
                 "company" : company,
                 "description" : user.getProperty("description"),
                 "groups" : [{"@id": "PrjTeam"}],
+                "notes": user.getProperty("notes"),
                 "properties": {
                     "email": email,
                     "fullname": fullname,
@@ -116,6 +117,7 @@ def handler(obj, event):
                     "cellphone_number" : user.getProperty("cellphone_number"),
                     "company" : company,
                     "description" : user.getProperty("description"),
+                    "notes": user.getProperty("notes") 
                 }
             }            
             

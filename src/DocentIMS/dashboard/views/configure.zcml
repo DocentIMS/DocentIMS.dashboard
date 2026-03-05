@@ -24,6 +24,16 @@
     layer="DocentIMS.dashboard.interfaces.IDocentimsDashboardLayer"
     />
 
+    <!-- <@implementer(IPublishTraverse)
+class PasswordResetView(BrowserView):
+    """ """
+
+    invalid = ViewPageTemplateFile("templates/pwreset_invalid.pt")
+    expired = ViewPageTemplateFile("templates/pwreset_expired.pt")
+    finish = ViewPageTemplateFile("templates/pwreset_finish.pt")
+    form = ViewPageTemplateFile("templates/pwreset_form.pt")
+    subpath = None -->
+
 
     <!-- Register BrowserView -->
     <!-- <browser:page
