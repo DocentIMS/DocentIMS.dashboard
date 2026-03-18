@@ -67,15 +67,6 @@ class EditForm(base.EditForm):
 
 
 
-def cache_key_news(method, self):
-    user = self.get_current()
-    t = int(time.time() / CACHE_TIMEOUT)
-
-    refresh = self.request.get('refresh', None)
-    if refresh:
-        # unique key every time → bypass cache
-        return f"news-{user}-{time.time()}"
-    return f"news-{user}-{t}"
 
 
 
@@ -85,6 +76,16 @@ class Renderer(base.Renderer):
 
     def __init__(self, *args):
         base.Renderer.__init__(self, *args)
+
+    def cache_key_news(method, self):
+        user = self.get_current()
+        t = int(time.time() / CACHE_TIMEOUT)
+
+        refresh = self.request.get('refresh', None)
+        if refresh:
+            # unique key every time → bypass cache
+            return f"news-{user}-{time.time()}"
+        return f"news-{user}-{t}"
 
 
     def render(self):
