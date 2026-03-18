@@ -57,6 +57,7 @@ class AppInjectView(BrowserView):
         # TO DO: dont use admin 
         # print('getting dashboard info')
         #Should happen every 15 minutes or on reload ?
+        # print('getting stuff')
         
         siteurl = self.request.get('siteurl', 'http://mymeadows.org')
         # app_password =  api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_password')
@@ -70,6 +71,8 @@ class AppInjectView(BrowserView):
             
         return None
     
+    def portlet_data(self):
+        return self.get_portlet_data()
     
     @ram.cache(cache_key_subbuttons)   
     def get_portlet_data(self):

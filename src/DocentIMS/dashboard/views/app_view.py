@@ -9,7 +9,7 @@ from datetime import datetime
 import socket
  
 
-# 30 minutes in seconds
+# 15 minutes in seconds
 CACHE_TIMEOUT = 15 * 60
 
 def cache_key_buttons(method, self):
@@ -18,7 +18,6 @@ def cache_key_buttons(method, self):
 
     refresh = self.request.get('refresh', None)
     if refresh:
-        # unique key every time → bypass cache
         return f"buttons-{user}-refresh"
     
     
@@ -46,6 +45,9 @@ class AppView(BrowserView):
         # return now.strftime('%A, %d %B %Y, %I:%M %p')
         return now.strftime('%d %b %I:%M %p')
 
+    def buttons(self):
+        return self.get_buttons()
+    
     @ram.cache(cache_key_buttons)
     def get_buttons(self):
         
@@ -148,15 +150,4 @@ class AppView(BrowserView):
         except Exception as e:
             return f"Error resolving domain IP: {e}"
     
-    
-    # def get_client_ip(self):
-    #     if requests:
-    #         return requests.get("HTTP_X_FORWARDED_FOR", requests.get("REMOTE_ADDR", "Unknown"))
-    #     return "Unknown"
-
-    # def get_if_login(self):
-    #     current = api.user.get_current()
-    #     last_login_time =  current.getProperty('last_login_time', None)
-    #     return last_login_time.year() == 2000 
-        
-  
+ 

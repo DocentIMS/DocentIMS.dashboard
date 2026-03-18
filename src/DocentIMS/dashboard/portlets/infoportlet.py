@@ -68,13 +68,14 @@ class EditForm(base.EditForm):
 
 
 def cache_key_news(method, self):
-    user = self.get_current()
-    t = int(time.time() / CACHE_TIMEOUT)
+        user = self.get_current()
+        t = int(time.time() / CACHE_TIMEOUT)
+        
+        if self.request.get('refresh'):
+            return f"news-{user}-refresh"
 
-    if self.request.get('refresh'):
-        return f"news-{user}-refresh"
+        return f"news-{user}-{t}"
 
-    return f"news-{user}-{t}"
 
 
 class Renderer(base.Renderer):
@@ -83,6 +84,7 @@ class Renderer(base.Renderer):
 
     def render(self):
         return self._template()
+
 
     @ram.cache(cache_key_news)
     def get_info(self):
