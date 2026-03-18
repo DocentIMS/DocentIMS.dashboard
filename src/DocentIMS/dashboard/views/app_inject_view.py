@@ -22,7 +22,7 @@ def cache_key_subbuttons(method, self):
     refresh = self.request.get('refresh', None)
     if refresh:
         # unique key every time → bypass cache
-        return f"inject-{user}-{time.time()}"
+        return f"inject-{user}-refresh"
     
     return f"inject-{user}-{t}"
 
@@ -52,7 +52,7 @@ class AppInjectView(BrowserView):
         return current.getUserName()
         # return current.getProperty('email')
     
-    # @ram.cache(cache_key_subbuttons)
+    @ram.cache(cache_key_subbuttons)
     def get_dashboard_info(self):
         # TO DO: dont use admin 
         # print('getting dashboard info')

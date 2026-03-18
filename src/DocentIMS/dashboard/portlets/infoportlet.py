@@ -84,9 +84,8 @@ class Renderer(base.Renderer):
         refresh = self.request.get('refresh', None)
         if refresh:
             # unique key every time → bypass cache
-            return f"news-{user}-{time.time()}"
+            return f"news-{user}-refresh"
         return f"news-{user}-{t}"
-
 
     def render(self):
         return self._template()
@@ -99,7 +98,6 @@ class Renderer(base.Renderer):
         current = api.user.get_current()
         return current.getUserName()
     
-    @ram.cache(cache_key_news)     
     def _data(self):   
         urls = None        
         result = []
