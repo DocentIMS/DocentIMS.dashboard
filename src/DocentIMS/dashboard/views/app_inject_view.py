@@ -4,7 +4,7 @@ from Products.Five.browser import BrowserView
 from zope.interface import Interface
 import requests
 from plone import api
-
+from  ..interfaces import IDocentimsSettings
 from plone.memoize import ram
 import time 
 
@@ -57,8 +57,8 @@ class AppInjectView(BrowserView):
         siteurl = self.request.get('siteurl', 'http://mymeadows.org')
         # app_password =  api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_password')
         # app_user = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_user')
-        
-        response = requests.get(f'{siteurl}/@item_count?user={self.get_current()}', timeout=3,  headers={'Accept': 'application/json', 'Content-Type': 'application/json'} )
+        basik =  api.portal.get_registry_record('dashboard', interface=IDocentimsSettings) or ''
+        response = requests.get(f'{siteurl}/@item_count?user={self.get_current()}', timeout=3,  headers={'Authorization': f'Basic {basik}','Accept': 'application/json', 'Content-Type': 'application/json'} )
  
         if response:
                 body = response.json()
@@ -67,7 +67,7 @@ class AppInjectView(BrowserView):
         return None
     
     
-    @ram.cache(cache_key_subbuttons)   
+    # @ram.cache(cache_key_subbuttons)   
     def get_portlet_data(self):
         print('getting dashboard portlets')
         #Should happen every 15 minutes or on reload ?

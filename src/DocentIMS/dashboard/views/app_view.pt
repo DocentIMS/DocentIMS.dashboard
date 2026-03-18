@@ -5,9 +5,11 @@
   <body>
     <metal:content-core fill-slot="content">
       <metal:block define-macro="content">
-       <h4 style="font-family: 'Times', 'Times New Roman', 'Brush Script MT', 'Brush Script', 'Courier New', 'Courier'">Docent Dashboard</h4>
-
+        <div class="row">
+          <h3 style="text-align:center; font-family: 'Times', 'Times New Roman', 'Brush Script MT', 'Brush Script', 'Courier New', 'Courier'">Docent Dashboard</h3>
+        </div>
         <main class="appWrapper">
+
           <!-- sidebar -->
           <!-- mobile header -->
           <!-- mobileSidebar -->
@@ -26,7 +28,7 @@
               </div> -->
 
             </div>
-            <div class=".wrapper loader">
+            <div class="wrapper loader">
               <p>
                 <span class=" projectselect" tal:condition="current|None">Please select project…</span> &nbsp;</p>
 
@@ -37,7 +39,7 @@
                 <div class="card-body" tal:define="button view/get_buttons|None">
                   <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <div tal:condition="not: button">You dont have any projects, yet.<br/>
-                      NOTE: (New) Projects might take 15 minutes to show up"
+                      NOTE: (New) Projects might take 15 minutes to show up.
                     </div>
                     <tal:repeat tal:repeat="button python:view.get_buttons()">
                       <li class="nav-item" role="presentation" tal:define="active python: 'active' if repeat.button.index == 0 else 'click'">
@@ -78,9 +80,8 @@
 
               <div>
               <p>&nbsp;</p>
-                <p><a href="${context/absolute_url}/@@login-help" tal:condition="not: current|None"  >Set Password
-             
-              </a></p>
+                <!-- <p><a href="${context/absolute_url}/@@login-help" tal:condition="not: current|None"  >Set Password -->             
+                <!-- </a></p> -->
               </div> 
 
             </div>

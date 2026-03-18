@@ -96,7 +96,7 @@ class Renderer(base.Renderer):
     # @memoize
     
     
-    def _data(self):        
+    def _data(self):   
         urls = None
         
         result = []    
@@ -106,7 +106,7 @@ class Renderer(base.Renderer):
         # 2) Create a list of URLs
         if projects:
             urls = [brain.project_url for brain in projects]
-        
+            
         if urls:
             for siteurl in urls:
                 try:                

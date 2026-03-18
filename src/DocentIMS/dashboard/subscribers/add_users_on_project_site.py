@@ -89,7 +89,6 @@ def handler(obj, event):
             
             portal_url = portal.absolute_url()
             reset_url = f"{portal_url}/passwordreset/{token}?userid={userid}"
- 
 
             payload = {
                 "email": email,
@@ -100,13 +99,12 @@ def handler(obj, event):
                 "last_name" : last_name,
                 "first_name" : first_name,
                 # "your_team_role" : user.getProperty("your_team_role"),
-                "your_team_role" : '--',
                 "office_phone_number" : user.getProperty("office_phone_number"),
                 "cellphone_number" : user.getProperty("cellphone_number"),
                 "company" : company,
                 "description" : user.getProperty("description"),
                 "groups" : [{"@id": "PrjTeam"}],
-                "notes": user.getProperty("notes"),
+                "notes": user.getProperty("notes", ''),
                 "properties": {
                     "email": email,
                     "fullname": fullname,

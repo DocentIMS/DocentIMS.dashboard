@@ -27,8 +27,7 @@
 #         self.value = value
 #         self.request = request
 
-#     def __call__(self):
-#         import pdb; pdb.set_trace()
+#     def __call__(self): 
 #         if not self.value:
 #             return None
 
