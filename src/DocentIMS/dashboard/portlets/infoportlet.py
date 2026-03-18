@@ -86,25 +86,22 @@ class Renderer(base.Renderer):
     def __init__(self, *args):
         base.Renderer.__init__(self, *args)
 
+
     def render(self):
         return self._template()
     
+    @ram.cache(cache_key_news)   
     def get_info(self):
         return self._data()
     
-    @ram.cache(cache_key_news)    
     def get_current(self):
         current = api.user.get_current()
-        #return current.getId()
         return current.getUserName()
-        # return current.getProperty('email')
-
-    @ram.cache(cache_key_news)   
+    
+    @ram.cache(cache_key_news)     
     def _data(self):   
-        urls = None
-        
-        result = []    
-        
+        urls = None        
+        result = []
         projects = api.content.find(portal_type='Project')
 
         # 2) Create a list of URLs
