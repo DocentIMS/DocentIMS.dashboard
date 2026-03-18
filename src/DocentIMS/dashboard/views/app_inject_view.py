@@ -15,12 +15,16 @@ import time
 # 15 minutes in seconds
 CACHE_TIMEOUT = 15 * 60
 
-def cache_key_subbuttons(method, self):
-    # Use a key based on user and current time rounded to timeout
+def cache_key_subbuttons(method, self): 
     user = self.get_current()
-    # rounding to nearest CACHE_TIMEOUT to make cache last exactly 15 min
     t = int(time.time() / CACHE_TIMEOUT)
-    return f"subbuttons-{user}-{t}"
+
+    refresh = self.request.get('refresh', None)
+    if refresh:
+        # unique key every time → bypass cache
+        return f"buttons-{user}-{time.time()}"
+    
+    return f"buttons-{user}-{t}"
 
 
 class IAppInjectView(Interface):

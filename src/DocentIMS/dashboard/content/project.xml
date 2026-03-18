@@ -47,6 +47,7 @@
       <value_type type="zope.schema.Choice">
         <vocabulary>plone.app.vocabularies.Users</vocabulary>
       </value_type>
+      <widget type="plone.app.z3cform.widgets.relateditems.RelatedItemsFieldWidget" />
     </field>
  
   </schema>
