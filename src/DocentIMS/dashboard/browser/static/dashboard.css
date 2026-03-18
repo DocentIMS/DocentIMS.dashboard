@@ -418,6 +418,7 @@ body {
 
 .projectButton .btn.active {
     opacity: 1;
+    box-shadow: #111 6px 6px 10px;
 }
 
 #main-container a.button,
