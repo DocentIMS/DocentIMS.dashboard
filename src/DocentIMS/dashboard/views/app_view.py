@@ -45,8 +45,8 @@ class AppView(BrowserView):
         # return now.strftime('%A, %d %B %Y, %I:%M %p')
         return now.strftime('%d %b %I:%M %p')
 
-    def buttons(self):
-        return self.get_buttons()
+    # def buttons(self):
+    #     return self.get_buttons()
     
     @ram.cache(cache_key_buttons)
     def get_buttons(self):

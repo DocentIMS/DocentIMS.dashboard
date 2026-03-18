@@ -36,12 +36,12 @@
 
             <div class="projectButton" tal:condition="current|None">
               <div class="card">
-                <div class="card-body" tal:define="button view/buttons|None">
+                <div class="card-body" tal:define="button view/get_buttons|None">
                   <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <div tal:condition="not: button">You dont have any projects, yet.<br/>
                       NOTE: (New) Projects might take 15 minutes to show up.
                     </div>
-                    <tal:repeat tal:repeat="button python:view.buttons()">
+                    <tal:repeat tal:repeat="button python:view.get_buttons()">
                       <li class="nav-item" role="presentation" tal:define="active python: 'active' if repeat.button.index == 0 else 'click'">
                         <a style="background-color: ${python: button['project_color']}" class="button btn pat-inject ${active}" href="${context/absolute_url}/app-inject-view?siteurl=${python: button['url']}" data-pat-inject="source: #appWrapper; target: #appWrapper">
  												 ${python: button['name']} 
