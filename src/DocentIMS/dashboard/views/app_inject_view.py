@@ -22,9 +22,9 @@ def cache_key_subbuttons(method, self):
     refresh = self.request.get('refresh', None)
     if refresh:
         # unique key every time → bypass cache
-        return f"buttons-{user}-{time.time()}"
+        return f"inject-{user}-{time.time()}"
     
-    return f"buttons-{user}-{t}"
+    return f"inject-{user}-{t}"
 
 
 class IAppInjectView(Interface):
@@ -71,9 +71,8 @@ class AppInjectView(BrowserView):
         return None
     
     
-    # @ram.cache(cache_key_subbuttons)   
+    @ram.cache(cache_key_subbuttons)   
     def get_portlet_data(self):
-        print('getting dashboard portlets')
         #Should happen every 15 minutes or on reload ?
         siteurl = self.request.get('siteurl', 'http://mymeadows.org')        
         result = []    

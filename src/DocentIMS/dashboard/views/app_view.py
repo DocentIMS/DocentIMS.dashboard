@@ -7,9 +7,7 @@ from plone.memoize import ram
 import time
 from datetime import datetime
 import socket
-
-# from zope.globalrequest import getRequest
-import requests
+ 
 
 # 30 minutes in seconds
 CACHE_TIMEOUT = 15 * 60
@@ -22,6 +20,7 @@ def cache_key_buttons(method, self):
     if refresh:
         # unique key every time → bypass cache
         return f"buttons-{user}-{time.time()}"
+    
     
     return f"buttons-{user}-{t}"
 

@@ -1,22 +1,29 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from Acquisition import aq_inner
+# from Acquisition import aq_inner
 from DocentIMS.dashboard import _
 from plone import schema
 from plone.app.portlets.portlets import base
-from plone.memoize.instance import memoize
+# from plone.memoize.instance import memoize
+from plone.memoize import ram
 from plone.portlets.interfaces import IPortletDataProvider
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from z3c.form import field
-from zope.component import getMultiAdapter
+# from zope.component import getMultiAdapter
 from zope.interface import implementer
 from plone import api
 import requests
+import time
 
 import json
 import six.moves.urllib.error
 import six.moves.urllib.parse
 import six.moves.urllib.request
+
+
+
+# 30 minutes in seconds
+CACHE_TIMEOUT = 15 * 60
 
 
 class IInfoportletPortlet(IPortletDataProvider):
@@ -58,19 +65,26 @@ class EditForm(base.EditForm):
     description = _(u'This portlet displays info from sites')
 
 
+
+
+def cache_key_news(method, self):
+    user = self.get_current()
+    t = int(time.time() / CACHE_TIMEOUT)
+
+    refresh = self.request.get('refresh', None)
+    if refresh:
+        # unique key every time → bypass cache
+        return f"news-{user}-{time.time()}"
+    return f"news-{user}-{t}"
+
+
+
 class Renderer(base.Renderer):
     schema = IInfoportletPortlet
     _template = ViewPageTemplateFile('infoportlet.pt')
 
     def __init__(self, *args):
-        # self.result = self.get_data()
         base.Renderer.__init__(self, *args)
-        # context = aq_inner(self.context)
-        # portal_state = getMultiAdapter(
-        #     (context, self.request),
-        #     name=u'plone_portal_state'
-        # )
-        # self.anonymous = portal_state.anonymous()
 
     def render(self):
         return self._template()
@@ -78,24 +92,15 @@ class Renderer(base.Renderer):
     def get_info(self):
         return self._data()
     
-    
-    # @property
-    # def available(self):
-    #     """Show the portlet only if there are one or more elements and
-    #     not an anonymous user."""
-    #     return not self.anonymous and self._data()
-
-
+ 
     def get_current(self):
         current = api.user.get_current()
         #return current.getId()
         return current.getUserName()
         # return current.getProperty('email')
 
-
-    # @memoize
     
-    
+    @ram.cache(cache_key_news)   
     def _data(self):   
         urls = None
         
