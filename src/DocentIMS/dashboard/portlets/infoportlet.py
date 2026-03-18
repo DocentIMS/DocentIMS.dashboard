@@ -20,9 +20,6 @@ import six.moves.urllib.error
 import six.moves.urllib.parse
 import six.moves.urllib.request
 
-import time
-import socket
- 
 
 
 # 30 minutes in seconds
@@ -81,7 +78,7 @@ def cache_key_news(method, self):
     return f"news-{user}-{t}"
 
 
-@ram.cache(cache_key_news) 
+
 class Renderer(base.Renderer):
     schema = IInfoportletPortlet
     _template = ViewPageTemplateFile('infoportlet.pt')
@@ -93,14 +90,16 @@ class Renderer(base.Renderer):
         return self._template()
     
     def get_info(self):
-        return self._data()    
- 
+        return self._data()
+    
+    @ram.cache(cache_key_news)    
     def get_current(self):
         current = api.user.get_current()
         #return current.getId()
         return current.getUserName()
         # return current.getProperty('email')
-    
+
+    @ram.cache(cache_key_news)   
     def _data(self):   
         urls = None
         
