@@ -15,10 +15,14 @@ import requests
 CACHE_TIMEOUT = 15 * 60
 
 def cache_key_buttons(method, self):
-    # Use a key based on user and current time rounded to timeout
     user = self.get_current()
-    # rounding to nearest CACHE_TIMEOUT to make cache last exactly 30 min
     t = int(time.time() / CACHE_TIMEOUT)
+
+    refresh = self.request.get('refresh', None)
+    if refresh:
+        # unique key every time → bypass cache
+        return f"buttons-{user}-{time.time()}"
+    
     return f"buttons-{user}-{t}"
 
 
