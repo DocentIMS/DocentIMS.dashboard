@@ -5,11 +5,7 @@ from plone.restapi.services import Service
 from zope.component import adapter
 from zope.interface import Interface
 from zope.interface import implementer
-from plone.restapi.services import Service
 from zExceptions import Unauthorized
-
-# curl -i -X GET https://dashboard.docentims.com/@app_buttons  -H "Accept: application/json"   -k --user admin:admin
-
 
 
 @implementer(IExpandableElement)
@@ -23,7 +19,7 @@ class AppButtons(object):
     def __call__(self, expand=False):
         if api.user.is_anonymous():
             raise Unauthorized
-        
+
         result = {
             'app_buttons': {
                 '@id': '{}/@app_buttons'.format(
@@ -33,16 +29,15 @@ class AppButtons(object):
         }
         if not expand:
             return result
-        
-        
-        result = None
-        projects = api.content.find(portal_type='Project')
 
-        # 2) Create a list of URLs
-        if projects:
-            result = [brain.project_url for brain in projects]
-        
-        return result
+        projects = api.content.find(portal_type='Project')
+        urls = [brain.project_url for brain in projects] if projects else []
+
+        # FIX: Return the dict wrapper so callers can safely key into
+        # ['app_buttons'].  Previously __call__ returned a bare list when
+        # expanded, causing AppButtonsGet.reply() to crash with a TypeError
+        # when it tried result['app_buttons'].
+        return {'app_buttons': urls}
 
 
 class AppButtonsGet(Service):
@@ -50,9 +45,3 @@ class AppButtonsGet(Service):
     def reply(self):
         service_factory = AppButtons(self.context, self.request)
         return service_factory(expand=True)['app_buttons']
-
-
-
-
-
- 

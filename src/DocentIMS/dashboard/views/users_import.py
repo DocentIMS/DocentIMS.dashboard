@@ -82,7 +82,6 @@ class UsersImport(form.Form):
                 continue
 
             # FIX: Trailing comma made username a tuple instead of a string.
-            # username = row.get("user_name"),  <-- was wrong
             username = row.get("user_name")
             if not username or api.user.get(username=username):
                 continue

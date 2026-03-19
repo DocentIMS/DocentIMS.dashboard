@@ -24,6 +24,8 @@ class DashboardSites(object):
             return None
         
         user = api.user.get_current()
+        # We have this code because admin does not have an email
+        # and this gets called from 'word'
         usermail = self.request.get('email', None) 
         username = self.request.get('email', None)   
            
