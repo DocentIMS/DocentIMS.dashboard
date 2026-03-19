@@ -20,26 +20,6 @@ from zope.interface import Interface
 from zope.schema.interfaces import  InvalidValue
 
 
-# from plone.registry.interfaces import IRegistry
-# from zope.component import getUtility
-# from plone import api
-
-# from zope.interface import Interface
-# import base64
-# import hashlib
-# from cryptography.fernet import Fernet
-
-# # Your custom password
-# password = b'supersekretpasswordsupersekretpa'
-
-# # Derive a 32-byte key using a hashing function
-# key = base64.urlsafe_b64encode(hashlib.sha256(password).digest())
-
-# # Create a Fernet instance with the derived key
-# fernet = Fernet(key)
-# from DocentIMS.dashboard.interfaces import IDocentimsSettings 
-# KEY = base64.urlsafe_b64encode(b'suxxxxpersekretpasswordsupersekretpa')
-# fernet = Fernet(KEY)
 
 from DocentIMS.dashboard import _
 
@@ -192,36 +172,6 @@ class ICompany(model.Schema):
 
 class IDocentimsDashboardLayer(IDefaultBrowserLayer):
     """Marker interface that defines a browser layer."""
-
-
-# # Utility function to encrypt and decrypt the password
-# def encrypt_password(plain_text):
-#     return fernet.encrypt(plain_text.encode('utf-8')).decode('utf-8')
-
-# def decrypt_password(encrypted_text):
-#     print('starting')
-#     print(encrypted_text)
-#     pw = fernet.decrypt(encrypted_text.encode('utf-8')).decode('utf-8')
-#     print('running')
-#     print(pw)
-#     return pw
-
-# # Example of storing and retrieving the encrypted password
-# def store_password(password):
-#     encrypted_password = encrypt_password(password)
-#     api.portal.set_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_password',  encrypted_password)
-
-# def retrieve_password():
-#     encrypted_password = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_password',  default='admin') 
-#     encrypted_password = b'supersekretpasswordsupersekretpa'
-#     return decrypt_password('encrypted_password')
-
-# class IVocabulari(model.Schema):
-#     location_name = schema.URI(
-#         title=_(u'Site URL', 'Sites'),
-#         description=u"Sites",
-#         required=False,
-#     )
 
 
 class IDocentimsSettings(model.Schema):
