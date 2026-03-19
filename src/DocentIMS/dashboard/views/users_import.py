@@ -1,36 +1,37 @@
 # -*- coding: utf-8 -*-
-import csv
-import io
+# NOTE: This view is currently not registered in ZCML (registration is
+# commented out in views/configure.zcml).  The consolidated BulkImport form
+# (bulk_import.py, registered as @@import-from-excel) supersedes this file.
+# It is retained here with bugs corrected; consider removing once confident
+# BulkImport covers all use-cases.
+
 import requests
 from plone import api
-from Products.Five import BrowserView
 from zope.interface import Interface
 from zope.schema import Bytes
 from z3c.form import form, field, button
-# from plone.autoform import directives as form_directives
-from plone.namedfile.file import NamedBlobImage 
-from plone.namedfile.field import NamedBlobFile 
+from plone.namedfile.field import NamedBlobFile
 from io import BytesIO
-import pandas as pd  # needs openpyxl installed
+import pandas as pd
 from openpyxl import load_workbook
-import requests
+
 
 class IUsersImport(Interface):
-    """ Marker Interface for IUsersImport"""
+    """Marker Interface for IUsersImport"""
+
 
 class ICSVImportFormSchema(Interface):
-    
     csv_file = NamedBlobFile(
         title=u"Excel File",
-        description=u"Upload a Excel file to import.",
-        required=True
+        description=u"Upload an Excel file to import.",
+        required=True,
     )
-    
+
+
 class UsersImport(form.Form):
     fields = field.Fields(ICSVImportFormSchema)
     ignoreContext = True
     label = u"Import Users from Excel"
-    #  import_completed = False
 
     @button.buttonAndHandler(u"Import")
     def handleImport(self, action):
@@ -41,69 +42,57 @@ class UsersImport(form.Form):
 
         file_data = data['csv_file']
 
-        # Get raw bytes from the upload
-        if hasattr(file_data, 'data'):                 # plone.namedfile NamedBlobFile
+        if hasattr(file_data, 'data'):
             raw = file_data.data
-        elif hasattr(file_data, 'read'):               # ZPublisher FileUpload
+        elif hasattr(file_data, 'read'):
             raw = file_data.read()
         elif isinstance(file_data, (bytes, bytearray)):
             raw = bytes(file_data)
         else:
             raise ValueError("Unsupported upload type for Excel file")
 
-        # Read the sheet as strings for the rest of the data
-        df = pd.read_excel(BytesIO(raw), sheet_name=0, dtype=str)
-        df = df.fillna("")
+        df = pd.read_excel(BytesIO(raw), sheet_name=0, dtype=str).fillna("")
         df.columns = [str(c).strip().lower() for c in df.columns]
         rows = df.to_dict(orient="records")
 
-        # Load workbook with openpyxl to access images
         wb = load_workbook(filename=BytesIO(raw))
         ws = wb.active
-
-        # Map images to cells
         image_map = {}
-        for img in ws._images:  # _images contains all images in the sheet
-            cell = img.anchor._from.row - 1, img.anchor._from.col  # zero-based row/col
+        for img in ws._images:
+            cell = img.anchor._from.row - 1, img.anchor._from.col
             image_map[cell] = img
 
         created_users = []
+        missing_last = []
         portal_membership = api.portal.get_tool('portal_membership')
 
         for row_idx, row in enumerate(rows):
             email = row.get("email")
             if not email:
                 continue
-            
+
             required_fields = [
-                "user_name",
-                "first_name",
-                "last_name",
-                "fullname",
-                "cellphone",
-                "officephone",
-                "company"
-                "prj_related_skills",
-                "notes" 
+                "user_name", "first_name", "last_name", "fullname",
+                "cellphone", "officephone", "company",
+                "prj_related_skills", "notes",
             ]
-
-            missing = [field for field in required_fields if not row.get(field)]
-
+            missing = [f for f in required_fields if not row.get(f)]
             if missing:
-                self.status = f"Missing required fields: {', '.join(missing)}"
-                continue                
-                
+                missing_last = missing
+                continue
 
-            username = row.get("user_name"),
-            if api.user.get(username=username):
+            # FIX: Trailing comma made username a tuple instead of a string.
+            # username = row.get("user_name"),  <-- was wrong
+            username = row.get("user_name")
+            if not username or api.user.get(username=username):
                 continue
 
             user = api.user.create(
                 username=username,
                 password=api.portal.get_tool("portal_registration").generatePassword(),
                 properties={
-                    "first_name": row.get("first_name"),
                     "email": email,
+                    "first_name": row.get("first_name"),
                     "last_name": row.get("last_name"),
                     "fullname": row.get("fullname"),
                     "cellphone_number": row.get("cellphone"),
@@ -111,45 +100,35 @@ class UsersImport(form.Form):
                     "your_team_role": row.get("your_team_role"),
                     "company": row.get("company"),
                     "description": row.get("prj_related_skills"),
-                    "notes":  row.get("notes"),
-                }
+                    "notes": row.get("notes"),
+                },
             )
 
-            # Handle portrait
             portrait_img = None
-
-            # First try embedded image
-            portrait_col_index = df.columns.get_loc("portrait")
-            cell_key = (row_idx, portrait_col_index)
-            if cell_key in image_map:
-                portrait_img = BytesIO(image_map[cell_key]._data())  # get image bytes
-                portrait_img.filename = "portrait.jpg"
-
-            # If no embedded image, fallback to URL
-            elif row.get("portrait") and row.get("portrait").startswith("http"):
-                try:
-                    resp = requests.get(row.get("portrait"))
-                    if resp.status_code == 200:
-                        portrait_img = BytesIO(resp.content)
-                        portrait_img.filename = "portrait.jpg"
-                except Exception:
-                    pass
+            if "portrait" in df.columns:
+                portrait_col_index = df.columns.get_loc("portrait")
+                cell_key = (row_idx, portrait_col_index)
+                if cell_key in image_map:
+                    portrait_img = BytesIO(image_map[cell_key]._data())
+                    portrait_img.filename = "portrait.jpg"
+                elif row.get("portrait", "").startswith("http"):
+                    try:
+                        resp = requests.get(row["portrait"], timeout=10)
+                        if resp.status_code == 200:
+                            portrait_img = BytesIO(resp.content)
+                            portrait_img.filename = "portrait.jpg"
+                    except Exception:
+                        pass
 
             if portrait_img:
                 portal_membership.changeMemberPortrait(portrait_img, user.getUserId())
 
             created_users.append(username)
 
-        if len(created_users) > 0:
-            self.status = f"Imported {len(created_users)} users: {', '.join(created_users)}" 
-            # self.import_completed = True
+        if created_users:
+            self.status = f"Imported {len(created_users)} users: {', '.join(created_users)}"
         else:
-            self.status = f"All users already exist"
-            # self.import_completed = True
-        
-        if missing:
-            self.status += f"Missing required fields: {', '.join(missing)}"
-            
-        # url = api.portal.get().absolute_url() + '/@@usergroup-userprefs'
-        # return self.request.REQUEST["RESPONSE"].redirect(url)
-        
+            self.status = "All users already exist or no valid rows found."
+
+        if missing_last:
+            self.status += f" Last skipped row was missing: {', '.join(missing_last)}."

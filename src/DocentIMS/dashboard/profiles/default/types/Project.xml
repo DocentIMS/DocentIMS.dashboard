@@ -24,7 +24,7 @@
   <property name="klass">plone.dexterity.content.Item</property>
   <property name="model_file">DocentIMS.dashboard.content:project.xml</property>
   <property name="model_source"></property>
-  <property name="schema"></property>
+  <property name="schema">DocentIMS.dashboard.content.project.IProject</property>
 
   <!-- Enabled behaviors -->
   <property name="behaviors" purge="false">

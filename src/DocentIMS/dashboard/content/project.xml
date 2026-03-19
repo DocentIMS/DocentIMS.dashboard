@@ -8,35 +8,11 @@
   xmlns:users="http://namespaces.plone.org/supermodel/users"
   xmlns="http://namespaces.plone.org/supermodel/schema">
   <schema>
-  <!-- We set on team site for now -->
-    <!-- <field name="project_contract_number" type="zope.schema.TextLine">
-        <description>Enter the full project contract number</description>
-        <required>False</required>
-        <title>Project Contract Number</title>
-      </field>
-      <field name="is_planning_project" type="zope.schema.Bool">
-        <description>A planning project is a project being investigated, but not a current active project.</description>
-        <required>False</required>
-        <title>Is Planning Project?</title>
-        <form:widget type="z3c.form.browser.radio.RadioFieldWidget"/>
-    </field> -->
+
     <field name="project_url" type="zope.schema.URI">
       <description>Full path to site. e.g. https://your.site.com</description>
       <title>Project URL</title>
     </field>
-    <!-- <field name="project_color" type="zope.schema.TextLine">
-      <description/>
-      <required>False</required>
-      <title>project_color</title>
-    </field> -->
-    <!-- <field name="project_members" type="zope.schema.List">
-      <description/>
-      <required>False</required>
-      <title>Project Members</title>
-      <value_type type="zope.schema.TextLine">
-        <values/>
-      </value_type>
-    </field> -->
 
     <field name="add_users" type="zope.schema.Set">
       <description>We will use this to add users to project site. Later we will use field above</description>
@@ -45,8 +21,8 @@
       <title>Add Employee(s)</title>
       <value_type type="zope.schema.Choice">
         <vocabulary>plone.app.vocabularies.Users</vocabulary>
-      </value_type> 
-       <form:widget type="plone.app.z3cform.widget.AjaxSelectFieldWidget"/>
+      </value_type>  
+       
     </field>
  
   </schema>
