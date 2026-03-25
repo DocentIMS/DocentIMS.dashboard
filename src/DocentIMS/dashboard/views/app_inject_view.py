@@ -53,6 +53,11 @@ class AppInjectView(BrowserView):
         # return current.getProperty('email')
     
     @ram.cache(cache_key_subbuttons)
+    def get_calendar_list(self):
+        dash_list =  self.get_dashboard_info()
+        return dash_list['dashboard-list']['calendar_list']
+    
+    @ram.cache(cache_key_subbuttons)
     def get_dashboard_info(self):
         # TO DO: dont use admin 
         # print('getting dashboard info')

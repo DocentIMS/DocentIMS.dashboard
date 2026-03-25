@@ -1,14 +1,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
   xmlns:metal="http://xml.zope.org/namespaces/metal"
   xmlns:tal="http://xml.zope.org/namespaces/tal"
-  xmlns:i18n="http://xml.zope.org/namespaces/i18n" 
-  i18n:domain="DocentIMS.dashboard" metal:use-macro="context/main_template/macros/master">
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n" i18n:domain="DocentIMS.dashboard" metal:use-macro="context/main_template/macros/master">
   <body>
     <metal:content-core fill-slot="content">
       <metal:block define-macro="content">
 
+
         <div id="appWrapper">
+
+          <div id="meetings">
+            <tal:loop tal:repeat="item view/get_calendar_list">
+              <div class="meeting" tal:attributes="
+           data-title item/title;
+           data-start item/start;
+           data-end item/end;
+           data-category item/category;
+           data-location item/location;
+           data-url item/url;"> 
+              </div>
+            </tal:loop>
+          </div>
+
+
           <div tal:define="dashboard_items view/dashboard_info">
+
             <main class="appWrapper" tal:define="dashboard_items view/dashboard_info; 
             dashboard_list dashboard_items/dashboard-list;
             url dashboard_list/site_url">
@@ -37,11 +53,13 @@
                       <div class="card mainbox">
 
                         <h2 class="mytitle">
-                          <a   href="${url}" class="project_color" target="_blank" alt="Link to site" title="Link to ${dashboard_list/short_name|None}">
+                          <a href="${url}" class="project_color" target="_blank" alt="Link to site" title="Link to ${dashboard_list/short_name|None}">
                       ${dashboard_list/short_name|None} 
                           </a>
                           <span class="small">| New / Modified: ${dashboard_list/last_updated|None}</span>
                         </h2>
+
+
 
                         <div class="card-body">
                           <div class="userInfo">
@@ -57,7 +75,7 @@
                           <div class="topItemBox">
                             <div class="top">
                               <h3>
-                                <a  href="${url}/action-items/action-items-collection" target="_blank" rel="noopener noreferrer">Your Tasks</a>
+                                <a href="${url}/action-items/action-items-collection" target="_blank" rel="noopener noreferrer">Your Tasks</a>
                               </h3>
                             </div>
                             <div class="itemWrapper">
@@ -69,7 +87,7 @@
                                     <h4 tal:define="urgname urgency/name" class="black">${python: urgname.replace("More than", ">")}</h4>
                                     <h2>${count}</h2>
                                     <div class="detailsBtn">
-                                      <a   href="${url}/action-items/action-items-collection?collectionfilter=1&urgency=${urgency/name}" target="_blank" tal:condition="python: count != 0" class="xwhite-text">
+                                      <a href="${url}/action-items/action-items-collection?collectionfilter=1&urgency=${urgency/name}" target="_blank" tal:condition="python: count != 0" class="xwhite-text">
                                              More Details
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                           <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
@@ -87,7 +105,7 @@
                           <div class="bottomItemBox">
                             <div class="top">
                               <h3>
-                                <a  href="${url}/meetings" target="_blank" rel="noopener noreferrer">Meetings</a>
+                                <a href="${url}/meetings" target="_blank" rel="noopener noreferrer">Meetings</a>
                               </h3>
                             </div>
                             <div class="itemWrapper">
@@ -111,7 +129,7 @@
                                     <h4>${meeting/name}</h4>
                                     <h2>${count}</h2>
                                     <div class="detailsBtn">
-                                      <a  href="${url}/meetings" target="_blank" tal:condition="python: count != 0" class="xwhite-text">
+                                      <a href="${url}/meetings" target="_blank" tal:condition="python: count != 0" class="xwhite-text">
                                           More Details
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                           <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
@@ -141,7 +159,7 @@
                                     <h2>${count}</h2>
                                     <div class="detailsBtn">
 
-                                      <a  href="${url}/notifications/notifications-collection?collectionfilter=1&notification_type=${name}&sort_on=created&sort_order=ascending" target="_blank" tal:condition="python: count != 0" class="xwhite-text">
+                                      <a href="${url}/notifications/notifications-collection?collectionfilter=1&notification_type=${name}&sort_on=created&sort_order=ascending" target="_blank" tal:condition="python: count != 0" class="xwhite-text">
                                           More Details
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                           <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
@@ -195,6 +213,9 @@
               .singleItem.Future {background: linear-gradient(45deg, ${dashboard_list/project_color|None}, blue)}
               .singleItem.More {background: linear-gradient(45deg, ${dashboard_list/project_color|None}, green)}
               .singleItem.Unset {background: linear-gradient(45deg, ${dashboard_list/project_color|None}, darkgreen)} -->
+
+
+
 
             </main>
           </div>

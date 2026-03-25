@@ -8,6 +8,133 @@
         <div class="row">
           <h3 style="text-align:center; font-family: 'Times', 'Times New Roman', 'Brush Script MT', 'Brush Script', 'Courier New', 'Courier'">Docent Dashboard</h3>
         </div>
+ 
+  <meta charset="utf-8" />
+
+  <!-- FullCalendar CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
+
+  <!-- FullCalendar JS -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+
+  <style>
+    #filters {
+      margin-bottom: 1em;
+    }
+
+    #filters label {
+      margin-right: 1em;
+      font-weight: bold;
+    }
+
+    #calendar {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+  </style>
+ 
+
+<h2>Meetings Calendar</h2>
+
+<!-- Filters -->
+<div id="filters">
+  <label><input type="checkbox" value="board" checked> Board</label>
+  <label><input type="checkbox" value="staff" checked> Staff</label>
+  <label><input type="checkbox" value="Project Team Meeting" checked> Project Team Meeting</label>
+   <label><input type="checkbox" value="" checked> Meeting</label>
+ 
+ 
+</div>
+
+<!-- Calendar -->
+<div id="calendar"></div>
+
+<script>
+document.addEventListener('pat-inject-success', function (e) {
+
+
+  // e.target = element that was injected into (#appWrapper)
+  const container = e.target;
+
+ 
+
+  // 🎯 Dummy meetings (simulate REST API)
+  const meetings = Array.from(document.querySelectorAll("#meetings .meeting"))
+          .map(el => ({
+            title: el.dataset.title,
+            start: el.dataset.start,
+            end: el.dataset.end,
+            category: el.dataset.category,
+            location: el.dataset.location,
+            url: el.dataset.url
+          })); 
+   
+  console.log(meetings);
+
+  
+  // 🎨 Category colors
+  const categoryColors = {
+    board: '#e74c3c',
+    staff: '#3498db',
+    public: '#2ecc71'
+  };
+
+  // Active filters
+  let activeCategories = ['board', 'staff', 'public'];
+
+  // Convert to FullCalendar format
+  function getFilteredEvents() {
+    return meetings
+      .filter(m => activeCategories.includes(m.category))
+      .map(m => ({
+        title: m.title,
+        start: m.start,
+        end: m.end,
+        backgroundColor: categoryColors[m.category],
+        borderColor: categoryColors[m.category],
+        extendedProps: {
+          category: m.category
+        }
+      }));
+  }
+
+  // 📅 Init calendar
+  const calendar = new FullCalendar.Calendar(
+    document.getElementById('calendar'),
+    {
+      initialView: 'dayGridMonth',
+      height: 'auto',
+
+      events: function(fetchInfo, successCallback) {
+        successCallback(getFilteredEvents());
+      }
+    }
+  );
+
+  calendar.render();
+
+  // 🎛️ Filter handling
+  document.querySelectorAll('#filters input').forEach(cb => {
+    cb.addEventListener('change', () => {
+      activeCategories = Array.from(
+        document.querySelectorAll('#filters input:checked')
+      ).map(el => el.value);
+
+      calendar.refetchEvents();
+    });
+  });
+
+});
+</script> 
+
+
+
+
+
+
+
+
+
         <main class="appWrapper">
 
           <!-- sidebar -->
@@ -98,7 +225,6 @@
             #main-container a.button,
             .projectButton .p1 {
               background-color: ${project_color|None};
-
             }
 
              #main-container a.button,
@@ -144,6 +270,14 @@
 
             
           </style>
+
+
+ 
+ 
+
+
+
+
 
         </main>
 
