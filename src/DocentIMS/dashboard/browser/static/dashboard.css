@@ -1,24 +1,42 @@
-body { background: #FAF9F6}
- 
-#portal-column-two {padding-top: 2.8rem}
+body {
+    background: #FAF9F6
+}
+
+#portal-column-two {
+    padding-top: 2.8rem
+}
 
 .xxportaltype-project.template-edit #formfield-form-widgets-IBasic-title,
 .portaltype-project.template-edit #formfield-form-widgets-project_url,
 .portaltype-project.template-edit #form-widgets-IBasic-description,
-.portaltype-project.template-edit #formfield-form-widgets-IBasic-description{ display: none !important}
+.portaltype-project.template-edit #formfield-form-widgets-IBasic-description {
+    display: none !important
+}
 
-.template-edit .editbutton {display: none}
+.template-edit .editbutton {
+    display: none
+}
 
-.template-import-from-excel #portal-column-two { display: none;}
+.template-import-from-excel #portal-column-two {
+    display: none;
+}
 
-#formfield-form-widgets-csv_file { padding-top: 1rem; border-top: 1px solid silver;}
+#formfield-form-widgets-csv_file {
+    padding-top: 1rem;
+    border-top: 1px solid silver;
+}
 
-#formfield-form-widgets-local_excel_file label { font-weight: bold;}
+#formfield-form-widgets-local_excel_file label {
+    font-weight: bold;
+}
 
 .duset {
     opacity: 0.55;
 }
-.cancelbutton  {background:#378DA4 !important  }
+
+.cancelbutton {
+    background: #378DA4 !important
+}
 
 #contentview-user_data-personal-preferences {
     display: none;
@@ -30,7 +48,7 @@ body.plone-toolbar-top #edit-zone .personaltools-wrapper {
 
 #edit-bar {
     display: none;
-}   
+}
 
 .userrole-project-manager #edit-bar,
 .userrole-dashboard-manager #edit-bar,
@@ -40,39 +58,39 @@ body.plone-toolbar-top #edit-zone .personaltools-wrapper {
 
 .note-error,
 div.color-0 {
-    border: 2px solid  red;
+    border: 2px solid red;
 }
 
 .note-error h4,
 div.color-0 h4 {
-    color:  red;
+    color: red;
 }
 
 
 .note-warning,
 div.color-1 {
-    border: 2px solid  #BA8E23;
+    border: 2px solid #BA8E23;
 }
 
 .note-warning h4,
-div.color-1  h4{
+div.color-1 h4 {
     color: #BA8E23;
 }
 
 
 .note-info,
 div.color-2 {
-    border: 2px solid  green;
+    border: 2px solid green;
 }
 
 
 .note-info h4,
 div.color-2 h4 {
-    color:  green;
+    color: green;
 }
 
 div.color-3 {
-    border: 2px solid  blue;
+    border: 2px solid blue;
 }
 
 div.color-3 h4 {
@@ -152,7 +170,9 @@ div.rightlogo {
     border-top: 0 none;
 }
 
-#portal-logo { max-width: 250px;}
+#portal-logo {
+    max-width: 250px;
+}
 
 #hero,
 #above-content-wrapper,
@@ -160,7 +180,7 @@ div.rightlogo {
 .principal,
 #portal-anontools,
 #above-content-wrapper,
-#xportal-footer-wrapper, 
+#xportal-footer-wrapper,
 #mainnavigation-wrapper {
     display: none !important
 }
@@ -202,11 +222,7 @@ h6 {
     font-family: "Roboto", sans-serif;
     color: #222;
 }
-
-body {
-    background-color: whitesmoke;
-}
-
+ 
 #main-container p {
     margin: 0;
     padding: 0;
@@ -216,7 +232,7 @@ body {
 
 .appWrapper {
     display: flex;
-    min-height: 100dvh
+    xmin-height: 100dvh
 }
 
 .flexing {
@@ -400,8 +416,7 @@ body {
 
 
 .projectButton .btn,
-#main-container a.button
-    {
+#main-container a.button {
     padding: 17px 30px;
     background-color: transparent;
     border: none;
@@ -720,6 +735,59 @@ body {
     box-shadow: 0 -20px 0 0 #fff
 }
 
+#main-container a.button,
+#main-container a.button click {
+    opacity: 0.35
+}
+
+#main-container a.button.active {
+    opacity: 1
+}
+
+.pat-toolbar,
+#edit-bar,
+#edit-zone {
+    border-radius: 0 20px 20px 0;
+
+}
+
+.small {
+    font-size: 1rem !important;
+    font-weight: normal;
+    color: #DDD
+}
+
+
+a#personaltools-menulink {
+    background-color: black;
+}
+
+#edit-zone .personaltools-wrapper {
+    border-top: 0 none;
+}
+
+body:not(.userrole-manager) div.toolbar-header,
+body:not(.userrole-manager) ul.plone-toolbar-main {
+    display: none
+}
+
+
+#filters {
+    margin-bottom: 1em;
+}
+
+#filters label {
+    margin-right: 1em;
+    font-weight: bold;
+}
+
+#calendar {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+
+
 @media (min-width: 992px) and (max-width: 1199px) {
 
     .appWrapper .sideBar {
@@ -727,7 +795,6 @@ body {
     }
 
     .appWrapper .wrapper {
-        xmargin-left: 240px;
         padding: 20px 20px
     }
 

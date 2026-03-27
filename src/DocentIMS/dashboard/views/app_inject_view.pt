@@ -12,12 +12,12 @@
           <div id="meetings">
             <tal:loop tal:repeat="item view/get_calendar_list">
               <div class="meeting" tal:attributes="
-           data-title item/title;
-           data-start item/start;
-           data-end item/end;
-           data-category item/category;
-           data-location item/location;
-           data-url item/url;"> 
+                data-title item/title;
+                data-start item/start;
+                data-end item/end;
+                data-category item/category;
+                data-location item/location;
+                data-url item/url;"> 
               </div>
             </tal:loop>
           </div>
@@ -179,6 +179,8 @@
                 </div>
               </div>
 
+              
+
               <style>
               #main-container .mytitle a {color: ${dashboard_list/project_color|None}; } 
               .projectButton, .card {border-color: ${dashboard_list/project_color|None}; }
@@ -219,6 +221,7 @@
 
             </main>
           </div>
+          
         </div>
       </metal:block>
     </metal:content-core>

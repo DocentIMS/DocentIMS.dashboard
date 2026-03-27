@@ -124,6 +124,10 @@ class AppView(BrowserView):
         return[color1, color2, color3, color4, color5]
     
     
+    def get_meeting_types(self):
+        meeting_types = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.meeting_types')
+        return [meeting['meeting_type'] for meeting in meeting_types]                        
+                                                        
     @ram.cache(cache_key_buttons)
     def get_server_ip(self):
         try:

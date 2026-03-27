@@ -78,23 +78,20 @@
 
               <div>
 
-          <button id="toggler" class="btn btn-standalone btn-primary toggler">Calendar: Meetings for Project</button>
-          <div id="calendardiv" class="opacity0">           
 
-            <!-- Filters -->
-            <div id="filters" class="flex" style="display: flex; background: whitesmoke">
-              <label tal:repeat="meeting_type view/get_meeting_types|None">
-                <input type="checkbox" value="meeting_type" checked/> ${meeting_type}
-              </label>      
-            </div>
+          <h2>Calendar: Meetings for Project</h2>
 
-            <!-- Calendar -->
-            <div id="calendar" class="calendar"></div>
+          <!-- Filters -->
+          <div id="filters" class="flex" style="display: flex; background: whitesmoke">
+            <label tal:repeat="meeting_type view/get_meeting_types|None">
+              <input type="checkbox" value="meeting_type" checked/> ${meeting_type}
+            </label>      
           </div>
+
+          <!-- Calendar -->
+          <div id="calendar"></div>
               </div>
               <style tal:define="colors view/get_colors">
-
-            body {   background: #FAF9F6 }
             .text-right {text-align: right; padding-top: 1rem;}
             .newproject {color: yellow}
             .appWrapper .sideBar,
@@ -103,34 +100,19 @@
               background-color: ${project_color|None};
             }
 
-            #calendardiv { border: 2px solid; background: white; padding: 1rem 0.5rem; height: auto; opacity: 1} 
-            #calendardiv.opacity0 { opacity: 0}
 
             .projectPreview .topInfo h3,
             .projectPreview .card .card-body .top h3 {
               color: ${color|None};
             }
 
-
               </style>
 
 
               <script> 
  
-$('#toggler').click(function() {
- $("#calendardiv").toggleClass('opacity0');
-});
 
-
-  
-  // 🎨 Category colors
-  const categoryColors = {
-     'Project Team Meeting': 'red',
-     'Community Meeting': 'green'
-  };
-
-  // Active filters
-  let activeCategories = [];
+  let activeCategories = ['Project Team Meeting'];
 
   // Meetings store (will be updated after inject)
   let meetings = [];
@@ -171,66 +153,29 @@ $('#toggler').click(function() {
       activeCategories = Array.from(
         document.querySelectorAll('#filters input:checked')
       ).map(el => el.value);
-
       calendar.refetchEvents();
     });
   });
 
 
   // ✅ ONLY THIS PART needs to be inside pat-inject
-document.addEventListener('pat-inject-success', function (e) {
-
-  // 1. Read meetings
-  meetings = Array.from(
-    document.querySelectorAll("#meetings .meeting")
-  ).map(el => ({
-    title: el.dataset.title,
-    start: el.dataset.start,
-    end: el.dataset.end,
-    category: el.dataset.category.trim(),
-    location: el.dataset.location,
-    url: el.dataset.url
-  }));
-
-  // 2. Get unique categories
-  const categories = [...new Set(meetings.map(m => m.category))];
-
-  // 3. Build filters UI
-  const filtersContainer = document.getElementById('filters');
-  filtersContainer.innerHTML = ''; // clear existing
-
-  categories.forEach(cat => {
-    const label = document.createElement('label');
-    label.style.marginRight = '1rem';
-
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.value = cat;
-    checkbox.checked = true;
-
-    label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(' ' + cat));
-
-    filtersContainer.appendChild(label);
+  document.addEventListener('pat-inject-success', function (e) {
+    
+    // Re-read injected meetings
+    meetings = Array.from(
+      document.querySelectorAll("#meetings .meeting")
+    ).map(el => ({
+      title: el.dataset.title,
+      start: el.dataset.start,
+      end: el.dataset.end,
+      category: el.dataset.category,
+      location: el.dataset.location,
+      url: el.dataset.url
+    }));
+ 
+    // Refresh calendar with new data
+    calendar.refetchEvents();
   });
-
-  // 4. Set active categories
-  activeCategories = categories;
-
-  // 5. Re-bind filter events (IMPORTANT)
-  document.querySelectorAll('#filters input').forEach(cb => {
-    cb.addEventListener('change', () => {
-      activeCategories = Array.from(
-        document.querySelectorAll('#filters input:checked')
-      ).map(el => el.value);
-
-      calendar.refetchEvents();
-    });
-  });
-
-  // 6. Refresh calendar
-  calendar.refetchEvents();
-});
               </script>
 
 
