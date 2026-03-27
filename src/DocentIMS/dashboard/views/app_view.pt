@@ -4,7 +4,7 @@
   xmlns:i18n="http://xml.zope.org/namespaces/i18n" i18n:domain="DocentIMS.dashboard" metal:use-macro="context/main_template/macros/master">
   <body>
     <metal:content-core fill-slot="content">
-      <metal:block define-macro="content" tal:define="current view/get_fullname|None";  >
+      <metal:block define-macro="content">
         <!-- FullCalendar CSS -->
         <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
 
@@ -19,7 +19,7 @@
 
           <main class="appWrapper">
 
-                <div class="wrapper" tal:define="colors view/get_colors|None">
+                <div class="wrapper" tal:define="current view/get_fullname|None;  colors view/get_colors|None">
                   <!-- <p>IP Address: ${view/get_served_domain_ip} ( ${view/get_server_ip} )</p> -->
                   <p></p> 
                   <div class="wrapper loader">
@@ -78,9 +78,9 @@
 
               <div>
 
-          <button tal:condition="view/get_fullname|None" 
-            id="toggler" class="btn btn-standalone btn-primary toggler">Calendar: Meetings for Project</button>
-          <div  id="calendardiv" class="opacity0">           
+          <button id="toggler" tal:condition="view/get_fullname|None" 
+          class="btn btn-standalone btn-primary toggler">Calendar: Meetings for Project</button>
+          <div id="calendardiv" class="opacity0">           
 
             <!-- Filters -->
             <div id="filters" class="flex" style="display: flex; background: whitesmoke">
