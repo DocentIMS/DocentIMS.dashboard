@@ -78,7 +78,8 @@
 
               <div>
 
-          <button tal:condition="current|None" id="toggler" class="btn btn-standalone btn-primary toggler">Calendar: Meetings for Project</button>
+          <button tal:condition="view/get_fullname|None" 
+            id="toggler" class="btn btn-standalone btn-primary toggler">Calendar: Meetings for Project</button>
           <div  id="calendardiv" class="opacity0">           
 
             <!-- Filters -->
