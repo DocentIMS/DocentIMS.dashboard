@@ -83,6 +83,7 @@
           <div id="calendardiv" class="opacity0">           
 
             <!-- Filters -->
+            ${view/get_meeting_types}
             <div id="filters" class="flex" style="display: flex; background: whitesmoke">
               <label tal:repeat="meeting_type view/get_meeting_types|None">
                 <input type="checkbox" value="meeting_type" checked/> ${meeting_type}
