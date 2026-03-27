@@ -52,10 +52,12 @@ class AppInjectView(BrowserView):
         return current.getUserName()
         # return current.getProperty('email')
     
-    @ram.cache(cache_key_subbuttons)
+    # @ram.cache(cache_key_subbuttons)
     def get_calendar_list(self):
         dash_list =  self.get_dashboard_info()
-        return dash_list['dashboard-list']['calendar_list']
+        if dash_list:
+            return dash_list['dashboard-list']['calendar_list']
+        return []
     
     @ram.cache(cache_key_subbuttons)
     def get_dashboard_info(self):
