@@ -10,7 +10,7 @@
         <div id="appWrapper">
 
           <div id="meetings">
-            <tal:loop tal:repeat="item view/get_calendar_list">
+            <tal:loop tal:repeat="item view/get_calendar_list|None">
               <div class="meeting" tal:attributes="
                 data-title item/title;
                 data-start item/start;
