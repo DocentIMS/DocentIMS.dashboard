@@ -166,7 +166,8 @@ def handler(obj, event):
                 # raw_message = mail_message.raw  if we can get rich text to work
                 raw_message = mail_message
                 
-                
+                # Note add these to 'email_pre_view' too
+                # To do: resuse them
                 context_vars = {                    
                     "portal_url": portal_url,
                     "register_url" : register_url,

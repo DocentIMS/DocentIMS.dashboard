@@ -226,7 +226,8 @@ class IDocentimsSettings(model.Schema):
         You can use the following variables: 
             {first_name}, {dashboard_manager_fullname}, {dashboard_set_password_url} {project_name}, {username}, {register_url}, {dashboard_manager_company}, {project_url},    
              {email} {fullname}, {last_name} {company}, {dashboard_manager_fullname}
-                    {project_title}, {user_name}    
+                    {project_title}, {user_name}   
+            Test at /email_pre_view 
         """,
         required=True,
     )

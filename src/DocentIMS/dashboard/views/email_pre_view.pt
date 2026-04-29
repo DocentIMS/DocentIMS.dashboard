@@ -18,16 +18,12 @@
 
   </metal:custom_title>
 
-  <metal:custom_description fill-slot="content-description">
-    <p tal:replace="structure context/@@description" />
+  <metal:custom_description fill-slot="content-description"> 
   </metal:custom_description>
 
   <metal:content-core fill-slot="content-core">
   <metal:block define-macro="content-core">
-
-    <h2>Main content</h2>
-    <!--<div tal:replace="view/my_custom_view_method" />-->
-    <!--<div tal:replace="context/my_custom_field" />-->
+  <div tal:replace="structure view/get_email_content" />
 
   </metal:block>
   </metal:content-core>
