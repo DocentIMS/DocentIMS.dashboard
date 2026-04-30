@@ -211,8 +211,6 @@ def handler(obj, event):
                         
                     mailhost.send(message_html.as_string())
                     
-                    mailhost.send("From: espen@medialog.no\nTo: post@medialog.no\nSubject: Test email\n\nThis is a test from add users")
-                    
                     # Upload portrait if exists
                     portal_membership = api.portal.get_tool('portal_membership')
                     portrait = portal_membership.getPersonalPortrait(userid) 
