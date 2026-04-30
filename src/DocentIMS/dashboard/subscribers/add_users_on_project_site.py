@@ -209,15 +209,9 @@ def handler(obj, event):
                     message_html['From'] = api.portal.get_registry_record('plone.email_from_address') or ''
                     message_html['To'] = email
                         
-                    #mailhost.send(message_html.as_string())
-                    api.portal.send_email(
-                        recipient="post@medialog.no",
-                        sender="espen@medialog.no",
-                        subject="HTML test",
-                        body="<p>This is a <strong>HTML</strong> email.</p>",
-                    )
+                    mailhost.send(message_html.as_string())
                     
-                    mailhost.send("From: espen@medialog.no\nTo: post@medialog.no\nSubject: Test email\n\nThis is a test")
+                    mailhost.send("From: espen@medialog.no\nTo: post@medialog.no\nSubject: Test email\n\nThis is a test from add users")
                     
                     # Upload portrait if exists
                     portal_membership = api.portal.get_tool('portal_membership')
