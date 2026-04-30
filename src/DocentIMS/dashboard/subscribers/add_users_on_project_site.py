@@ -118,8 +118,6 @@ def handler(obj, event):
                 }
             }  
             
-            import pdb; pdb.set_trace()          
-            
             response = requests.post(users_endpoint, headers=headers, json=payload)            
             
             
@@ -134,7 +132,7 @@ def handler(obj, event):
                 # Add user to group:
                 # TO DO: Keep only one when I know why users are not added with email instead of random username
                 group_endpoint = f"{project_url}/@groups/PrjTeam"
-                group_response = requests.patch(group_endpoint, headers=headers, json={"users": {username: 'true'} })
+                group_response  = requests.patch(group_endpoint, headers=headers, json={"users": {username: 'true'} })
                 groups_response = requests.patch(group_endpoint, headers=headers, json={"users": {response.json().get('username'): 'true'} })               
                 #something =  api.portal.get_registry_record('something', interface=IDocentimsSettings) or ''
                 
@@ -210,7 +208,10 @@ def handler(obj, event):
                 message_html['From'] = api.portal.get_registry_record('plone.email_from_address') or ''
                 message_html['To'] = email
                     
-                mailhost.send(message_html.as_string())
+                #mailhost.send(message_html.as_string())
+                
+                mailhost.send("From: espen@medialog.no\nTo: post@medialog.no\nSubject: Test email\n\nThis is a test")
+                
                 # Upload portrait if exists
                 portal_membership = api.portal.get_tool('portal_membership')
                 portrait = portal_membership.getPersonalPortrait(userid) 
