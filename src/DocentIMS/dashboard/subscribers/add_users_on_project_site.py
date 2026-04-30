@@ -116,7 +116,9 @@ def handler(obj, event):
                     "description" : user.getProperty("description"),
                     "notes": user.getProperty("notes") 
                 }
-            }            
+            }  
+            
+            import pdb; pdb.set_trace()          
             
             response = requests.post(users_endpoint, headers=headers, json=payload)            
             
