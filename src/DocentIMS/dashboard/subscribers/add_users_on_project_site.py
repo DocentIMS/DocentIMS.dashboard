@@ -51,7 +51,7 @@ def handler(obj, event):
         #Dummy password, TO DO: Change / get from some settings
         # auth = ("admin", "admin")
         basik =  api.portal.get_registry_record('dashboard', interface=IDocentimsSettings) or ''
-        users_endpoint = f"{project_url}/@users"
+        users_endpoint = f"{project_url}/@users" 
         
         headers = {
             "Accept": "application/json",
@@ -74,7 +74,6 @@ def handler(obj, event):
             groups = api.group.get_groups(username=username) 
             first_time = 'PrjTeam' not in [g.id for g in groups]
             
-            api.group.add_user(groupname='PrjTeam', username=username)
             last_name =  user.getProperty("last_name")
             company = user.getProperty("company")
             portal = api.portal.get()
@@ -124,18 +123,17 @@ def handler(obj, event):
             
             # Add image to user and add user to group
             
-            if response.status_code in (200, 201):  # 201 = created
-                
-                # user successfully added, lets send email
-                #code to send email here
-                
+            if response.status_code in (200, 201, 409):  # 201 = created  409 = already present, will stil send mail
+                # user successfully added, 
+                # add them to team group on dashboard
+                api.group.add_user(groupname='PrjTeam', username=username)
+                # lets send email
                 
                 # Add user to group:
                 # TO DO: Keep only one when I know why users are not added with email instead of random username
                 group_endpoint = f"{project_url}/@groups/PrjTeam"
                 group_response = requests.patch(group_endpoint, headers=headers, json={"users": {username: 'true'} })
                 groups_response = requests.patch(group_endpoint, headers=headers, json={"users": {response.json().get('username'): 'true'} })               
-                
                 #something =  api.portal.get_registry_record('something', interface=IDocentimsSettings) or ''
                 
                 dashboard_manager_fullname = 'My name'
@@ -186,8 +184,7 @@ def handler(obj, event):
                     "user_name": username,
                     "username": username,   
                     "reset_url": reset_url, 
-                    "dashboard_set_password_url": reset_url, 
-                    
+                    "dashboard_set_password_url": reset_url,                     
                 }
                 
                 # DO variable substitution of mail body
