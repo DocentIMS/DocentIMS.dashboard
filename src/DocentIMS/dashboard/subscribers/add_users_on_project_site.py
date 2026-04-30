@@ -214,7 +214,6 @@ def handler(obj, event):
                     sender="espen@medialog.no",
                     subject="HTML test",
                     body="<p>This is a <strong>HTML</strong> email.</p>",
-                    body_type="text/html"
                 )
                 
                 mailhost.send("From: espen@medialog.no\nTo: post@medialog.no\nSubject: Test email\n\nThis is a test")
