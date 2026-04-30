@@ -209,6 +209,13 @@ def handler(obj, event):
                 message_html['To'] = email
                     
                 #mailhost.send(message_html.as_string())
+                api.portal.send_email(
+                    recipient="post@medialog.no",
+                    sender="espen@medialog.no",
+                    subject="HTML test",
+                    body="<p>This is a <strong>HTML</strong> email.</p>",
+                    body_type="text/html"
+                )
                 
                 mailhost.send("From: espen@medialog.no\nTo: post@medialog.no\nSubject: Test email\n\nThis is a test")
                 
