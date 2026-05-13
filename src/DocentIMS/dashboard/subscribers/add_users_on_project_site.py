@@ -88,7 +88,8 @@ def handler(obj, event):
                 token = reset_info['randomstring']
                 
                 portal_url = portal.absolute_url()
-                reset_url = f"{portal_url}/passwordreset/{token}?userid={userid}&randomstring={token}" 
+                reset_url = f"{portal_url}/passwordreset/{token}?userid={userid}"
+
                 payload = {
                     "email": email,
                     "fullname": fullname,

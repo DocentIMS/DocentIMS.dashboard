@@ -20,8 +20,7 @@
 </metal:custom_desc>
 
 <metal:content-core fill-slot="content-core">
-<metal:content-core define-macro="content-core" tal:define="errors view/getErrors"> 
-xxxxxx
+<metal:content-core define-macro="content-core" tal:define="errors view/getErrors">  
             <form class="enableAutoFocus"
                   name="pwreset_action"
                   method="post"
