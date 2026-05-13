@@ -236,6 +236,8 @@ def handler(obj, event):
                                 print(f"✅ Portrait for '{userid}' uploaded successfully")
                             else:
                                 print(f"⚠️ Failed to upload portrait for '{userid}'")
+                    api.portal.show_message(message=f"User: {username} added and mailed", type='info')
+                    
                 elif response.status_code == 409:
                     print(f"⚠️ User {username} already exists")
                     api.portal.show_message(message=f"⚠️ User {username} already exists", type='info')
