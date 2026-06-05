@@ -59,8 +59,7 @@ class AppInjectView(BrowserView):
             return dash_list['dashboard-list']['calendar_list']
         return []
     
-    # Currently turned off to check calendar
-    # @ram.cache(cache_key_subbuttons)
+    @ram.cache(cache_key_subbuttons)
     def get_dashboard_info(self):
         # TO DO: dont use admin 
         # print('getting dashboard info')
