@@ -59,15 +59,16 @@ class AppInjectView(BrowserView):
             return dash_list['dashboard-list']['calendar_list']
         return []
     
-    # Currently turned off to check calendar
-    # @ram.cache(cache_key_subbuttons)
+    @ram.cache(cache_key_subbuttons)
     def get_dashboard_info(self):
         # TO DO: dont use admin 
         # print('getting dashboard info')
         #Should happen every 15 minutes or on reload ?
         # print('getting stuff')
         
-        siteurl = self.request.get('siteurl', 'http://mymeadows.org')
+        siteurl = self.request.get('siteurl', '')
+        if not siteurl:
+            return None
         # app_password =  api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_password')
         # app_user = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_user')
         basik =  api.portal.get_registry_record('dashboard', interface=IDocentimsSettings) or ''
@@ -85,9 +86,11 @@ class AppInjectView(BrowserView):
     @ram.cache(cache_key_subbuttons)   
     def get_portlet_data(self):
         #Should happen every 15 minutes or on reload ?
-        siteurl = self.request.get('siteurl', 'http://mymeadows.org')        
-        result = []    
-        try:                
+        siteurl = self.request.get('siteurl', '')
+        result = []
+        if not siteurl:
+            return result
+        try:            
             response = requests.get(f'{siteurl}/@item_count?user={self.get_current()}', timeout=3,
                                             headers={'Accept': 'application/json', 'Content-Type': 'application/json'})
             if response.status_code == 200:
