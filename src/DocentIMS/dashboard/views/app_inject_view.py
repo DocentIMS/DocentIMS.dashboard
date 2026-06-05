@@ -67,7 +67,7 @@ class AppInjectView(BrowserView):
         #Should happen every 15 minutes or on reload ?
         # print('getting stuff')
         
-        siteurl = self.request.get('siteurl', 'http://mymeadows.org')
+        siteurl = self.request.get('siteurl', '')
         # app_password =  api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_password')
         # app_user = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_user')
         basik =  api.portal.get_registry_record('dashboard', interface=IDocentimsSettings) or ''
@@ -85,7 +85,7 @@ class AppInjectView(BrowserView):
     @ram.cache(cache_key_subbuttons)   
     def get_portlet_data(self):
         #Should happen every 15 minutes or on reload ?
-        siteurl = self.request.get('siteurl', 'http://mymeadows.org')        
+        siteurl = self.request.get('siteurl', '')
         result = []    
         try:                
             response = requests.get(f'{siteurl}/@item_count?user={self.get_current()}', timeout=3,
