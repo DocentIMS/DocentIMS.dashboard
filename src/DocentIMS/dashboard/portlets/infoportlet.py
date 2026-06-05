@@ -22,7 +22,7 @@ import six.moves.urllib.request
 
 
 
-# 30 minutes in seconds
+# 15 minutes in seconds
 CACHE_TIMEOUT = 15 * 60
 
 

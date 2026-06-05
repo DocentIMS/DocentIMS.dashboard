@@ -6,10 +6,14 @@ from zope.component import adapter
 from zope.interface import Interface
 from zope.interface import implementer
 import requests
+import logging
 from AccessControl import getSecurityManager
 from plone.restapi.services import Service
 from zExceptions import Unauthorized
-            
+
+
+logger = logging.getLogger(__name__)
+
 
 @implementer(IExpandableElement)
 @adapter(Interface, Interface)
@@ -58,7 +62,8 @@ class DashboardSites(object):
         if usermail and sites:           
             for siteurl in sites:
                 try:                
-                    response = requests.get(f'{siteurl}/@item_count?user={username}', 
+                    response = requests.get(f'{siteurl}/@item_count?user={username}',
+                                            timeout=1,
                                             headers={'Accept': 'application/json', 'Content-Type': 'application/json'})
                     if response.status_code == 200:
                         body = response.json()
@@ -71,11 +76,11 @@ class DashboardSites(object):
                             })
                 
                 except requests.exceptions.ConnectionError:
-                    print("Failed to connect to the server. Please check your network or URL.")
+                    logger.warning("Failed to connect to project site %s", siteurl)
                 except requests.exceptions.Timeout:
-                    print("The request timed out. Try again later.")
+                    logger.warning("Request to project site %s timed out", siteurl)
                 except requests.exceptions.RequestException as e:
-                    print(f"An error occurred: {e}")
+                    logger.warning("Error contacting project site %s: %s", siteurl, e)
 
             
         result = {

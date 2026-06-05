@@ -6,33 +6,23 @@ from zope.interface import implementer
 from zope.interface import Interface
 from plone import api
 from Products.CMFCore.utils import getToolByName
-from plone.stringinterp.interfaces import IStringInterpolator
 
 from zope.component import getUtility
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from  ..interfaces import IDocentimsSettings
+from ..mailing import build_message
+import logging
 
 
 # from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-class SafeDict(dict):
-    def __missing__(self, key):
-        return "{" + key + "}"
+logger = logging.getLogger(__name__)
 
 
 class IEmailPreView(Interface):
     """ Marker Interface for IEmailPreView"""
 
-def build_message(raw_message, obj, context_vars):
-    # 1️⃣ Python {} variables
-    message = raw_message.format_map(SafeDict(context_vars))
-
-    # 2️⃣ Plone ${} variables
-    interpolator = IStringInterpolator(obj)
-    message = interpolator(message)
-
-    return message
 
 @implementer(IEmailPreView)
 class EmailPreView(BrowserView):
@@ -55,7 +45,7 @@ class EmailPreView(BrowserView):
             user = api.user.get_current()
 
             if user is None:
-                print(f"⚠️ User '{user}' not found")
+                logger.warning("No current user found; cannot preview email")
                 return "No user, can not preview"
                 
 

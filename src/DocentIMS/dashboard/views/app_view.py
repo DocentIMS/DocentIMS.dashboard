@@ -7,7 +7,10 @@ from plone.memoize import ram
 import time
 from datetime import datetime
 import socket
- 
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 # 15 minutes in seconds
 CACHE_TIMEOUT = 15 * 60
@@ -83,11 +86,11 @@ class AppView(BrowserView):
                                         })
                 
                 except requests.exceptions.ConnectionError:
-                    print("Failed to connect to the server. Please check your network or URL.")
+                    logger.warning("Failed to connect to project site %s", siteurl)
                 except requests.exceptions.Timeout:
-                    print("The request timed out. Try again later.")
+                    logger.warning("Request to project site %s timed out", siteurl)
                 except requests.exceptions.RequestException as e:
-                    print(f"An error occurred: {e}")
+                    logger.warning("Error contacting project site %s: %s", siteurl, e)
             
         return buttons
     

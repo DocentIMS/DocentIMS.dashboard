@@ -6,7 +6,11 @@ import requests
 from plone import api
 from  ..interfaces import IDocentimsSettings
 from plone.memoize import ram
-import time 
+import time
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 # from AccessControl.SecurityManagement import getSecurityManager
 # from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -104,11 +108,11 @@ class AppInjectView(BrowserView):
                                         'portlet_content': body['dashboard-list']['portlet_content'],
                             })                
         except requests.exceptions.ConnectionError:
-                    print("Failed to connect to the server. Please check your network or URL.")
+                    logger.warning("Failed to connect to project site %s", siteurl)
         except requests.exceptions.Timeout:
-                    print("The request timed out. Try again later.")
+                    logger.warning("Request to project site %s timed out", siteurl)
         except requests.exceptions.RequestException as e:
-                    print(f"An error occurred: {e}")
+                    logger.warning("Error contacting project site %s: %s", siteurl, e)
             
         return result
      
