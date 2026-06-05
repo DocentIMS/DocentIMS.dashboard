@@ -18,24 +18,16 @@ from Products.CMFPlone.interfaces import IMailSchema
 from Acquisition import aq_inner
 # from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
-from plone.stringinterp.interfaces import IStringInterpolator
+from ..mailing import build_message
+import logging
 
 
-class SafeDict(dict):
-    def __missing__(self, key):
-        return "{" + key + "}"
+logger = logging.getLogger(__name__)
 
-
-def build_message(raw_message, obj, context_vars):
-    # 1️⃣ Python {} variables
-    message = raw_message.format_map(SafeDict(context_vars))
-
-    # 2️⃣ Plone ${} variables
-    interpolator = IStringInterpolator(obj)
-    message = interpolator(message)
-
-    return message
-
+# Timeout (seconds) for outbound calls to project sites, so a dead/slow
+# project host cannot hang the user-add event handler (and its ZODB
+# transaction) indefinitely.
+REQUEST_TIMEOUT = 10
 
 
 def handler(obj, event):
@@ -64,7 +56,7 @@ def handler(obj, event):
                 user = api.user.get(userid=userid)
 
                 if user is None:
-                    print(f"⚠️ User '{userid}' not found")
+                    logger.warning("User '%s' not found", userid)
                     continue
 
                 # Plone PAS user properties
@@ -78,11 +70,8 @@ def handler(obj, event):
                 last_name =  user.getProperty("last_name")
                 company = user.getProperty("company")
                 portal = api.portal.get()
-                registration = getToolByName(portal, 'portal_registration')
-                
-                # Generate the reset token — same one Plone uses internally
-                token = registration.generateResetCode(userid)  # Plone 4 style
-                # OR for Plone 5/6:
+
+                # Generate the reset token Plone uses internally
                 pas_reset = getToolByName(portal, 'portal_password_reset')
                 reset_info = pas_reset.requestReset(userid)
                 token = reset_info['randomstring']
@@ -119,7 +108,7 @@ def handler(obj, event):
                     }
                 }  
                 
-                response = requests.post(users_endpoint, headers=headers, json=payload)            
+                response = requests.post(users_endpoint, headers=headers, json=payload, timeout=REQUEST_TIMEOUT)
                 
                 
                 # Add image to user and add user to group
@@ -133,8 +122,8 @@ def handler(obj, event):
                     # Add user to group:
                     # TO DO: Keep only one when I know why users are not added with email instead of random username
                     group_endpoint = f"{project_url}/@groups/PrjTeam"
-                    group_response  = requests.patch(group_endpoint, headers=headers, json={"users": {username: 'true'} })
-                    groups_response = requests.patch(group_endpoint, headers=headers, json={"users": {response.json().get('username'): 'true'} })               
+                    group_response  = requests.patch(group_endpoint, headers=headers, json={"users": {username: 'true'} }, timeout=REQUEST_TIMEOUT)
+                    groups_response = requests.patch(group_endpoint, headers=headers, json={"users": {response.json().get('username'): 'true'} }, timeout=REQUEST_TIMEOUT)
                     #something =  api.portal.get_registry_record('something', interface=IDocentimsSettings) or ''
                     
                     dashboard_manager_fullname = 'My name'
@@ -189,7 +178,6 @@ def handler(obj, event):
                     }
                     
                     # DO variable substitution of mail body
-                    # message = raw_message.format_map(SafeDict(context_vars))
                     message = build_message(raw_message, obj, context_vars)
                     
                     registry = getUtility(IRegistry)
@@ -224,30 +212,28 @@ def handler(obj, event):
                             filename =  "portrait"
                             portrait_b64 = base64.b64encode(portrait_bytes).decode("utf-8")
                             
-                            r = requests.patch(portrait_endpoint, 
+                            r = requests.patch(portrait_endpoint,
                                             headers= headers,
-                                            json={'portrait': {'content-type': portrait_mime , 
-                                                                'data': portrait_b64, 
-                                                                'encoding': "base64", 
-                                                                'filename': filename}}, 
+                                            json={'portrait': {'content-type': portrait_mime ,
+                                                                'data': portrait_b64,
+                                                                'encoding': "base64",
+                                                                'filename': filename}},
+                                            timeout=REQUEST_TIMEOUT,
                                             )
-                            
+
                             if r.status_code == 204:
-                                print(f"✅ Portrait for '{userid}' uploaded successfully")
+                                logger.info("Portrait for '%s' uploaded successfully", userid)
                             else:
-                                print(f"⚠️ Failed to upload portrait for '{userid}'")
+                                logger.warning("Failed to upload portrait for '%s'", userid)
                     api.portal.show_message(message=f"User: {username} added and mailed", type='info')
-                    
-                elif response.status_code == 409:
-                    print(f"⚠️ User {username} already exists")
-                    api.portal.show_message(message=f"⚠️ User {username} already exists", type='info')
+
                 elif response.status_code == 500:
                     api.portal.show_message(message=f"{fullname} not added to project site.  Will not send email to this user", type='info')
                     api.portal.show_message(message=f"❌ Error creating {username}: {response.status_code} {response.text}", type='warning')                
                 elif response.status_code == 401:
                     api.portal.show_message(message=f"Password is incorrect. Fix it in control panel", type='warning ')
                 else:
-                    print(f"❌ Error creating {username}: {response.status_code} {response.text}")
+                    logger.error("Error creating %s: %s %s", username, response.status_code, response.text)
                     api.portal.show_message(message=f"{username} is probably already on the project", type='info')
                     
                 
