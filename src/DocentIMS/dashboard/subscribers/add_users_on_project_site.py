@@ -191,12 +191,22 @@ def handler(obj, event):
                         )
                     
                     message_html = MIMEText(message, 'html', _charset='UTF-8')
-                    
-                        
+
+                    # Outbound-only "do not reply" sender. Keep the configured
+                    # sender domain (the SMTP2GO-verified domain) but force a
+                    # do-not-reply local part and display name, and add headers
+                    # that discourage replies and stop auto-responders (RFC 3834).
+                    configured_from = api.portal.get_registry_record('plone.email_from_address') or ''
+                    from_domain = configured_from.split('@')[-1] if '@' in configured_from else 'docentdashboard.org'
+                    noreply_address = f'do-not-reply@{from_domain}'
+                    noreply_sender = formataddr(('Do Not Reply', noreply_address))
+
                     message_html['Subject'] = mail_subject
-                    message_html['From'] = api.portal.get_registry_record('plone.email_from_address') or ''
+                    message_html['From'] = noreply_sender
                     message_html['To'] = email
-                        
+                    message_html['Reply-To'] = noreply_sender
+                    message_html['Auto-Submitted'] = 'auto-generated'
+
                     mailhost.send(message_html.as_string())
                     
                     # Upload portrait if exists
