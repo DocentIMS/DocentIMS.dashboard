@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="DocentIMS.dashboard">
+
+  <genericsetup:upgradeStep
+      source="1000"
+      destination="1001"
+      title="Remove Preferences and Dashboard from the user pulldown"
+      description="Reimports portal actions so the 'Preferences' and stock 'Dashboard' user actions are removed for all users."
+      profile="DocentIMS.dashboard:default"
+      handler=".upgrades.reimport_actions"
+      />
+
+</configure>
