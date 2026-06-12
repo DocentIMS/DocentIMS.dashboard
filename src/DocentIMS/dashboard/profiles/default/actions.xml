@@ -111,18 +111,11 @@
 
 
 
-      <object name="preferences" meta_type="CMF Action" i18n:domain="plone">
-         <property name="title" i18n:translate="">Preferences</property>
-         <property name="description" i18n:translate=""></property>
-         <property name="url_expr">python:f&quot;{plone_portal_state.navigation_root_url()}/@@personal-information&quot;</property>
-         <property name="link_target"></property>
-         <property name="icon_expr">string:plone-user</property>
-         <property name="available_expr">python:member is not None</property>
-         <property name="permissions">
-            <element value="View"/>
-         </property>
-         <property name="visible">True</property>
-      </object>
+      <!-- Remove "Preferences" from the user pulldown for all users -->
+      <object name="preferences" meta_type="CMF Action" remove="True"/>
+
+      <!-- Remove stock Plone "Dashboard" from the user pulldown for all users -->
+      <object name="dashboard" meta_type="CMF Action" remove="True"/>
    </object>
 </object>
 
