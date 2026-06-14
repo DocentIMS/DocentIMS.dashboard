@@ -5,7 +5,7 @@ from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
 from zope.interface import Interface
-from z3c.formwidget.query.widget import OrderedSelectFieldWidget
+from z3c.form.browser.orderedselect import OrderedSelectFieldWidget
 from plone.autoform import directives as form
 from zope.interface import implementer
 
