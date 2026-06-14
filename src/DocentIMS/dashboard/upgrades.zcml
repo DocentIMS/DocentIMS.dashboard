@@ -12,4 +12,13 @@
       handler=".upgrades.reimport_actions"
       />
 
+  <genericsetup:upgradeStep
+      source="1001"
+      destination="1002"
+      title="Update the Project type with the Project Title fields"
+      description="Reimports the Project type info to add the Project Title, Project Short Name and Project Very Short Name fields and remove the standard Title field."
+      profile="DocentIMS.dashboard:default"
+      handler=".upgrades.reimport_project_type"
+      />
+
 </configure>

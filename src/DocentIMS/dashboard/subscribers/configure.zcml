@@ -5,6 +5,18 @@
  <!-- -*- extra stuff goes here -*- -->
  <!-- Not registered to content type since no content will be added to site -->
 
+  <!-- Mirror the "Project Title" field onto the object title. Registered
+       before the user-add handler so emails use the synced title. -->
+  <subscriber for="plone.dexterity.interfaces.IDexterityContent
+                   zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+              handler=".sync_title.sync_title_from_project_title"
+              />
+
+  <subscriber for="plone.dexterity.interfaces.IDexterityContent
+                   zope.lifecycleevent.interfaces.IObjectAddedEvent"
+              handler=".sync_title.sync_title_from_project_title"
+              />
+
   <subscriber for="plone.dexterity.interfaces.IDexterityContent
                    zope.lifecycleevent.interfaces.IObjectModifiedEvent"
               handler=".add_users_on_project_site.handler"

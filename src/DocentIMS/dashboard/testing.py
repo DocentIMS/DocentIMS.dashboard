@@ -4,7 +4,7 @@ from plone.app.testing import (
     applyProfile,
     FunctionalTesting,
     IntegrationTesting,
-    PLONE_FIXTURE
+    PLONE_FIXTURE,
     PloneSandboxLayer,
 )
 from plone.testing import z2

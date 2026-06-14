@@ -32,7 +32,11 @@
          https://docs.plone.org/external/plone.app.dexterity/docs/reference/standard-behaviours.html
     -->
     <!-- <element value="plone.basic"/> -->
-    <element value="plone.namefromtitle"/>
+    <!-- The visible "Title" field is removed; the object title and id are
+         derived from the required "Project Title" field instead (see
+         content/project.py INameFromTitle adapter and the title-sync
+         subscriber). -->
+    <!-- <element value="plone.namefromtitle"/> -->
     <!-- <element value="plone.allowdiscussion"/> -->
     <!-- <element value="plone.excludefromnavigation"/> -->
     <!-- <element value="plone.shortname"/> -->

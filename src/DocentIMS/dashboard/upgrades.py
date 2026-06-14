@@ -16,3 +16,14 @@ def reimport_actions(setup_tool):
     logger.info(
         "Reimported actions: removed 'Preferences' and 'Dashboard' user actions"
     )
+
+
+def reimport_project_type(setup_tool):
+    """Reimport the Project type information.
+
+    Picks up the new "Project Title", "Project Short Name" and "Project Very
+    Short Name" fields and the removal of the plone.namefromtitle behavior
+    (see profiles/default/types/Project.xml and content/project.xml).
+    """
+    setup_tool.runImportStepFromProfile(PROFILE_ID, "typeinfo")
+    logger.info("Reimported type information for the Project content type")

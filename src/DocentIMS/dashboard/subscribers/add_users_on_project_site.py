@@ -37,7 +37,9 @@ def handler(obj, event):
     
     if obj.portal_type == "Project":
         project_url = obj.project_url
-        project_title = obj.Title()
+        # Prefer the dedicated, editable "Project Title" field entered on the
+        # Add Project Connection form; fall back to the object Title.
+        project_title = getattr(obj, 'project_title', None) or obj.Title()
         user_list = obj.add_users
         
         #Dummy password, TO DO: Change / get from some settings
