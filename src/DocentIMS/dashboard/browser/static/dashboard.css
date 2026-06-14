@@ -54,6 +54,12 @@ body #portal-footer-wrapper a {
     display: none;
 }
 
+/* Hide the "User Preferences" tab (manager-facing @@user-preferences form) */
+#contentview-user_data-user-preferences,
+#content-views li:has(> a[href*="user-preferences"]) {
+    display: none;
+}
+
 body.plone-toolbar-top #edit-zone .personaltools-wrapper {
     margin-left: 0 !important;
 }
