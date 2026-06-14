@@ -5,10 +5,13 @@ Changelog
 1.0a1 (unreleased)
 ------------------
 
-- Add "Project Title", "Project Short Name" and "Project Very Short Name"
-  fields to the Add Project Connection form, so this data is entered on the
-  dashboard instead of the action item configuration. The email subscriber
-  now uses the "Project Title" field (falling back to the object title).
+- Rework the Add Project Connection form: remove the standard "Title" field
+  and add required "Project Title", "Project Short Name" and "Project Very
+  Short Name" fields (and make "Add Employee(s)" required), so this data is
+  entered on the dashboard instead of the action item configuration. The
+  object title and id are now derived from "Project Title", which is also
+  used by the welcome emails. Added upgrade step 1001 -> 1002 to reimport the
+  Project type.
   [docentims]
 
 - Remove "Preferences" and stock "Dashboard" actions from the user pulldown

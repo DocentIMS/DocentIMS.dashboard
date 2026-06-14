@@ -1,0 +1,9 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="DocentIMS.dashboard">
+
+  <!-- Derive the object name/id from the "Project Title" field, since the
+       standard "Title" field is not used on the Project form. -->
+  <adapter factory=".project.NameFromProjectTitle" />
+
+</configure>
