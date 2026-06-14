@@ -21,4 +21,13 @@
       handler=".upgrades.reimport_project_type"
       />
 
+  <genericsetup:upgradeStep
+      source="1002"
+      destination="1003"
+      title="Remove the standard Title and Summary fields from the Project form"
+      description="Strips the plone.basic, plone.dublincore and plone.namefromtitle behaviors from the Project FTI so only the Project Title / Short Name / Very Short Name fields remain."
+      profile="DocentIMS.dashboard:default"
+      handler=".upgrades.remove_title_summary_behaviors"
+      />
+
 </configure>
