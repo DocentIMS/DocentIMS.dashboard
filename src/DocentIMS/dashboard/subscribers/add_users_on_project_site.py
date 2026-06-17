@@ -245,8 +245,31 @@ def handler(obj, event):
                 elif response.status_code == 401:
                     api.portal.show_message(message=f"Password is incorrect. Fix it in control panel", type='warning ')
                 else:
-                    logger.error("Error creating %s: %s %s", username, response.status_code, response.text)
-                    api.portal.show_message(message=f"{username} is probably already on the project", type='info')
+                    logger.error(
+                        "Error adding %s to project %s: %s %s",
+                        username, project_url, response.status_code, response.text,
+                    )
+                    # Surface the real reason from the REST API instead of
+                    # assuming "already on the project". plone.restapi returns
+                    # HTTP 400 with a message when the user already exists;
+                    # any other status is a genuine error worth showing.
+                    try:
+                        detail = (response.json() or {}).get('message', '') or ''
+                    except ValueError:
+                        detail = (response.text or '')[:200]
+                    if response.status_code == 400 and 'exist' in detail.lower():
+                        api.portal.show_message(
+                            message=f"{fullname} is already a member of this project site.",
+                            type='info',
+                        )
+                    else:
+                        api.portal.show_message(
+                            message=(
+                                f"Could not add {fullname} to the project "
+                                f"(HTTP {response.status_code}). {detail}"
+                            ).strip(),
+                            type='warning',
+                        )
                     
                 
                 
