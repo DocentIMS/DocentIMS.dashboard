@@ -1,3 +1,4 @@
 -c constraints_plone60.txt
 setuptools
 zc.buildout
+onlyoffice.plone>=4.1.0
