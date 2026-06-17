@@ -1,4 +1,4 @@
-name: Plone 6.0 CI
+name: Plone 6.2 CI
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [3.9]
+        python-version: ["3.13"]
 
     steps:
       - name: Checkout repo
@@ -44,4 +44,4 @@ jobs:
 
       - name: Run tests
         run: |
-          bin/test -s Products.CMFPlone
+          bin/test -s DocentIMS.dashboard
