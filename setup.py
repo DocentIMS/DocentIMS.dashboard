@@ -61,11 +61,7 @@ setup(
         'plone.api>=1.8.4',
         'plone.app.dexterity',
         'medialog.controlpanel',
-        'collective.z3cform.colorpicker',
-        # ONLYOFFICE document editing (Plone 6). The connector is only the
-        # bridge: a running ONLYOFFICE Document Server must be configured in
-        # the control panel for editing to actually work.
-        'onlyoffice.plone>=4.1.0',
+        'collective.z3cform.colorpicker'
     ],
     extras_require={
         'test': [

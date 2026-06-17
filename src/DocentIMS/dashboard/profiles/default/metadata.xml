@@ -8,10 +8,5 @@
     <dependency>profile-plone.restapi:default</dependency>
     <dependency>profile-plone.app.dexterity:default</dependency>
      <dependency>profile-medialog.controlpanel:default</dependency>
-    <!-- ONLYOFFICE document editing. Installing this profile also registers
-         the "Edit in ONLYOFFICE" toolbar/object button. The egg must be
-         present in the environment (see requirements_plone60.txt) before this
-         dependency can be applied. -->
-    <dependency>profile-onlyoffice.plone:default</dependency>
   </dependencies>
 </metadata>
