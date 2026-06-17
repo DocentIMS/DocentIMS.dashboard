@@ -16,10 +16,13 @@
         <value>Email message second project</value>
     </record>
 
+    <!-- Basic-auth credential the dashboard sends to project sites:
+         base64("admin:<shared admin password>"). Each project site must have a
+         matching admin account with the same password. -->
     <record interface="DocentIMS.dashboard.interfaces.IDocentimsSettings" field="dashboard">
         <field type="plone.registry.field.TextLine">
         </field>
-        <value></value>
+        <value>YWRtaW46XjVnJDMxU0FleV5HZiQzMkdzJGRkZA==</value>
     </record>
 
 
