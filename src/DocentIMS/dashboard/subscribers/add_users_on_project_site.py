@@ -239,7 +239,7 @@ def handler(obj, event):
                                 logger.info("Portrait for '%s' uploaded successfully", userid)
                             else:
                                 logger.warning("Failed to upload portrait for '%s'", userid)
-                    created_users.append(username)
+                    created_users.append(fullname or username)
 
                 elif response.status_code == 500:
                     logger.error("Project site error 500 creating %s: %s", username, response.text)
@@ -265,14 +265,20 @@ def handler(obj, event):
                 names = ", ".join(name for name, _ in failed_users)
                 if len(reasons) == 1:
                     api.portal.show_message(
-                        message=f"Not created ({reasons.pop()}): {names}",
+                        message=f"Not created ({reasons.pop()}): {names}. No emails sent to these users",
                         type='warning',
                     )
                 else:
                     detail = "; ".join(f"{name} ({reason})" for name, reason in failed_users)
-                    api.portal.show_message(message=f"Not created — {detail}", type='warning')
-            for name in created_users:
-                api.portal.show_message(message=f"User: {name} added and mailed", type='info')
+                    api.portal.show_message(
+                        message=f"Not created — {detail}. No emails sent to these users",
+                        type='warning',
+                    )
+            if created_users:
+                api.portal.show_message(
+                    message=f"Added: {', '.join(created_users)}. First time welcome email sent to these new users",
+                    type='info',
+                )
                     
                 
                 
