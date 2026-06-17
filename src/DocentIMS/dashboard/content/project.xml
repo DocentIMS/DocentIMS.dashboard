@@ -26,7 +26,7 @@
 
       <title>Add Employee(s)</title>
       <value_type type="zope.schema.Choice">
-        <vocabulary>plone.app.vocabularies.Users</vocabulary>
+        <vocabulary>DocentIMS.dashboard.ActiveUsers</vocabulary>
       </value_type>  
        
     </field>

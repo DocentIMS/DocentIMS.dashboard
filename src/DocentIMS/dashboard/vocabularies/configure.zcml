@@ -16,4 +16,10 @@
     />
 
 
+    <utility
+        component=".active_users_vocabulary.ActiveUsersVocabularyFactory"
+        name="DocentIMS.dashboard.ActiveUsers"
+    />
+
+
 </configure>
