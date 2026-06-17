@@ -54,6 +54,8 @@ def handler(obj, event):
         }
 
         if user_list:
+            created_users = []
+            failed_users = []  # list of (fullname, reason) tuples
             for userid in user_list:
                 user = api.user.get(userid=userid)
 
@@ -237,39 +239,40 @@ def handler(obj, event):
                                 logger.info("Portrait for '%s' uploaded successfully", userid)
                             else:
                                 logger.warning("Failed to upload portrait for '%s'", userid)
-                    api.portal.show_message(message=f"User: {username} added and mailed", type='info')
+                    created_users.append(username)
 
                 elif response.status_code == 500:
-                    api.portal.show_message(message=f"{fullname} not added to project site.  Will not send email to this user", type='info')
-                    api.portal.show_message(message=f"❌ Error creating {username}: {response.status_code} {response.text}", type='warning')                
+                    logger.error("Project site error 500 creating %s: %s", username, response.text)
+                    failed_users.append((fullname, "the project site reported a server error"))                
                 elif response.status_code == 401:
-                    api.portal.show_message(message=f"Password is incorrect. Fix it in control panel", type='warning ')
+                    failed_users.append((fullname, "wrong project-site username/password (fix the 'Basic' credential)"))
+                elif response.status_code == 403:
+                    failed_users.append((fullname, "the project-site account lacks permission to add members (needs Manager)"))
+                elif response.status_code == 400:
+                    # plone.restapi returns 400 when the user already exists.
+                    failed_users.append((fullname, "most likely already on the project"))
                 else:
                     logger.error(
                         "Error adding %s to project %s: %s %s",
                         username, project_url, response.status_code, response.text,
                     )
-                    # Surface the real reason from the REST API instead of
-                    # assuming "already on the project". plone.restapi returns
-                    # HTTP 400 with a message when the user already exists;
-                    # any other status is a genuine error worth showing.
-                    try:
-                        detail = (response.json() or {}).get('message', '') or ''
-                    except ValueError:
-                        detail = (response.text or '')[:200]
-                    if response.status_code == 400 and 'exist' in detail.lower():
-                        api.portal.show_message(
-                            message=f"{fullname} is already a member of this project site.",
-                            type='info',
-                        )
-                    else:
-                        api.portal.show_message(
-                            message=(
-                                f"Could not add {fullname} to the project "
-                                f"(HTTP {response.status_code}). {detail}"
-                            ).strip(),
-                            type='warning',
-                        )
+                    failed_users.append((fullname, f"unexpected response from the project site (HTTP {response.status_code})"))
+
+            # One consolidated message listing everyone who could not be
+            # created, then the per-user "added and mailed" notices below it.
+            if failed_users:
+                reasons = {reason for _, reason in failed_users}
+                names = ", ".join(name for name, _ in failed_users)
+                if len(reasons) == 1:
+                    api.portal.show_message(
+                        message=f"Not created ({reasons.pop()}): {names}",
+                        type='warning',
+                    )
+                else:
+                    detail = "; ".join(f"{name} ({reason})" for name, reason in failed_users)
+                    api.portal.show_message(message=f"Not created — {detail}", type='warning')
+            for name in created_users:
+                api.portal.show_message(message=f"User: {name} added and mailed", type='info')
                     
                 
                 
