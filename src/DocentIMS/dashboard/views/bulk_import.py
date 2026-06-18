@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import io
+import logging
 import requests
 import pandas as pd
 from io import BytesIO
@@ -11,6 +12,8 @@ from zope.schema import Choice
 from z3c.form import form, field, button
 from plone.namedfile.field import NamedBlobFile
 from openpyxl import load_workbook
+
+logger = logging.getLogger(__name__)
 
 
 class IBulkImportSchema(Interface):
@@ -168,65 +171,87 @@ class BulkImport(form.Form):
             image_map[cell] = img
 
         created_users = []
+        skipped = []  # list of (identifier, reason)
         portal_membership = api.portal.get_tool('portal_membership')
 
         for row_idx, row in enumerate(rows):
-            email = row.get("email")
-            if not email:
-                continue
+            # Per-row guard: a bad row must never abort the whole import or
+            # show the client a traceback.
+            try:
+                email = row.get("email")
+                if not email:
+                    continue  # blank/trailing row — ignore silently
 
-            required_fields = [
-                "first_name", "last_name", "fullname",
-                "cellphone", "officephone", "company",
-            ]
-            if any(not row.get(f) for f in required_fields):
-                continue
+                required_fields = [
+                    "first_name", "last_name", "fullname",
+                    "cellphone", "officephone", "company",
+                ]
+                missing = [f for f in required_fields if not row.get(f)]
+                if missing:
+                    skipped.append((row.get("user_name") or email or f"row {row_idx + 2}",
+                                    "missing " + ", ".join(missing)))
+                    continue
 
-            username = row.get("user_name")
-            if not username or api.user.get(username=username):
-                continue
+                username = row.get("user_name")
+                if not username:
+                    skipped.append((email, "missing user_name"))
+                    continue
+                if api.user.get(username=username):
+                    skipped.append((username, "already exists"))
+                    continue
 
-            user = api.user.create(
-                username=username,
-                password=api.portal.get_tool("portal_registration").generatePassword(),
-                properties={
-                    "email": email,
-                    "first_name": row.get("first_name"),
-                    "last_name": row.get("last_name"),
-                    "fullname": row.get("fullname"),
-                    "cellphone_number": row.get("cellphone"),
-                    "office_phone_number": row.get("officephone"),
-                    "your_team_role": row.get("your_team_role"),
-                    "company": row.get("company"),
-                    "description": row.get("prj_related_skills"),
-                    "notes": row.get("notes"),
-                },
-            )
+                user = api.user.create(
+                    username=username,
+                    password=api.portal.get_tool("portal_registration").generatePassword(),
+                    properties={
+                        "email": email,
+                        "first_name": row.get("first_name"),
+                        "last_name": row.get("last_name"),
+                        "fullname": row.get("fullname"),
+                        "cellphone_number": row.get("cellphone"),
+                        "office_phone_number": row.get("officephone"),
+                        "your_team_role": row.get("your_team_role"),
+                        "company": row.get("company"),
+                        "description": row.get("prj_related_skills"),
+                        "notes": row.get("notes"),
+                    },
+                )
 
-            portrait_img = None
-            if "portrait" in df.columns:
-                portrait_col = df.columns.get_loc("portrait")
-                cell_key = (row_idx, portrait_col)
-                if cell_key in image_map:
-                    portrait_img = BytesIO(image_map[cell_key]._data())
-                    portrait_img.filename = "portrait.jpg"
-                elif row.get("portrait", "").startswith("http"):
-                    try:
-                        resp = requests.get(row["portrait"], timeout=10)
-                        if resp.status_code == 200:
-                            portrait_img = BytesIO(resp.content)
-                            portrait_img.filename = "portrait.jpg"
-                    except Exception:
-                        pass
+                portrait_img = None
+                if "portrait" in df.columns:
+                    portrait_col = df.columns.get_loc("portrait")
+                    cell_key = (row_idx, portrait_col)
+                    if cell_key in image_map:
+                        portrait_img = BytesIO(image_map[cell_key]._data())
+                        portrait_img.filename = "portrait.jpg"
+                    elif row.get("portrait", "").startswith("http"):
+                        try:
+                            resp = requests.get(row["portrait"], timeout=10)
+                            if resp.status_code == 200:
+                                portrait_img = BytesIO(resp.content)
+                                portrait_img.filename = "portrait.jpg"
+                        except Exception:
+                            logger.warning("Could not fetch portrait for %s", username)
 
-            if portrait_img:
-                portal_membership.changeMemberPortrait(portrait_img, user.getUserId())
+                if portrait_img:
+                    portal_membership.changeMemberPortrait(portrait_img, user.getUserId())
 
-            created_users.append(username)
+                created_users.append(username)
 
+            except Exception as exc:
+                logger.exception("Error importing user row %s", row_idx + 2)
+                skipped.append((row.get("user_name") or row.get("email") or f"row {row_idx + 2}",
+                                f"error: {exc}"))
+
+        parts = []
         if created_users:
-            return f"Imported {len(created_users)} users: {', '.join(created_users)}"
-        return "No new users imported."
+            parts.append(f"Imported {len(created_users)} users: {', '.join(created_users)}.")
+        else:
+            parts.append("No new users imported.")
+        if skipped:
+            detail = "; ".join(f"{name} ({reason})" for name, reason in skipped)
+            parts.append(f"Skipped {len(skipped)}: {detail}")
+        return " ".join(parts)
 
     # ── Companies import ──────────────────────────────────────────────────
 
@@ -242,33 +267,44 @@ class BulkImport(form.Form):
         companies = list(api.portal.get_registry_record(reg_key) or [])
         existing_codes = {c.get('company_letter_kode') for c in companies if c.get('company_letter_kode')}
         created = 0
+        skipped = 0
 
         required_fields = ["full_company_name", "short_company_name",
                            "three_letter_code", "street_address", "city",
                            "state", "zip_code"]
 
-        for row in rows:
-            if any(not row.get(f) for f in required_fields):
-                continue
-            code = row.get("three_letter_code")
-            if code in existing_codes:
-                continue
-            companies.append({
-                'full_company_name': row.get("full_company_name"),
-                'short_company_name': row.get("short_company_name"),
-                'company_letter_kode': code,
-                'company_role': None,
-                'company_full_street_address': row.get("street_address"),
-                'company_other_address': row.get("other_address"),
-                'company_city': row.get("city"),
-                'company_state': row.get("state"),
-                'company_zip': row.get("zip_code"),
-            })
-            existing_codes.add(code)
-            created += 1
+        for row_idx, row in enumerate(rows):
+            try:
+                if not any(row.get(f) for f in required_fields):
+                    continue  # blank row
+                if any(not row.get(f) for f in required_fields):
+                    skipped += 1
+                    continue
+                code = row.get("three_letter_code")
+                if code in existing_codes:
+                    continue
+                companies.append({
+                    'full_company_name': row.get("full_company_name"),
+                    'short_company_name': row.get("short_company_name"),
+                    'company_letter_kode': code,
+                    'company_role': None,
+                    'company_full_street_address': row.get("street_address"),
+                    'company_other_address': row.get("other_address"),
+                    'company_city': row.get("city"),
+                    'company_state': row.get("state"),
+                    'company_zip': row.get("zip_code"),
+                })
+                existing_codes.add(code)
+                created += 1
+            except Exception:
+                logger.exception("Error importing company row %s", row_idx + 2)
+                skipped += 1
 
         api.portal.set_registry_record(reg_key, companies)
-        return f"Imported {created} new companies."
+        msg = f"Imported {created} new companies."
+        if skipped:
+            msg += f" Skipped {skipped} row(s) with missing/invalid data."
+        return msg
 
     # ── Meetings import ───────────────────────────────────────────────────
 
@@ -283,23 +319,35 @@ class BulkImport(form.Form):
         meetings = list(api.portal.get_registry_record(reg_key) or [])
         existing = {m.get("meeting_type") for m in meetings if m.get("meeting_type")}
         created = 0
+        skipped = 0
 
-        for row in rows:
-            if not all(row.get(f) for f in ["meeting_type", "meeting_title", "meeting_tag"]):
-                continue
-            code = row.get("meeting_type")
-            if code in existing:
-                continue
-            meetings.append({
-                "meeting_type": row.get("meeting_type"),
-                "meeting_title": row.get("meeting_title"),
-                "meeting_summary": row.get("meeting_tag"),
-            })
-            existing.add(code)
-            created += 1
+        fields = ["meeting_type", "meeting_title", "meeting_tag"]
+        for row_idx, row in enumerate(rows):
+            try:
+                if not any(row.get(f) for f in fields):
+                    continue  # blank row
+                if not all(row.get(f) for f in fields):
+                    skipped += 1
+                    continue
+                code = row.get("meeting_type")
+                if code in existing:
+                    continue
+                meetings.append({
+                    "meeting_type": row.get("meeting_type"),
+                    "meeting_title": row.get("meeting_title"),
+                    "meeting_summary": row.get("meeting_tag"),
+                })
+                existing.add(code)
+                created += 1
+            except Exception:
+                logger.exception("Error importing meeting row %s", row_idx + 2)
+                skipped += 1
 
         api.portal.set_registry_record(reg_key, meetings)
-        return f"Imported {created} new meeting types."
+        msg = f"Imported {created} new meeting types."
+        if skipped:
+            msg += f" Skipped {skipped} row(s) with missing/invalid data."
+        return msg
 
     # ── Roles & locations import ──────────────────────────────────────────
 
@@ -323,27 +371,30 @@ class BulkImport(form.Form):
 
         created = 0
 
-        for row in rows:
-            if row.get("member_roles"):
-                val = row["member_roles"]
-                if val not in existing_member:
-                    member_roles.append({'vocabulary_entry': val})
-                    existing_member.add(val)
-                    created += 1
+        for row_idx, row in enumerate(rows):
+            try:
+                if row.get("member_roles"):
+                    val = row["member_roles"]
+                    if val not in existing_member:
+                        member_roles.append({'vocabulary_entry': val})
+                        existing_member.add(val)
+                        created += 1
 
-            if row.get("meeting_locations"):
-                val = row["meeting_locations"]
-                if val not in existing_loc:
-                    location_names.append({'location_name': val})
-                    existing_loc.add(val)
-                    created += 1
+                if row.get("meeting_locations"):
+                    val = row["meeting_locations"]
+                    if val not in existing_loc:
+                        location_names.append({'location_name': val})
+                        existing_loc.add(val)
+                        created += 1
 
-            if row.get("company_roles"):
-                val = row["company_roles"]
-                if val not in existing_company:
-                    company_roles.append({'vocabulary_entry': val})
-                    existing_company.add(val)
-                    created += 1
+                if row.get("company_roles"):
+                    val = row["company_roles"]
+                    if val not in existing_company:
+                        company_roles.append({'vocabulary_entry': val})
+                        existing_company.add(val)
+                        created += 1
+            except Exception:
+                logger.exception("Error importing role/location row %s", row_idx + 2)
 
         # FIX: Write each registry value once after the loop completes.
         api.portal.set_registry_record(REG_MEMBER_ROLES, member_roles)

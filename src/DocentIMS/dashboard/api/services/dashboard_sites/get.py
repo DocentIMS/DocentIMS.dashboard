@@ -61,26 +61,29 @@ class DashboardSites(object):
         # if some_secret = something;        
         if usermail and sites:           
             for siteurl in sites:
-                try:                
+                try:
                     response = requests.get(f'{siteurl}/@item_count?user={username}',
-                                            timeout=1,
+                                            timeout=2,
                                             headers={'Accept': 'application/json', 'Content-Type': 'application/json'})
                     if response.status_code == 200:
                         body = response.json()
-                        if body['dashboard-list'] != None:
+                        dashboard_list = body.get('dashboard-list')
+                        if dashboard_list:
                             buttons.append({
-                                'name': body['dashboard-list']['short_name'], 
-                                'url': siteurl, 
-                                'project_color': body['dashboard-list']['project_color'],
-                                'last_login_time': body['dashboard-list']['last_login_time'], 
+                                'name': dashboard_list.get('short_name'),
+                                'url': siteurl,
+                                'project_color': dashboard_list.get('project_color'),
+                                'last_login_time': dashboard_list.get('last_login_time'),
                             })
-                
+
                 except requests.exceptions.ConnectionError:
                     logger.warning("Failed to connect to project site %s", siteurl)
                 except requests.exceptions.Timeout:
                     logger.warning("Request to project site %s timed out", siteurl)
                 except requests.exceptions.RequestException as e:
                     logger.warning("Error contacting project site %s: %s", siteurl, e)
+                except (ValueError, KeyError, TypeError) as e:
+                    logger.warning("Unexpected response from project site %s: %s", siteurl, e)
 
             
         result = {
