@@ -45,6 +45,21 @@ class AppInjectView(BrowserView):
     def get_current(self):
         return current_username()
 
+    def get_user_portrait(self):
+        """URL of the current user's portrait, or None when they have not
+        set one (so the dashboard circle falls back to the generic glyph)."""
+        try:
+            userid = api.user.get_current().getId()
+            if not userid:
+                return None
+            mtool = api.portal.get_tool('portal_membership')
+            portrait = mtool.getPersonalPortrait(userid)
+            if portrait is not None and portrait.getId() != 'defaultUser.png':
+                return portrait.absolute_url()
+        except Exception as e:
+            logger.warning("Could not resolve portrait: %s", e)
+        return None
+
     @staticmethod
     def strip_weekday(value):
         """'Tuesday, 23 June 2026, 01:29 PM' -> '23 June 2026, 01:29 PM'.
