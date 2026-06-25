@@ -170,29 +170,15 @@ portal-column-content .nav-item a {
 portal-column-content .nav-item a.active {
     opacity: 1
 }
-
-
-
-div.rightlogo {
-    background: white;
-    padding: 0 20px 10px 20px;
-    border-radius: 0 0 20px 20px;
-    xbox-shadow: -1px -1px 1px 1px #DDD;
-    border: 2px solid gold;
-    border-top: 0 none;
-}
-
 #portal-logo {
     max-width: 250px;
 }
 
 #hero,
 #above-content-wrapper,
-#xcontent-header,
 .principal,
 #portal-anontools,
 #above-content-wrapper,
-#xportal-footer-wrapper,
 #mainnavigation-wrapper {
     display: none !important
 }
@@ -244,144 +230,17 @@ h6 {
 
 .appWrapper {
     display: flex;
-    xmin-height: 100dvh
 }
 
 .flexing {
     display: flex;
     justify-content: space-between
 }
-
-.appWrapper .sideBar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 280px;
-    border-radius: 0px 30px 30px 0px;
-    max-height: 100dvh;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 8px 4px 25px rgba(0, 0, 0, 0.1);
-    height: 100%;
-    color: white;
-}
-
 .white-text {
     color: white !important;
 }
-
-.appWrapper .sideBar .topInfo {
-    flex: 1
-}
-
-.appWrapper .sideBar .bottomInfox {
-    padding: 20px 10px
-}
-
-.appWrapper .sideBar .bottomInfo p {
-    text-align: center;
-    font-size: 14px;
-    color: #ffffffad
-}
-
-.appWrapper .sideBar .logoBox {
-    padding: 30px 40px
-}
-
-.appWrapper .sideBar .logoBox a {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-    padding: 5px;
-    border-radius: 100px
-}
-
-.appWrapper .sideBar .logoBox img {
-    border-radius: 100px;
-    height: 50px
-}
-
-.appWrapper .sideBar .menuBox {
-    padding-left: 14px;
-    margin-top: 40px
-}
-
-.appWrapper .sideBar .menuBox nav ul li {
-    margin-bottom: 10px
-}
-
-.appWrapper .sideBar .menuBox nav ul li a {
-    font-weight: 500;
-    color: #fff;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    column-gap: 5px;
-    padding: 14px 0px;
-    border-top-left-radius: 100px;
-    border-bottom-left-radius: 100px;
-    transition: 0s;
-    padding-left: 10px
-}
-
-.appWrapper .sideBar .menuBox nav ul li a svg {
-    height: 22px;
-    color: #fff;
-    min-width: 30px;
-    text-align: center
-}
-
-.appWrapper.sideBar .menuBox nav ul li a:hover {
-    color: #FFBB3B
-}
-
-.appWrapper .sideBar .menuBox nav ul li a:hover svg {
-    color: #FFBB3B
-}
-
-.appWrapper .sideBar .menuBox nav ul li a.active {
-    background-color: #fff;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-    position: relative;
-    color: #05386B
-}
-
-.appWrapper .sideBar .menuBox nav ul li a.active svg {
-    color: #FFBB3B
-}
-
-.appWrapper .sideBar .menuBox nav ul li a.active:after {
-    content: "";
-    position: absolute;
-    background-color: transparent;
-    bottom: 100%;
-    right: 0;
-    height: 35px;
-    width: 35px;
-    border-bottom-right-radius: 18px;
-    box-shadow: 0 20px 0 0 #fff
-}
-
-.appWrapper .sideBar .menuBox nav ul li a.active:before {
-    content: "";
-    position: absolute;
-    background-color: transparent;
-    top: 52px;
-    right: 0;
-    height: 68px;
-    width: 35px;
-    border-top-right-radius: 18px;
-    box-shadow: 0 -20px 0 0 #fff
-}
-
 .appWrapper .wrapper {
-    xmargin-left: 280px;
     flex: 1;
-    xpadding: 40px 40px
 }
 
 .pageHeading h2 {
@@ -579,174 +438,6 @@ h6 {
 /* .projectPreview .card .card-body .bottomItemBox {
     margin-top: 30px
 } */
-
-.mobileHeader {
-    padding: 10px 20px;
-    background-color: #378DA4;
-    display: none
-}
-
-.mobileHeader .LogoBox a {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-    padding: 5px;
-    border-radius: 100px
-}
-
-.mobileHeader .LogoBox img {
-    border-radius: 100px;
-    height: 50px
-}
-
-.mobileHeader .toggleButton {
-    text-align: end
-}
-
-.mobileHeader .toggleButton button {
-    height: 50px;
-    width: 50px;
-    border: none;
-    background-color: #fff;
-    border-radius: 30px
-}
-
-.mobileHeader .toggleButton svg {
-    height: 27px;
-    color: #378DA4
-}
-
-.offcanvas {
-    background-color: #378DA4;
-    width: 300px !important;
-    border: none !important
-}
-
-.offcanvas .offcanvas-header .btn-close {
-    height: 40px;
-    width: 40px;
-    background-color: #fff;
-    opacity: 1;
-    padding: 0px;
-    font-size: 13px;
-    border-radius: 30px
-}
-
-.offcanvas .offcanvas-body {
-    padding: 0px;
-    display: flex;
-    flex-direction: column
-}
-
-.offcanvas .offcanvas-body .topInfo {
-    flex: 1
-}
-
-.offcanvas .offcanvas-body .bottomInfo {
-    padding: 20px 10px
-}
-
-.offcanvas .offcanvas-body .bottomInfo p {
-    text-align: center;
-    font-size: 14px;
-    color: #ffffffad
-}
-
-.offcanvas .offcanvas-body .logoBox {
-    padding: 30px 40px
-}
-
-.offcanvas .offcanvas-body .logoBox a {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-    padding: 5px;
-    border-radius: 100px
-}
-
-.offcanvas .offcanvas-body .logoBox img {
-    border-radius: 100px;
-    height: 50px
-}
-
-.offcanvas .offcanvas-body .menuBox {
-    padding-left: 14px;
-    margin-top: 40px
-}
-
-.offcanvas .offcanvas-body .menuBox nav ul li {
-    margin-bottom: 10px
-}
-
-.offcanvas .offcanvas-body .menuBox nav ul li a {
-    font-weight: 500;
-    color: #fff;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    column-gap: 5px;
-    padding: 14px 0px;
-    border-top-left-radius: 100px;
-    border-bottom-left-radius: 100px;
-    transition: 0s;
-    padding-left: 10px
-}
-
-.offcanvas .offcanvas-body .menuBox nav ul li a svg {
-    height: 22px;
-    color: #fff;
-    min-width: 30px;
-    text-align: center
-}
-
-.offcanvas .offcanvas-body .menuBox nav ul li a:hover {
-    color: #FFBB3B
-}
-
-.offcanvas .offcanvas-body .menuBox nav ul li a:hover svg {
-    color: #FFBB3B
-}
-
-.offcanvas .offcanvas-body .menuBox nav ul li a.active {
-    background-color: #fff;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-    position: relative;
-    color: #05386B
-}
-
-.offcanvas .offcanvas-body .menuBox nav ul li a.active svg {
-    color: #FFBB3B
-}
-
-.offcanvas .offcanvas-body .menuBox nav ul li a.active:after {
-    content: "";
-    position: absolute;
-    background-color: transparent;
-    bottom: 100%;
-    right: 0;
-    height: 35px;
-    width: 35px;
-    border-bottom-right-radius: 18px;
-    box-shadow: 0 20px 0 0 #fff
-}
-
-.offcanvas .offcanvas-body .menuBox nav ul li a.active:before {
-    content: "";
-    position: absolute;
-    background-color: transparent;
-    top: 52px;
-    right: 0;
-    height: 68px;
-    width: 35px;
-    border-top-right-radius: 18px;
-    box-shadow: 0 -20px 0 0 #fff
-}
-
 #main-container a.button,
 #main-container a.button click {
     opacity: 0.35
@@ -802,10 +493,6 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
 
 @media (min-width: 992px) and (max-width: 1199px) {
 
-    .appWrapper .sideBar {
-        width: 240px
-    }
-
     .appWrapper .wrapper {
         padding: 20px 20px
     }
@@ -818,16 +505,8 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
 
 @media (max-width: 991px) {
 
-    .mobileHeader {
-        display: block
-    }
-
     .appWrapper {
         flex-direction: column
-    }
-
-    .appWrapper .sideBar {
-        display: none
     }
 
     .appWrapper .wrapper {
@@ -885,10 +564,6 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
     .projectPreview .userInfo h4 {
         font-size: 14px;
         column-gap: 7px
-    }
-
-    .offcanvas {
-        width: 90% !important
     }
 }
 
@@ -1088,4 +763,44 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
 
 #main-container .singleItem.meeting h4 {
     color: #8a909a;
+}
+/* ---- moved out of app_view.pt / app_inject_view.pt inline <style> ---- */
+.dashboardHeading {
+    text-align: center;
+    font-weight: 700;
+    margin: 0.5rem 0 1rem;
+}
+
+.text-right {
+    text-align: right;
+    padding-top: 1rem;
+}
+
+.newproject {
+    color: #b8860b;
+}
+
+#calendardiv {
+    border: 2px solid;
+    background: #fff;
+    padding: 1rem 0.5rem;
+    height: auto;
+    opacity: 1;
+}
+
+#calendardiv.opacity0 {
+    opacity: 0;
+}
+
+/* alert/notification labels arrive lower-case from the API */
+#main-container .card .card-body .itemWrapper .singleItem h4 {
+    text-transform: capitalize;
+}
+
+.projectLoadError {
+    padding: 1rem 1.25rem;
+    color: #7a1f3d;
+    background: #faf3f5;
+    border: 1px solid #e7cdd6;
+    border-radius: 10px;
 }

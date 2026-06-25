@@ -2,24 +2,21 @@
 
 from Products.Five.browser import BrowserView
 from zope.interface import Interface
-import requests
 from plone import api
-from  ..interfaces import IDocentimsSettings
+from ..interfaces import IDocentimsSettings
 from plone.memoize import ram
+from .api_client import current_username, fetch_item_count
 import time
 import logging
 
 
 logger = logging.getLogger(__name__)
 
-# from AccessControl.SecurityManagement import getSecurityManager
-# from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
-
 # 15 minutes in seconds
 CACHE_TIMEOUT = 15 * 60
 
-def cache_key_subbuttons(method, self): 
+
+def cache_key_subbuttons(method, self):
     user = self.get_current()
     t = int(time.time() / CACHE_TIMEOUT)
 
@@ -27,7 +24,7 @@ def cache_key_subbuttons(method, self):
     if refresh:
         # unique key every time → bypass cache
         return f"inject-{user}-refresh"
-    
+
     return f"inject-{user}-{t}"
 
 
@@ -40,80 +37,44 @@ class AppInjectView(BrowserView):
     # the configure.zcml registration of this view.
     # template = ViewPageTemplateFile('app_inject_view.pt')
 
-    # def __init__(self, context, request):
-    #     self.request = request
-        
-        
     def __call__(self):
-        # Implement your own actions:
         self.dashboard_info = self.get_dashboard_info()
         self.portlet_data = self.get_portlet_data()
         return self.index()
-    
-    
+
     def get_current(self):
-        current = api.user.get_current()
-        return current.getUserName()
-        # return current.getProperty('email')
-    
-    # @ram.cache(cache_key_subbuttons)
+        return current_username()
+
     def get_calendar_list(self):
-        dash_list =  self.get_dashboard_info()
-        if dash_list:
-            return dash_list['dashboard-list']['calendar_list']
+        dashboard_info = self.get_dashboard_info()
+        if dashboard_info and dashboard_info.get('dashboard-list'):
+            return dashboard_info['dashboard-list'].get('calendar_list', [])
         return []
-    
+
     @ram.cache(cache_key_subbuttons)
     def get_dashboard_info(self):
-        # TO DO: dont use admin 
-        # print('getting dashboard info')
-        #Should happen every 15 minutes or on reload ?
-        # print('getting stuff')
-        
+        # Refreshed every 15 minutes or on ?refresh=1 (see cache key).
         siteurl = self.request.get('siteurl', '')
         if not siteurl:
             return None
-        # app_password =  api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_password')
-        # app_user = api.portal.get_registry_record('DocentIMS.dashboard.interfaces.IDocentimsSettings.app_user')
-        basik =  api.portal.get_registry_record('dashboard', interface=IDocentimsSettings) or ''
-        response = requests.get(f'{siteurl}/@item_count?user={self.get_current()}', timeout=3,  headers={'Authorization': f'Basic {basik}','Accept': 'application/json', 'Content-Type': 'application/json'} )
- 
-        if response:
-                body = response.json()
-                return body
-            
-        return None
-    
-    def portlet_data(self):
-        return self.get_portlet_data()
-    
-    @ram.cache(cache_key_subbuttons)   
+        basik = api.portal.get_registry_record(
+            'dashboard', interface=IDocentimsSettings
+        ) or ''
+        return fetch_item_count(siteurl, self.get_current(), basic_auth=basik)
+
+    @ram.cache(cache_key_subbuttons)
     def get_portlet_data(self):
-        #Should happen every 15 minutes or on reload ?
         siteurl = self.request.get('siteurl', '')
-        result = []
         if not siteurl:
-            return result
-        try:            
-            response = requests.get(f'{siteurl}/@item_count?user={self.get_current()}', timeout=3,
-                                            headers={'Accept': 'application/json', 'Content-Type': 'application/json'})
-            if response.status_code == 200:
-                body = response.json()
-                if body['dashboard-list'] != None:
-                    result.append({
-                                        'name': body['dashboard-list']['short_name'], 
-                                        'url': siteurl, 
-                                        'short_name':  body['dashboard-list']['short_name'],
-                                        'project_color': body['dashboard-list']['project_color'],
-                                        'portlet_content': body['dashboard-list']['portlet_content'],
-                            })                
-        except requests.exceptions.ConnectionError:
-                    logger.warning("Failed to connect to project site %s", siteurl)
-        except requests.exceptions.Timeout:
-                    logger.warning("Request to project site %s timed out", siteurl)
-        except requests.exceptions.RequestException as e:
-                    logger.warning("Error contacting project site %s: %s", siteurl, e)
-            
-        return result
-     
- 
+            return []
+        body = fetch_item_count(siteurl, self.get_current())
+        dashboard_list = body.get('dashboard-list') if body else None
+        if not dashboard_list:
+            return []
+        return [{
+            'name': dashboard_list['short_name'],
+            'url': siteurl,
+            'short_name': dashboard_list['short_name'],
+            'project_color': dashboard_list['project_color'],
+            'portlet_content': dashboard_list['portlet_content'],
+        }]
