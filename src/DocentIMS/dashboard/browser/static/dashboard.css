@@ -637,6 +637,7 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
 }
 
 #main-container .projectPreview .userInfo h3 {
+    display: flex;
     font-size: 1rem;
     font-weight: 600;
     color: #44506a;
@@ -644,13 +645,22 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
     column-gap: 8px;
 }
 
+/* User icon: the generic person glyph, or an uploaded image, both shown
+   as a round 36px badge (20% larger than before). */
 #main-container .projectPreview .userInfo svg {
-    height: 30px;
-    width: 30px;
-    padding: 5px;
+    height: 36px;
+    width: 36px;
+    padding: 6px;
     border-radius: 50%;
     color: var(--brand);
     background: #f1e6ea;
+}
+
+#main-container .projectPreview .userInfo .userMenu img {
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 /* ---- section headers with trailing rule ---- */
