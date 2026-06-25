@@ -847,8 +847,17 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
     padding-bottom: 0.45rem;
 }
 
-/* Footer left at its theme default (the earlier "Powered by Plone" rule
-   removed too much, so it was reverted). */
+/* Footer: hide the "Powered by Plone" line (matched by its unique title so
+   the © colophon line above it is untouched) and the "Log out" action
+   (being relocated elsewhere). */
+#portal-footer-wrapper a[title="This site was built using the Plone Open Source CMS/WCM."],
+#portal-footer-wrapper a[href*="logout"] {
+    display: none !important;
+}
+#portal-footer-wrapper p:has(> a[title="This site was built using the Plone Open Source CMS/WCM."]),
+#portal-footer-wrapper li:has(> a[href*="logout"]) {
+    display: none !important;
+}
 
 /* Right-column static portlets (Docent Help, Personal Info):
    force a uniform 48px icon regardless of the inline width/height
