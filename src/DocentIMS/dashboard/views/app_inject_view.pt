@@ -6,7 +6,6 @@
     <metal:content-core fill-slot="content">
       <metal:block define-macro="content">
 
-
         <div id="appWrapper">
 
           <div id="meetings">
@@ -17,49 +16,36 @@
                 data-end item/end;
                 data-category item/category;
                 data-location item/location;
-                data-url item/url;"> 
+                data-url item/url;">
               </div>
             </tal:loop>
           </div>
 
+          <div tal:define="dashboard_items view/dashboard_info;
+                           dashboard_list dashboard_items/dashboard-list|nothing">
 
-          <div tal:define="dashboard_items view/dashboard_info">
+            <!-- Graceful fallback: the project site could not be reached or
+                 returned an unexpected response. -->
+            <p class="projectLoadError" tal:condition="not: dashboard_list">
+              This project could not be loaded right now. Please try
+              <a href="${context/absolute_url}?refresh=1">refreshing</a>.
+            </p>
 
-            <main class="appWrapper" tal:define="dashboard_items view/dashboard_info; 
-            dashboard_list dashboard_items/dashboard-list;
-            url dashboard_list/site_url">
+            <main class="appWrapper" tal:condition="dashboard_list"
+                  tal:define="url dashboard_list/site_url">
 
-              <!-- main app content -->
               <div class="wrapper">
                 <div class="pageHeading">
                   <div class="projectPreview">
                     <div class="tab-content" id="myTabContent">
-                      <!-- <div class="topInfo">
-                        <h3>
-                          <a href="${url}" alt="Link to site" title="Link to ${dashboard_list/short_name|None}">
-                      ${dashboard_list/short_name|None} 
-                          </a>
-                        </h3>
-                      </div> -->
-                      <!-- <div class="userInfo">
-                        <h4>
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
-                          </svg>
-                          <span>${dashboard_list/user} 
-                          </span>
-                        </h4>
-                      </div> -->
                       <div class="card mainbox">
 
                         <h2 class="mytitle">
                           <a href="${url}" class="project_color" target="_blank" alt="Link to site" title="Link to ${dashboard_list/short_name|None}">
-                      ${dashboard_list/short_name|None} 
+                      ${dashboard_list/short_name|None}
                           </a>
                           <span class="small">| New / Modified: ${dashboard_list/last_updated|None}</span>
                         </h2>
-
-
 
                         <div class="card-body">
                           <div class="userInfo">
@@ -67,11 +53,11 @@
                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="48" height="48">
                                 <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
                               </svg>
-                              <span>${dashboard_list/user} – ${dashboard_list/your_team_role} 
+                              <span>${dashboard_list/user} – ${dashboard_list/your_team_role}
                               </span>
                             </h3>
-
                           </div>
+
                           <div class="topItemBox">
                             <div class="top">
                               <h3>
@@ -80,10 +66,8 @@
                             </div>
                             <div class="itemWrapper">
                               <div class="row">
-
                                 <div tal:repeat="urgency dashboard_list/urgency_list" class="col-xl-3 col-lg-6 col-md-6 col-12">
                                   <div tal:define="urgclass urgency/name; count urgency/count" class="color-${python: repeat.urgency.index} singleItem ${python: urgclass.split(' ', 1)[0]} count-${count}">
-
                                     <h4 tal:define="urgname urgency/name" class="black">${python: urgname.replace("More than", ">")}</h4>
                                     <h2>${count}</h2>
                                     <div class="detailsBtn">
@@ -93,11 +77,9 @@
                                           <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
                                         </svg>
                                       </a>
-
                                     </div>
                                   </div>
-                                </div>                                <!-- repeat-->
-
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -110,20 +92,6 @@
                             </div>
                             <div class="itemWrapper">
                               <div class="row">
-                                <!-- <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-                                  <div class="singleItem meeting">
-                                    <h4>Meetings</h4>
-                                    <h2>${dashboard_list/meetings|None}</h2>
-                                    <div class="detailsBtn">
-                                      <a href="${url}/meeting" class="white-text">
-                                          More Details
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                          <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-                                        </svg>
-                                      </a>
-                                    </div>
-                                  </div> -->
-                                <!-- </div> -->
                                 <div tal:repeat="meeting dashboard_list/meeting_list" class="col-xl-3 col-lg-6 col-md-6 col-12">
                                   <div tal:define="count meeting/count" class="singleItem meeting count-${count}">
                                     <h4>${meeting/name}</h4>
@@ -138,27 +106,25 @@
                                     </div>
                                   </div>
                                 </div>
-
                               </div>
                             </div>
                           </div>
+
                           <div class="bottomItemBox">
                             <div class="top">
                               <h3>
                                 <a href="${url}/notifications/notifications-collection" target="_blank" rel="noopener noreferrer">
-                                    Alerts                                
+                                    Alerts
                                 </a>
                               </h3>
                             </div>
                             <div class="itemWrapper">
                               <div class="row">
-
-                                <div tal:define="sorted_list python:sorted(dashboard_list['notification_list'], key=lambda x: x['name'].lower())" tal:repeat="notification python: dashboard_list['notification_list']" class="col-xl-3 col-lg-6 col-md-6 col-12">
+                                <div tal:repeat="notification dashboard_list/notification_list" class="col-xl-3 col-lg-6 col-md-6 col-12">
                                   <div tal:define="name notification/name; count notification/count" class="singleItem notification note-${name} count-${count}">
                                     <h4 class="title-${name}">${name}</h4>
                                     <h2>${count}</h2>
                                     <div class="detailsBtn">
-
                                       <a href="${url}/notifications/notifications-collection?collectionfilter=1&notification_type=${name}&sort_on=created&sort_order=ascending" target="_blank" tal:condition="python: count != 0" class="xwhite-text">
                                           More Details
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -168,7 +134,6 @@
                                     </div>
                                   </div>
                                 </div>
-
                               </div>
                             </div>
                           </div>
@@ -179,52 +144,21 @@
                 </div>
               </div>
 
-              
-
+              <!-- Per-project dynamic styling (depends on the project colour /
+                   short name).  Static rules live in dashboard.css. -->
               <style>
-              #main-container .mytitle a {color: ${dashboard_list/project_color|None}; } 
-              .projectButton, .card {border-color: ${dashboard_list/project_color|None}; }
-              .card.mainbox { border: 4px solid ${dashboard_list/project_color|None} }
-              div.card-header {background: ${dashboard_list/project_color|None}; color: white;}   
-              div.card-header a { color: white !important;}  
-              .singleItem.notification {background-color: whitesmoke;}
-              .singleItem  {background-color: whitesmoke;}              
-              h4 {text-transform: capitalize;}
-              h2.mytitle {text-align: left; margin-top: 1rem; margin-left: 1rem;}
-              .small {font-size: 1rem !important; font-weight: normal; color: #DDD}    
-              #main-container .singleItem a,
-              #main-container .singleItem a * {color: #123456}
-              #main-container .singleItem a:hover {text-decoration: underline}
-              .card .singleItem.count-0 { opacity: 0.5 !important} 
-              .info_portlet {display: none}
-              .info_portlet.${python: dashboard_list['short_name'].replace(" ", ".")} { display: block}     
-              .userInfo h3 { font-size: 1.6em }         
+                #main-container .mytitle a { color: ${dashboard_list/project_color|None}; }
+                div.card-header { background: ${dashboard_list/project_color|None}; color: white; }
+                div.card-header a { color: white !important; }
+                .info_portlet { display: none; }
+                .info_portlet.${python: dashboard_list['short_name'].replace(" ", ".")} { display: block; }
               </style>
-              <!-- #edit-zone {
-                background-color: ${dashboard_list/project_color|None} !important;
-              } -->
-              <!-- .singleItem { background-color: ${dashboard_list/project_color|None}; } 
-              .singleItem.meeting { background-color: ${dashboard_list/mark_color|None} }  -->
-              <!-- .singleItem.error {background-color: red;}
-              .singleItem.warning {background-color: orange;}
-              .singleItem.info {background-color: cyan;} -->
-              <!-- h4.title-error  {color: red !important}
-              h4.title-warning  {color: orange !important} -->
-              <!-- .singleItem.Urgent {  background: linear-gradient(45deg, ${dashboard_list/project_color|None}, red)}
-              .singleItem.Soon {  background: linear-gradient(45deg, ${dashboard_list/project_color|None}, orange)}
-              .singleItem.Future {background: linear-gradient(45deg, ${dashboard_list/project_color|None}, blue)}
-              .singleItem.More {background: linear-gradient(45deg, ${dashboard_list/project_color|None}, green)}
-              .singleItem.Unset {background: linear-gradient(45deg, ${dashboard_list/project_color|None}, darkgreen)} -->
-
-
-
 
             </main>
           </div>
-          
+
         </div>
       </metal:block>
     </metal:content-core>
   </body>
 </html>
- 

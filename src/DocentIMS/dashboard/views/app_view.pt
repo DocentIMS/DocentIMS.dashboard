@@ -12,16 +12,12 @@
           <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 
           <div class="row">
-            <h3 style="text-align:center; font-family: 'Times', 'Times New Roman', 'Brush Script MT', 'Brush Script', 'Courier New', 'Courier'">Docent Dashboard</h3>
+            <h3 class="dashboardHeading">Docent Dashboard</h3>
           </div>
-
-
 
           <main class="appWrapper">
 
-                <div class="wrapper" tal:define="current view/get_fullname|None;  colors view/get_colors|None">
-                  <!-- <p>IP Address: ${view/get_served_domain_ip} ( ${view/get_server_ip} )</p> -->
-                  <p></p> 
+                <div class="wrapper" tal:define="current view/get_fullname|None">
                   <div class="wrapper loader">
                     <p>
                       <span class=" projectselect" tal:condition="current|None">Please select project…</span> &nbsp;</p>
@@ -37,7 +33,7 @@
                           <tal:repeat tal:repeat="button python:view.get_buttons()">
                             <li class="nav-item" role="presentation" tal:define="active python: 'active' if repeat.button.index == 0 else 'click'">
                               <a style="background-color: ${python: button['project_color']}" class="button btn pat-inject ${active}" href="${context/absolute_url}/app-inject-view?siteurl=${python: button['url']}" data-pat-inject="source: #appWrapper; target: #appWrapper">
- 												 ${python: button['name']} 
+ 												 ${python: button['name']}
                                 <span class="newproject" tal:condition="python: button['last_login_time']">
                                   <br/>
                                   New Project</span>
@@ -59,182 +55,36 @@
                     </p>
                   </div>
 
-
                   <div id="appWrapper" class="projectPreview">
-                    <a tal:condition="not: current|None" 
-                        class="loginbutton plone-btn plone-btn-large plone-btn-primary pat-plone-modal" 
-                        data-pat-plone-modal="width: 400" title="Log in" href="${context/absolute_url}/login" 
+                    <a tal:condition="not: current|None"
+                        class="loginbutton plone-btn plone-btn-large plone-btn-primary pat-plone-modal"
+                        data-pat-plone-modal="width: 400" title="Log in" href="${context/absolute_url}/login"
                         icon="plone-login">Please Log in first
                     </a>
-
-                    <div>
-                      <p>&nbsp;</p>
-                      <!-- <p><a href="${context/absolute_url}/@@login-help" tal:condition="not: current|None">Set Password -->
-                      <!-- </a></p> -->
-                    </div>
                   </div>
                 </div>
               </main>
 
               <div>
 
-          <button id="toggler" tal:condition="view/get_fullname|None" 
+          <button id="toggler" tal:condition="view/get_fullname|None"
           class="btn btn-standalone btn-primary toggler">Calendar: Meetings for Project</button>
-          <div id="calendardiv" class="opacity0">           
+          <div id="calendardiv" class="opacity0">
 
             <!-- Filters -->
             <div id="filters" class="flex" style="display: flex; background: whitesmoke">
               <label tal:repeat="meeting_type view/get_meeting_types|None">
                 <input type="checkbox" value="meeting_type" checked/> ${meeting_type}
-              </label>      
+              </label>
             </div>
 
             <!-- Calendar -->
             <div id="calendar" class="calendar"></div>
           </div>
               </div>
-              <style tal:define="colors view/get_colors">
 
-            body {   background: #FAF9F6 }
-            .text-right {text-align: right; padding-top: 1rem;}
-            .newproject {color: yellow}
-            .appWrapper .sideBar,
-            #main-container a.button,
-            .projectButton .p1 {
-              background-color: ${project_color|None};
-            }
-
-            #calendardiv { border: 2px solid; background: white; padding: 1rem 0.5rem; height: auto; opacity: 1} 
-            #calendardiv.opacity0 { opacity: 0}
-
-            .projectPreview .topInfo h3,
-            .projectPreview .card .card-body .top h3 {
-              color: ${color|None};
-            }
-
-
-              </style>
-
-
-              <script> 
- 
-$('#toggler').click(function() {
- $("#calendardiv").toggleClass('opacity0');
-});
-
-
-  
-  // 🎨 Category colors
-  const categoryColors = {
-     'Project Team Meeting': 'red',
-     'Community Meeting': 'green'
-  };
-
-  // Active filters
-  let activeCategories = [];
-
-  // Meetings store (will be updated after inject)
-  let meetings = [];
-
-  // Convert to FullCalendar format
-  function getFilteredEvents() {
-    return meetings
-      .filter(m => activeCategories.includes(m.category))
-      .map(m => ({
-        title: m.title,
-        start: m.start,
-        end: m.end,
-        backgroundColor: categoryColors[m.category],
-        borderColor: categoryColors[m.category],
-        extendedProps: {
-          category: m.category
-        }
-      }));
-  }
-
-  // 📅 Init calendar (ONLY ONCE)
-  const calendar = new FullCalendar.Calendar(
-    document.getElementById('calendar'),
-    {
-      initialView: 'dayGridMonth',
-      height: 'auto',
-      events: function(fetchInfo, successCallback) {
-        successCallback(getFilteredEvents());
-      }
-    }
-  );
-
-  calendar.render();
-
-  // 🎛️ Filter handling (ONLY ONCE)
-  document.querySelectorAll('#filters input').forEach(cb => {
-    cb.addEventListener('change', () => {
-      activeCategories = Array.from(
-        document.querySelectorAll('#filters input:checked')
-      ).map(el => el.value);
-
-      calendar.refetchEvents();
-    });
-  });
-
-
-  // ✅ ONLY THIS PART needs to be inside pat-inject
-document.addEventListener('pat-inject-success', function (e) {
-
-  // 1. Read meetings
-  meetings = Array.from(
-    document.querySelectorAll("#meetings .meeting")
-  ).map(el => ({
-    title: el.dataset.title,
-    start: el.dataset.start,
-    end: el.dataset.end,
-    category: el.dataset.category.trim(),
-    location: el.dataset.location,
-    url: el.dataset.url
-  }));
-
-  // 2. Get unique categories
-  const categories = [...new Set(meetings.map(m => m.category))];
-
-  // 3. Build filters UI
-  const filtersContainer = document.getElementById('filters');
-  filtersContainer.innerHTML = ''; // clear existing
-
-  categories.forEach(cat => {
-    const label = document.createElement('label');
-    label.style.marginRight = '1rem';
-
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.value = cat;
-    checkbox.checked = true;
-
-    label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(' ' + cat));
-
-    filtersContainer.appendChild(label);
-  });
-
-  // 4. Set active categories
-  activeCategories = categories;
-
-  // 5. Re-bind filter events (IMPORTANT)
-  document.querySelectorAll('#filters input').forEach(cb => {
-    cb.addEventListener('change', () => {
-      activeCategories = Array.from(
-        document.querySelectorAll('#filters input:checked')
-      ).map(el => el.value);
-
-      calendar.refetchEvents();
-    });
-  });
-
-  // 6. Refresh calendar
-  calendar.refetchEvents();
-});
-              </script>
-
-
+          <!-- Calendar behaviour (guarded; no-ops when the calendar is absent) -->
+          <script src="++plone++DocentIMS.dashboard/calendar.js"></script>
 
             </metal:block>
           </metal:content-core>
