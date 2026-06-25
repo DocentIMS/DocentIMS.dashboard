@@ -856,3 +856,13 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
 #portal-footer-wrapper div:has(> a[href*="plone.org"]) {
     display: none !important;
 }
+
+/* Right-column static portlets (Docent Help, Personal Info):
+   force a uniform 48px icon regardless of the inline width/height
+   (TinyMCE tends to strip those on save). */
+#portal-column-two .portletStaticText img {
+    width: 48px !important;
+    height: 48px !important;
+    vertical-align: middle;
+    margin-right: 10px;
+}
