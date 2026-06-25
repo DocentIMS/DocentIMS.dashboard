@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Docent Dashboard — Iteration 2 · Stat Strip</title>
+<style>
+  :root{
+    --brand:#6e1f3d; --ink:#13243b; --page:#eef1f5; --card:#fff; --line:#e6e9ef;
+    --urgent:#ef4444; --soon:#d9920a; --future:#16a34a; --far:#6366f1; --mention:#94a3b8;
+    --font:"Inter",system-ui,Segoe UI,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--page);font-family:var(--font);color:#1e293b}
+  a{text-decoration:none;color:inherit}
+  .grid{display:grid;grid-template-columns:1fr 320px;gap:20px;padding:22px;max-width:1500px;margin:auto}
+
+  /* sticky brand header strip */
+  .hero{background:linear-gradient(110deg,var(--brand),#9c3055);color:#fff;border-radius:18px;
+        padding:20px 26px;display:flex;justify-content:space-between;align-items:center;
+        box-shadow:0 14px 30px rgba(110,31,61,.30)}
+  .hero h1{margin:0;font-size:1.5rem}
+  .hero .meta{font-size:.8rem;opacity:.85;margin-top:4px}
+  .hero .who{display:flex;align-items:center;gap:10px;font-weight:600}
+  .hero .av{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);
+       display:grid;place-items:center}
+  .hero .refresh{display:block;font-size:.75rem;opacity:.85;margin-top:4px}
+
+  .tabs{display:flex;gap:10px;margin:18px 0}
+  .tab{padding:8px 18px;border-radius:999px;background:#fff;border:1px solid var(--line);
+       font-weight:600;color:#64748b;font-size:.9rem}
+  .tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+
+  .group{margin-top:22px}
+  .group>h3{margin:0 0 12px;color:var(--ink);font-size:1rem;display:flex;align-items:center;gap:8px}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--brand)}
+
+  .strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .stat{background:var(--card);border-radius:14px;padding:16px 18px;display:flex;
+        align-items:center;gap:14px;border:1px solid var(--line);box-shadow:0 4px 12px rgba(15,23,42,.04)}
+  .stat .ring{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;
+        font-weight:800;font-size:1.3rem;color:#fff;background:var(--c,#cbd5e1);flex:none}
+  .stat.zero .ring{background:#eef1f5;color:#94a3b8}
+  .stat .lbl{font-size:.82rem;color:#64748b;font-weight:600}
+  .stat .sub{font-size:.72rem;color:#9aa6b6;margin-top:2px}
+  .urgent{--c:var(--urgent)} .soon{--c:var(--soon)} .future{--c:var(--future)}
+  .far{--c:var(--far)} .error{--c:var(--urgent)} .warning{--c:var(--soon)}
+  .info{--c:var(--future)} .mention{--c:var(--mention)} .meet{--c:#64748b}
+
+  aside .pl{background:#fff;border-radius:14px;margin-bottom:16px;overflow:hidden;
+       border:1px solid var(--line);box-shadow:0 4px 12px rgba(15,23,42,.04)}
+  .pl .h{padding:14px 18px;font-weight:700;color:var(--ink)}
+  .pl .b{padding:0 18px 14px;color:#475569;font-size:.9rem}
+  .pl .f{background:#f8fafc;padding:10px 18px;font-weight:600;color:var(--brand);font-size:.85rem}
+  .pl.brand .h{background:var(--brand);color:#fff}
+  @media(max-width:980px){.grid{grid-template-columns:1fr}.strip{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="grid">
+  <main>
+    <div class="hero">
+      <div>
+        <h1>Revere Beach</h1>
+        <div class="meta">New / Modified · Tuesday, 23 June 2026, 01:29 PM</div>
+      </div>
+      <div style="text-align:right">
+        <div class="who"><span class="av">WG</span> Wayne Glover</div>
+        <a class="refresh" href="#">Updated 25 Jun 04:37 AM · ↻ Refresh</a>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <span class="tab active">Revere Beach</span>
+      <span class="tab">Harborview</span>
+      <span class="tab">Lincoln Park</span>
+    </div>
+
+    <div class="group">
+      <h3><span class="dot"></span> Your Tasks</h3>
+      <div class="strip">
+        <div class="stat urgent zero"><div class="ring">0</div><div><div class="lbl">Urgent</div><div class="sub">&lt; 7 workdays</div></div></div>
+        <div class="stat soon"><div class="ring">1</div><div><div class="lbl">Soon</div><div class="sub">&lt; 14 workdays</div></div></div>
+        <div class="stat future zero"><div class="ring">0</div><div><div class="lbl">Future</div><div class="sub">&lt; 28 workdays</div></div></div>
+        <div class="stat far zero"><div class="ring">0</div><div><div class="lbl">Long&nbsp;term</div><div class="sub">&gt; 28 workdays</div></div></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <h3><span class="dot"></span> Meetings</h3>
+      <div class="strip">
+        <div class="stat meet zero"><div class="ring">0</div><div><div class="lbl">Project Team</div></div></div>
+        <div class="stat meet zero"><div class="ring">0</div><div><div class="lbl">Community</div></div></div>
+        <div></div><div></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <h3><span class="dot"></span> Alerts</h3>
+      <div class="strip">
+        <div class="stat error zero"><div class="ring">0</div><div><div class="lbl">Error</div></div></div>
+        <div class="stat warning zero"><div class="ring">0</div><div><div class="lbl">Warning</div></div></div>
+        <div class="stat info zero"><div class="ring">0</div><div><div class="lbl">Info</div></div></div>
+        <div class="stat mention zero"><div class="ring">0</div><div><div class="lbl">Mention</div></div></div>
+      </div>
+    </div>
+  </main>
+
+  <aside>
+    <div class="pl">
+      <div class="h">Does this show on Dashboard</div>
+      <div class="b">This is the first news item</div>
+      <div class="f">All News from Revere Beach →</div>
+    </div>
+    <div class="pl brand"><div class="h">Docent Help</div><div class="b" style="padding-top:14px">Guides &amp; support for this project.</div></div>
+    <div class="pl brand"><div class="h">Personal Info</div><div class="b" style="padding-top:14px">Your profile &amp; preferences.</div></div>
+  </aside>
+</div>
+</body>
+</html>
