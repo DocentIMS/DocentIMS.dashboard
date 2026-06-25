@@ -1,0 +1,86 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  i18n:domain="DocentIMS.dashboard"
+  metal:use-macro="context/main_template/macros/master">
+  <body>
+    <metal:content-core fill-slot="content">
+
+      <div class="setUserIcon" tal:define="presets view/get_presets; current view/current_icon">
+
+        <h1>User Icon</h1>
+        <p class="discreet">Choose the small icon shown next to your name on the dashboard.
+          This does not change your Plone portrait.</p>
+
+        <p class="portalMessage info" tal:condition="view/status" tal:content="view/status" />
+
+        <div class="currentIcon" tal:condition="current">
+          <span>Current icon:</span>
+          <img tal:attributes="src current" alt="Current icon" width="48" height="48" />
+        </div>
+
+        <form method="post" enctype="multipart/form-data"
+              tal:attributes="action string:${context/absolute_url}/@@set-user-icon">
+
+          <div class="iconChoice">
+            <label><input type="radio" name="icon_choice" value="default" checked="checked" /> Default Selection</label>
+            <label><input type="radio" name="icon_choice" value="upload" /> Upload Your personal icon</label>
+          </div>
+
+          <hr/>
+
+          <fieldset class="presetSection">
+            <legend>Default Selection</legend>
+            <p class="discreet" tal:condition="not: presets">
+              No preset icons found in <code>/images/profile-icons</code>. Add some images there,
+              or use the upload option.
+            </p>
+            <div class="presetGallery">
+              <label class="presetOption" tal:repeat="preset presets">
+                <input type="radio" name="preset" tal:attributes="value preset/url" />
+                <img tal:attributes="src preset/url; title preset/title; alt preset/title" />
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="uploadSection">
+            <legend>Upload Your personal icon</legend>
+            <input type="file" name="icon_file" accept="image/*" />
+          </fieldset>
+
+          <div class="formControls">
+            <button type="submit" class="btn btn-primary" name="form.submitted" value="1">Save Icon</button>
+          </div>
+        </form>
+      </div>
+
+      <script type="text/javascript">
+        (function () {
+          var form = document.querySelector('.setUserIcon form');
+          if (!form) return;
+          var preset = form.querySelector('.presetSection');
+          var upload = form.querySelector('.uploadSection');
+          function sync() {
+            var val = form.querySelector('input[name="icon_choice"]:checked').value;
+            preset.style.display = (val === 'default') ? '' : 'none';
+            upload.style.display = (val === 'upload') ? '' : 'none';
+          }
+          form.querySelectorAll('input[name="icon_choice"]').forEach(function (r) {
+            r.addEventListener('change', sync);
+          });
+          // highlight the chosen preset
+          form.querySelectorAll('.presetOption input').forEach(function (r) {
+            r.addEventListener('change', function () {
+              form.querySelectorAll('.presetOption').forEach(function (o) {
+                o.classList.remove('selected');
+              });
+              if (r.checked) r.closest('.presetOption').classList.add('selected');
+            });
+          });
+          sync();
+        })();
+      </script>
+
+    </metal:content-core>
+  </body>
+</html>

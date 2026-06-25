@@ -60,6 +60,7 @@
                                 <div class="userMenuDropdown">
                                   <a href="/logout">Log Out</a>
                                   <a href="/@@personal-information">Set Profile</a>
+                                  <a href="/@@set-user-icon">Set Icon</a>
                                 </div>
                               </details>
                               <span>${dashboard_list/user} – ${dashboard_list/your_team_role}
