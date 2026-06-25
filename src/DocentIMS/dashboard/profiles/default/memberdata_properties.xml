@@ -24,4 +24,5 @@
  <property name="location" type="string"></property>
  <property name="returning" type="boolean">False</property>
  <property name="notes" type="string">False</property>
+ <property name="user_icon" type="string"></property>
 </object>
