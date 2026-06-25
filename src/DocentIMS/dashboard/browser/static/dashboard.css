@@ -804,3 +804,50 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
     border: 1px solid #e7cdd6;
     border-radius: 10px;
 }
+
+/* =========================================================================
+   UI TWEAKS (2026-06): logo, heading, pill bar, portlet headers, footer
+   ========================================================================= */
+
+/* Logo +15%, blended into the page background */
+#portal-logo {
+    max-width: 287px;          /* was 250px */
+    height: auto;
+    background: #FAF9F6;
+}
+#portal-header,
+#portal-top-wrapper,
+.portal-header {
+    background: #FAF9F6;
+}
+
+/* "Docent Dashboard" title: larger + distinct display font */
+#main-container .dashboardHeading {
+    font-family: Georgia, "Palatino Linotype", "Times New Roman", serif;
+    font-size: 2rem;
+    color: #6e1f3d;
+    letter-spacing: 0.3px;
+}
+
+/* Pill bar ~10% shorter */
+#main-container .projectButton .card .card-body {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+#main-container .projectButton a.button,
+.projectButton .btn {
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+/* Right-column portlet header bars ("redish boxes") ~5% shorter */
+#portal-column-two .card-header,
+#main-container .portlet .card-header {
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
+}
+
+/* Footer: hide the colophon / second line (verify against live footer) */
+#portal-colophon {
+    display: none;
+}
