@@ -33,6 +33,15 @@
     layer="DocentIMS.dashboard.interfaces.IDocentimsDashboardLayer"
     />
 
+  <browser:page
+    name="set-user-icon"
+    for="*"
+    class=".set_user_icon.SetUserIcon"
+    template="set_user_icon.pt"
+    permission="zope2.View"
+    layer="DocentIMS.dashboard.interfaces.IDocentimsDashboardLayer"
+    />
+
     <!-- <@implementer(IPublishTraverse)
 class PasswordResetView(BrowserView):
     """ """

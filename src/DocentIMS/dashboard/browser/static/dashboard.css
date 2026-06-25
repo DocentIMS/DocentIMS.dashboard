@@ -917,3 +917,29 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
     background: #f5f3ef;
     text-decoration: none;
 }
+
+/* Set Icon page */
+.setUserIcon { max-width: 640px; }
+.setUserIcon h1 { margin-bottom: .5rem; }
+.setUserIcon .currentIcon {
+    display: flex; align-items: center; gap: 10px; margin: 12px 0;
+}
+.setUserIcon .currentIcon img { border-radius: 50%; object-fit: cover; }
+.setUserIcon .iconChoice { display: flex; gap: 24px; margin: 12px 0; }
+.setUserIcon .iconChoice label { font-weight: 600; cursor: pointer; }
+.setUserIcon fieldset {
+    border: 1px solid #e3e3e3; border-radius: 10px; padding: 14px 16px; margin: 14px 0;
+}
+.setUserIcon legend { font-size: .95rem; font-weight: 600; padding: 0 6px; width: auto; }
+.setUserIcon .presetGallery { display: flex; flex-wrap: wrap; gap: 14px; }
+.setUserIcon .presetOption {
+    display: inline-flex; cursor: pointer; border: 2px solid transparent;
+    border-radius: 12px; padding: 6px;
+}
+.setUserIcon .presetOption:hover { border-color: #cdb4be; }
+.setUserIcon .presetOption.selected { border-color: #6e1f3d; background: #faf3f5; }
+.setUserIcon .presetOption input { display: none; }
+.setUserIcon .presetOption img {
+    width: 64px; height: 64px; border-radius: 50%; object-fit: cover;
+}
+.setUserIcon .formControls { margin-top: 16px; }
