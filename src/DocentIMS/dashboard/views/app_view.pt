@@ -32,7 +32,7 @@
                           </div>
                           <tal:repeat tal:repeat="button python:view.get_buttons()">
                             <li class="nav-item" role="presentation" tal:define="active python: 'active' if repeat.button.index == 0 else 'click'">
-                              <a style="background-color: ${python: button['project_color']}" class="button btn pat-inject ${active}" href="${context/absolute_url}/app-inject-view?siteurl=${python: button['url']}" data-pat-inject="source: #appWrapper; target: #appWrapper">
+                              <a style="background-color: ${python: button['project_color']}" class="button btn pat-inject ${active}" href="${context/absolute_url}/app-inject-view?siteurl=${python: button['url']}" data-pat-inject="source: #appWrapper; target: #appWrapper${python: '; trigger: autoload' if active == 'active' else ''}">
  												 ${python: button['name']}
                                 <span class="newproject" tal:condition="python: button['last_login_time']">
                                   <br/>
