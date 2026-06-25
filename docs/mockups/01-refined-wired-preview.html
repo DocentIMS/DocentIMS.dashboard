@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wired preview — refined theme on live markup</title>
+<!-- minimal Bootstrap-grid shim (Plone 6 provides the real one) -->
+<style>
+ *{box-sizing:border-box}
+ .row{display:flex;flex-wrap:wrap;margin:0 -8px}
+ .col-xl-3{flex:0 0 25%;max-width:25%;padding:0 8px}
+ .nav,.nav-tabs{display:flex;list-style:none;padding:0;margin:0;flex-wrap:wrap}
+ .nav-item{list-style:none}
+ .btn{display:inline-block;cursor:pointer}
+ .card{background:#fff}
+</style>
+<!-- the ACTUAL edited stylesheet (absolute path) -->
+<link href="../../src/DocentIMS/dashboard/browser/static/dashboard.css" rel="stylesheet">
+<style>body{padding:18px}#main-container{max-width:1180px;margin:auto}</style>
+</head>
+<body>
+<div id="main-container">
+ <div id="portal-column-content">
+  <main class="appWrapper">
+   <div class="wrapper">
+
+    <!-- ===== project tabs (app_view.pt) ===== -->
+    <div class="projectButton">
+     <div class="card"><div class="card-body">
+      <ul class="nav nav-tabs" role="tablist">
+       <li class="nav-item" role="presentation">
+        <a style="background-color:#6e1f3d" class="button btn pat-inject active" href="#">Revere Beach</a>
+        <p class="center"><a href="#">✎</a></p>
+       </li>
+       <li class="nav-item" role="presentation">
+        <a style="background-color:#1f6f8b" class="button btn pat-inject click" href="#">Harborview Commons</a>
+        <p class="center"><a href="#">✎</a></p>
+       </li>
+       <li class="nav-item" role="presentation">
+        <a style="background-color:#2e7d32" class="button btn pat-inject click" href="#">Lincoln Park</a>
+        <p class="center"><a href="#">✎</a></p>
+       </li>
+      </ul>
+     </div></div>
+    </div>
+
+    <p class="text-right">Updated: 25 Jun 04:37 AM <a href="#">↻ Refresh</a></p>
+
+    <!-- ===== injected panel (app_inject_view.pt) ===== -->
+    <div id="appWrapper" class="projectPreview">
+     <div class="card mainbox">
+      <h2 class="mytitle">
+       <a href="#" class="project_color" target="_blank">Revere Beach</a>
+       <span class="small">| New / Modified: Tuesday, 23 June 2026, 01:29 PM</span>
+      </h2>
+      <div class="card-body">
+
+       <div class="userInfo">
+        <h3>
+         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="48" height="48">
+          <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd"/>
+         </svg>
+         <span>Wayne Glover – Project Lead</span>
+        </h3>
+       </div>
+
+       <!-- Your Tasks -->
+       <div class="topItemBox">
+        <div class="top"><h3><a href="#">Your Tasks</a></h3></div>
+        <div class="itemWrapper"><div class="row">
+         <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+          <div class="color-0 singleItem Urgent count-3"><h4 class="black">Urgent &lt; 7 Workdays</h4><h2>3</h2>
+           <div class="detailsBtn"><a href="#">More Details →</a></div></div></div>
+         <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+          <div class="color-1 singleItem Soon count-1"><h4 class="black">Soon &lt; 14 Workdays</h4><h2>1</h2>
+           <div class="detailsBtn"><a href="#">More Details →</a></div></div></div>
+         <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+          <div class="color-2 singleItem Future count-0"><h4 class="black">Future &lt; 28 Workdays</h4><h2>0</h2></div></div>
+         <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+          <div class="color-3 singleItem More count-0"><h4 class="black">&gt; 28 Workdays</h4><h2>0</h2></div></div>
+        </div></div>
+       </div>
+
+       <!-- Meetings -->
+       <div class="bottomItemBox">
+        <div class="top"><h3><a href="#">Meetings</a></h3></div>
+        <div class="itemWrapper"><div class="row">
+         <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+          <div class="singleItem meeting count-0"><h4>Project Team Meeting</h4><h2>0</h2></div></div>
+         <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+          <div class="singleItem meeting count-2"><h4>Community Meeting</h4><h2>2</h2>
+           <div class="detailsBtn"><a href="#">More Details →</a></div></div></div>
+        </div></div>
+       </div>
+
+       <!-- Alerts -->
+       <div class="bottomItemBox">
+        <div class="top"><h3><a href="#">Alerts</a></h3></div>
+        <div class="itemWrapper"><div class="row">
+         <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+          <div class="singleItem notification note-error count-2"><h4 class="title-error">error</h4><h2>2</h2>
+           <div class="detailsBtn"><a href="#">More Details →</a></div></div></div>
+         <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+          <div class="singleItem notification note-warning count-0"><h4 class="title-warning">warning</h4><h2>0</h2></div></div>
+         <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+          <div class="singleItem notification note-info count-0"><h4 class="title-info">info</h4><h2>0</h2></div></div>
+         <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+          <div class="singleItem notification note-mention count-0"><h4 class="title-mention">mention</h4><h2>0</h2></div></div>
+        </div></div>
+       </div>
+
+      </div>
+     </div>
+    </div>
+
+   </div>
+  </main>
+ </div>
+</div>
+
+<!-- per-project runtime style block, exactly as app_inject_view.pt injects it -->
+<style>
+ #main-container .mytitle a {color:#6e1f3d;}
+ .projectButton, .card {border-color:#6e1f3d;}
+ .card.mainbox {border:4px solid #6e1f3d}
+ .singleItem.notification {background-color:whitesmoke;}
+ .singleItem {background-color:whitesmoke;}
+ h4 {text-transform:capitalize;}
+ .card .singleItem.count-0 {opacity:0.5 !important}
+</style>
+</body>
+</html>
