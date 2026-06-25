@@ -891,3 +891,201 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
         width: 90% !important
     }
 }
+
+
+/* =========================================================================
+   REFINED DASHBOARD THEME  (mockup 01-refined, wired to live markup)
+   Pure-CSS skin: drives off classes the templates already emit
+   (.singleItem.Urgent/.Soon/.Future/.More, .note-error/-warning/-info/-mention,
+   .meeting) instead of positional .color-N. No template/JS changes required.
+   Self-contained and easy to revert — delete this block to restore the
+   previous look.
+   ========================================================================= */
+
+#main-container {
+    --brand: #6e1f3d;
+    --ink: #0c2d48;
+    --line: #ececec;
+    --t-urgent: #e0454f;
+    --t-soon: #c9962a;
+    --t-future: #1f9d55;
+    --t-far: #5b63e6;
+    --t-mention: #9aa0a6;
+    --t-meet: #cfd4da;
+}
+
+/* ---- project tabs (pills) ---- */
+#portal-column-content .projectButton .nav-tabs {
+    column-gap: 12px;
+    row-gap: 12px;
+}
+
+#main-container .projectButton a.button,
+.projectButton .btn {
+    border-radius: 999px;
+    padding: 11px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: .18s;
+}
+
+/* inactive pill = white card; overrides the inline project-colour background */
+#main-container .projectButton a.button:not(.active),
+.projectButton .btn:not(.active) {
+    background: #fff !important;
+    color: #555 !important;
+    border: 1px solid var(--line) !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+    opacity: 1;
+}
+
+/* active pill keeps its inline project colour, gains a soft lift */
+#main-container .projectButton a.button.active,
+.projectButton .btn.active {
+    color: #fff !important;
+    border: 1px solid transparent !important;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .28);
+    opacity: 1;
+}
+
+/* ---- main card ---- */
+#main-container .projectPreview .card.mainbox {
+    border: 1px solid var(--line) !important;
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(20, 30, 50, .07);
+}
+
+/* ---- user chip ---- */
+#main-container .projectPreview .userInfo {
+    padding-top: 8px;
+    justify-content: flex-end;
+}
+
+#main-container .projectPreview .userInfo h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #44506a;
+    align-items: center;
+    column-gap: 8px;
+}
+
+#main-container .projectPreview .userInfo svg {
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+    border-radius: 50%;
+    color: var(--brand);
+    background: #f1e6ea;
+}
+
+/* ---- section headers with trailing rule ---- */
+#main-container .projectPreview .card .card-body .top {
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+    margin: 22px 0 12px;
+}
+
+#main-container .projectPreview .card .card-body .top h3 {
+    font-size: 1.05rem;
+    letter-spacing: .2px;
+    white-space: nowrap;
+}
+
+#main-container .projectPreview .card .card-body .top h3 a {
+    color: var(--ink);
+}
+
+#main-container .projectPreview .card .card-body .top::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+}
+
+/* ---- tiles ---- */
+#main-container .card .card-body .itemWrapper .singleItem {
+    position: relative;
+    background: #fff !important;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px 16px 14px;
+    overflow: hidden;
+    transition: .18s;
+    min-height: 118px;
+}
+
+#main-container .card .card-body .itemWrapper .singleItem::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: var(--c, #ccc);
+}
+
+#main-container .card .card-body .itemWrapper .singleItem:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(20, 30, 50, .12);
+}
+
+#main-container .card .card-body .itemWrapper .singleItem h4 {
+    font-size: .82rem;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+#main-container .card .card-body .itemWrapper .singleItem h2 {
+    margin-top: .35rem;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #222;
+}
+
+/* non-zero counter takes the accent colour */
+#main-container .card .card-body .itemWrapper .singleItem:not(.count-0) h2 {
+    color: var(--c);
+}
+
+#main-container .card .singleItem.count-0 {
+    opacity: .6 !important;
+}
+
+#main-container .singleItem .detailsBtn a,
+#main-container .singleItem .detailsBtn a * {
+    color: var(--c) !important;
+    font-weight: 600;
+}
+
+/* ---- accent colour per status (semantic, not positional) ---- */
+#main-container .singleItem.Urgent,
+#main-container .singleItem.note-error {
+    --c: var(--t-urgent);
+}
+
+#main-container .singleItem.Soon,
+#main-container .singleItem.note-warning {
+    --c: var(--t-soon);
+}
+
+#main-container .singleItem.Future,
+#main-container .singleItem.note-info {
+    --c: var(--t-future);
+}
+
+#main-container .singleItem.More {
+    --c: var(--t-far);
+}
+
+#main-container .singleItem.note-mention {
+    --c: var(--t-mention);
+}
+
+#main-container .singleItem.meeting {
+    --c: var(--t-meet);
+}
+
+#main-container .singleItem.meeting h4 {
+    color: #8a909a;
+}
