@@ -847,8 +847,13 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
     padding-bottom: 0.45rem;
 }
 
-/* Footer left at its theme default (Powered by Plone, Log out and the
-   copyright colophon all shown as Plone renders them). */
+/* Footer: show only the "Powered by Plone" line (.colophon). Hide the
+   copyright row, the site-actions row (Log in/out) and the empty doormat. */
+#portal-footer-wrapper .copyright,
+#portal-footer-wrapper .site-actions,
+#portal-footer-wrapper .doormat {
+    display: none !important;
+}
 
 /* Right-column static portlets (Docent Help, Personal Info):
    force a uniform 48px icon regardless of the inline width/height
