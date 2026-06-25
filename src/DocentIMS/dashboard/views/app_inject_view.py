@@ -45,6 +45,20 @@ class AppInjectView(BrowserView):
     def get_current(self):
         return current_username()
 
+    @staticmethod
+    def strip_weekday(value):
+        """'Tuesday, 23 June 2026, 01:29 PM' -> '23 June 2026, 01:29 PM'.
+
+        Only drops a leading weekday when the value has the expected
+        weekday/date/time shape; otherwise returns it unchanged.
+        """
+        if not value:
+            return ''
+        parts = value.split(', ')
+        if len(parts) >= 3:
+            return ', '.join(parts[1:])
+        return value
+
     def get_calendar_list(self):
         dashboard_info = self.get_dashboard_info()
         if dashboard_info and dashboard_info.get('dashboard-list'):
