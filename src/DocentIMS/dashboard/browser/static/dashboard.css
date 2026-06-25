@@ -864,3 +864,46 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
     vertical-align: middle;
     margin-right: 10px;
 }
+
+/* User account dropdown (the circle next to the user's name) */
+#main-container .userInfo .userMenu {
+    position: relative;
+    display: inline-block;
+}
+#main-container .userInfo .userMenu > summary {
+    list-style: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+}
+#main-container .userInfo .userMenu > summary::-webkit-details-marker {
+    display: none;
+}
+#main-container .userInfo .userMenu > summary:focus {
+    outline: none;
+}
+#main-container .userInfo .userMenuDropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 6px;
+    min-width: 160px;
+    background: #fff;
+    border: 1px solid #e3e3e3;
+    border-radius: 10px;
+    box-shadow: 0 8px 22px rgba(20, 30, 50, 0.18);
+    padding: 6px 0;
+    z-index: 100;
+}
+#main-container .userInfo .userMenuDropdown a {
+    display: block;
+    padding: 9px 18px;
+    white-space: nowrap;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #05386B;
+}
+#main-container .userInfo .userMenuDropdown a:hover {
+    background: #f5f3ef;
+    text-decoration: none;
+}
