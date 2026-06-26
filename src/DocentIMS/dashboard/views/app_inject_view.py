@@ -6,6 +6,7 @@ from plone import api
 from ..interfaces import IDocentimsSettings
 from plone.memoize import ram
 from .api_client import current_username, fetch_item_count
+from datetime import datetime
 import time
 import logging
 
@@ -44,6 +45,9 @@ class AppInjectView(BrowserView):
 
     def get_current(self):
         return current_username()
+
+    def get_current_time(self):
+        return datetime.now().strftime('%d %b %I:%M %p')
 
     def get_user_icon(self):
         """URL of the current user's chosen icon, or None for the generic

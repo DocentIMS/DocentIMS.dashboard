@@ -943,3 +943,61 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
     width: 64px; height: 64px; border-radius: 50%; object-fit: cover;
 }
 .setUserIcon .formControls { margin-top: 16px; }
+
+/* =========================================================================
+   Pill-inside-card layout (mockup v2)
+   ========================================================================= */
+
+/* the single white card that wraps the pills + the injected panel */
+#main-container .mainCard {
+    background: #fff;
+    border: 1px solid var(--line, #ececec);
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(20, 30, 50, .06);
+    padding: 16px 26px 18px;
+}
+
+/* pills now sit at the top of the card (no separate box) */
+#main-container .mainCard .cardtop {
+    opacity: 1;
+    margin-bottom: 4px;
+}
+#main-container .mainCard .cardtop .nav-tabs {
+    margin: 0;
+    padding: 0;
+}
+
+/* flatten the injected inner card — the outer .mainCard provides the frame */
+#main-container .mainCard .projectPreview .card.mainbox {
+    border: 0 none !important;
+    box-shadow: none !important;
+    border-radius: 0;
+    margin-top: 0;
+}
+#main-container .mainCard .projectPreview .card {
+    margin-top: 0;
+}
+#main-container .mainCard .projectPreview .card .card-body {
+    padding: 6px 0 0;
+}
+
+/* bottom-right footnote: project + dashboard timestamps and refresh */
+#main-container .cardfoot {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line, #ececec);
+    font-size: .82rem;
+    color: #8a909a;
+}
+#main-container .cardfoot b { font-weight: 600; color: #5a6472; }
+#main-container .cardfoot .sep { color: #c9ced6; }
+#main-container .cardfoot .refreshLink { color: var(--brand, #6e1f3d); font-weight: 600; }
+
+/* align the right portlet column's top with the main card's top
+   (offset ≈ the "Docent Dashboard" heading height; fine-tune if needed) */
+#portal-column-two { padding-top: 4.2rem; }

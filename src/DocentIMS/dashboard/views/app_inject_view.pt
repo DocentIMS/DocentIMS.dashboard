@@ -40,13 +40,6 @@
                     <div class="tab-content" id="myTabContent">
                       <div class="card mainbox">
 
-                        <h2 class="mytitle">
-                          <a href="${url}" class="project_color" target="_blank" alt="Link to site" title="Link to ${dashboard_list/short_name|None}">
-                      ${dashboard_list/short_name|None}
-                          </a>
-                          <span class="small">| Project Info Updated: ${python: view.strip_weekday(dashboard_list.get('last_updated', ''))}</span>
-                        </h2>
-
                         <div class="card-body">
                           <div class="userInfo">
                             <h3>
@@ -147,6 +140,13 @@
                               </div>
                             </div>
                           </div>
+
+                          <div class="cardfoot">
+                            <span><b>Project Info Updated:</b> ${python: view.strip_weekday(dashboard_list.get('last_updated', ''))}</span>
+                            <span class="sep">·</span>
+                            <span><b>Dashboard updated:</b> ${view/get_current_time}</span>
+                            <a class="refreshLink" href="${context/absolute_url}?refresh=1">↻ Refresh</a>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -157,7 +157,6 @@
               <!-- Per-project dynamic styling (depends on the project colour /
                    short name).  Static rules live in dashboard.css. -->
               <style>
-                #main-container .mytitle a { color: ${dashboard_list/project_color|None}; }
                 div.card-header { background: ${dashboard_list/project_color|None}; color: white; }
                 div.card-header a { color: white !important; }
                 .info_portlet { display: none; }

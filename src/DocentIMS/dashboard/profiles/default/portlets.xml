@@ -35,20 +35,6 @@
       </p>
     </property>
   </assignment>
-  <assignment name="personal-info" category="context" key="/" manager="plone.rightcolumn" type="plone.portlet.static.Static" visible="True">
-    <property name="footer"/>
-    <property name="header">Personal Info</property>
-    <property name="more_url"/>
-    <property name="omit_border">False</property>
-    <property name="text" type="plone.app.textfield.value.RichTextValue" mimeType="text/html" outputMimeType="text/x-html-safe" encoding="utf-8">
-      <p style="text-align:center">
-        <a href="/@@personal-information" title="Update Your Profile">
-          <img src="/++plone++DocentIMS.dashboard/profile-icon.svg" alt="Update Your Profile" width="48" height="48"/>
-          <br/>Update Your Profile
-        </a>
-      </p>
-    </property>
-  </assignment>
 
 
 </portlets>
