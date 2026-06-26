@@ -61,7 +61,6 @@ setup(
         'plone.api>=1.8.4',
         'plone.app.dexterity',
         'medialog.controlpanel',
-        'collective.z3cform.colorpicker'
     ],
     extras_require={
         'test': [
