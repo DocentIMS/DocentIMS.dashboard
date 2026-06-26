@@ -1012,3 +1012,22 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
 }
 .testEmailBox form { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .testEmailBox input[type="email"] { padding: 7px 10px; border: 1px solid #ccc; border-radius: 6px; }
+
+/* Injected "send test" box on the email settings control panel */
+.emailTestBox {
+    margin: 8px 0 18px;
+    padding: 12px 14px;
+    background: #faf8f4;
+    border: 1px solid #e7cdd6;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.emailTestBox input[type="email"] {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+.emailTestBox .emailTestMsg { color: #6e1f3d; font-weight: 600; }

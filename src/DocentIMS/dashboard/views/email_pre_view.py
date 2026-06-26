@@ -14,6 +14,7 @@ from  ..interfaces import IDocentimsSettings
 from ..mailing import build_message
 from email.mime.text import MIMEText
 from email.utils import formataddr
+import json
 import logging
 
 
@@ -38,6 +39,12 @@ class EmailPreView(BrowserView):
         if self.request.get('REQUEST_METHOD') == 'POST' and \
                 self.request.get('send_test'):
             self.send_test_email()
+            # AJAX caller (the box injected on the email settings tab) wants
+            # JSON back rather than the full preview page.
+            if self.request.get('ajax'):
+                self.request.response.setHeader(
+                    'Content-Type', 'application/json')
+                return json.dumps({'status': self.status})
         return self.index()
 
     def send_test_email(self):
