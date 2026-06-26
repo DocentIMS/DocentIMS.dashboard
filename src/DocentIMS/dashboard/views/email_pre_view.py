@@ -12,6 +12,8 @@ from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from  ..interfaces import IDocentimsSettings
 from ..mailing import build_message
+from email.mime.text import MIMEText
+from email.utils import formataddr
 import logging
 
 
@@ -30,10 +32,46 @@ class EmailPreView(BrowserView):
     # the configure.zcml registration of this view.
     # template = ViewPageTemplateFile('email_pre_view.pt')
 
+    status = ''
+
     def __call__(self):
-        # Implement your own actions:
+        if self.request.get('REQUEST_METHOD') == 'POST' and \
+                self.request.get('send_test'):
+            self.send_test_email()
         return self.index()
 
+    def send_test_email(self):
+        """Send the previewed (variable-filled) welcome email to a manually
+        entered address, using the same MailHost / no-reply sender as the
+        real add-to-project send."""
+        address = (self.request.get('test_email') or '').strip()
+        if not address:
+            self.status = 'Please enter an email address.'
+            return
+        try:
+            message = self.get_email_content()
+            portal = api.portal.get()
+            mailhost = getToolByName(portal, 'MailHost')
+
+            message_html = MIMEText(message, 'html', _charset='UTF-8')
+            configured_from = api.portal.get_registry_record(
+                'plone.email_from_address') or ''
+            from_domain = (configured_from.split('@')[-1]
+                           if '@' in configured_from else 'docentdashboard.org')
+            noreply_sender = formataddr(
+                ('Do Not Reply', f'do-not-reply@{from_domain}'))
+
+            message_html['Subject'] = '[TEST] Welcome to Docent Dashboard'
+            message_html['From'] = noreply_sender
+            message_html['To'] = address
+            message_html['Reply-To'] = noreply_sender
+            message_html['Auto-Submitted'] = 'auto-generated'
+
+            mailhost.send(message_html.as_string())
+            self.status = 'Test email sent to %s.' % address
+        except Exception as e:
+            logger.warning('Test email send failed: %s', e)
+            self.status = 'Could not send test email: %s' % e
 
     def get_email_content(self):
             """ Event handler which will add users to project sites

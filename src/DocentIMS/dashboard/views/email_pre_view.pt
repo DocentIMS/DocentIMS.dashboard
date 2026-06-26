@@ -23,6 +23,19 @@
 
   <metal:content-core fill-slot="content-core">
   <metal:block define-macro="content-core">
+
+  <div class="testEmailBox">
+    <form method="post" action="">
+      <label for="test_email"><strong>Send a test email to:</strong></label>
+      <input type="email" id="test_email" name="test_email" placeholder="you@example.com" required="required" size="32" />
+      <button type="submit" name="send_test" value="1" class="btn btn-primary plone-btn plone-btn-primary">Send test</button>
+    </form>
+    <p class="portalMessage info" tal:condition="view/status" tal:content="view/status" />
+    <p class="discreet">The preview below is filled with your own account / this context as sample data, so you can see exactly how a recipient's email will look. The test email sends that same content.</p>
+  </div>
+
+  <hr/>
+
   <div tal:replace="structure view/get_email_content" />
 
   </metal:block>
