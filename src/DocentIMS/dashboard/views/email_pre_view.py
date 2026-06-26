@@ -12,6 +12,7 @@ from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from  ..interfaces import IDocentimsSettings
 from ..mailing import build_message
+from ..mailing import dashboard_manager_info
 from email.mime.text import MIMEText
 from email.utils import formataddr
 import json
@@ -103,11 +104,25 @@ class EmailPreView(BrowserView):
             company = user.getProperty("company")
             portal = api.portal.get()
             portal_url = portal.absolute_url()
-            reset_url = f"[password reset url goes here]"            
-                
-            dashboard_manager_fullname = '[Dashboar Manger for that project]'
-            dashboard_manager_company = '[Company for that project]'
-            register_url = f"[register_url goes here]"
+
+            # Build the same values the live "add user to project" send uses,
+            # so the preview / test email reflects reality (and the Register
+            # link actually works).
+            try:
+                pas_reset = getToolByName(portal, 'portal_password_reset')
+                token = pas_reset.requestReset(user.getId())['randomstring']
+                reset_url = f"{portal_url}/passwordreset/{token}?userid={user.getId()}"
+            except Exception as e:
+                logger.warning("Could not build preview reset url: %s", e)
+                reset_url = f"{portal_url}/passwordreset"
+
+            register_url = f"{portal_url}/register"
+
+            # Dashboard manager = first user holding the "Dashboard Manager"
+            # role (same lookup the live send uses). Stays blank if no user
+            # holds the role.
+            dashboard_manager_fullname, dashboard_manager_company = \
+                dashboard_manager_info()
                     
             
             #Different mail for first and next project
