@@ -1047,3 +1047,8 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
 #main-container .mainCard .projectPreview .card .card-body .topItemBox > .top {
     margin-top: 4px;
 }
+
+/* The injected Bootstrap .card is position:relative, which would anchor the
+   absolutely-positioned user/icon to it (below the pills). Neutralise it so
+   the user/icon anchors to .mainCard and lands on the pills' row. */
+#main-container .mainCard .projectPreview .card.mainbox { position: static; }
