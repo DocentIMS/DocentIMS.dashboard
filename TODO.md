@@ -25,18 +25,22 @@ not in `DocentIMS.dashboard`. So the receiving/UI halves below must be done ther
       helper (`api/services/docent_config/get.py`). Returns all five tabs'
       canonical data as JSON. This is the data contract both halves rely on.
 
-#### TODO — auto-push (needs the team-site / Espen repo)
-- [ ] On connector create/save (`add_users_on_project_site.handler`, or a new
-      sibling handler), after users, push `collect_dashboard_config()` to the
-      team site.
-- [ ] Decide the receiving mechanism on the team site:
-      - a custom receiver endpoint (e.g. `POST …/@docent_config` in the
-        team-site product) that writes into its own registry, **or**
-      - a stock `PATCH …/@registry` if we map to the team site's exact
-        registry keys (unknown until we have that repo).
-- [ ] Use the existing Basic-auth token (`IDocentimsSettings.dashboard`) the
-      user-push already uses; guard + log so a failed sync never aborts the
-      connector save.
+#### DONE — auto-push on connector create/save
+- [x] `add_users_on_project_site.handler` now pushes the canonical data to the
+      team site on every connector create/save via `PATCH …/@registry`, over
+      the existing Basic-auth token, guarded so a failure never aborts the save.
+- [x] Discovered the team-site keys: it runs **DocentIMS.ActionItems** with the
+      same `IDocentimsSettings` field names, e.g.
+      `DocentIMS.ActionItems.interfaces.IDocentimsSettings.vokabularies`. The
+      Dashboard→team mapping lives in `CONFIG_KEY_MAP`.
+- [x] Success/failure popup (connected+synced / can't-connect / transfer-failed).
+
+#### TODO — companies sync (team site lacks the field)
+- [ ] The team site (DocentIMS.ActionItems) has **no `companies` registry
+      record**, so the Companies tab is NOT synced (it would make the atomic
+      `@registry` PATCH reject everything). Either add a `companies` record to
+      the ActionItems control panel, or sync companies by another mechanism, in
+      Espen's repo — then add it to `CONFIG_KEY_MAP`.
 
 #### TODO — manual "Sync data with Dashboard" button (needs the team-site / Espen repo)
 - [ ] Add a button on the team site at its add-on configuration page
