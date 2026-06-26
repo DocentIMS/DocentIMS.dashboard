@@ -1031,3 +1031,19 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
     border-radius: 6px;
 }
 .emailTestBox .emailTestMsg { color: #6e1f3d; font-weight: 600; }
+
+/* Put the user name/icon on the same line as the pills (top-right of the
+   card) instead of its own row, and reclaim the freed white space. */
+#main-container .mainCard { position: relative; }
+#main-container .mainCard .projectPreview .userInfo {
+    position: absolute;
+    top: 18px;
+    right: 26px;
+    margin: 0;
+    padding-top: 0;
+    z-index: 5;
+}
+#main-container .mainCard .projectPreview .card .card-body { padding-top: 0; }
+#main-container .mainCard .projectPreview .card .card-body .topItemBox > .top {
+    margin-top: 4px;
+}
