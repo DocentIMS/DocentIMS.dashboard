@@ -2,55 +2,50 @@
 
 ## Sync control-panel reference data from the Dashboard to team sites
 
-### Background / diagnosis (2026-06)
-The Dashboard's "Add-on Configuration" control panel (`@@medialog_controlpanel`,
-7 tabs) is the **canonical source** for reference data: member roles, company
-roles, companies, meeting types, meeting locations (plus email-message
-templates, which stay on the Dashboard).
+### Background / corrected diagnosis (2026-06)
+The Dashboard's "Add-on Configuration" control panel (`@@medialog_controlpanel`)
+is the **canonical source** for reference data: member roles, company roles,
+companies, meeting types, meeting locations.
 
-When a **Project connector** is created/saved, the only thing pushed to the
-team site is the **selected users** (`subscribers/add_users_on_project_site.py`
-→ `POST …/@users`, `…/@groups`). **None of the tab data is ever sent.** That is
-why member roles / company roles etc. are missing on team sites — there is no
-transport for them today (it is not intermittent; it never happens).
+**The team site already PULLS this data from the Dashboard — by design.** In
+`DocentIMS.ActionItems/vocabularies.py`, every control-panel pulldown is a
+`Choice` bound to a `Dashboard…Vocabulary` factory
+(`DashboardProjectRolesVocabulary`, `DashboardCompanyRolesVocabulary`,
+`DashboardLocationsVocabulary`, `DashboardMeetingTypesVocabulary`,
+`DashboardCompany…`). Each calls `get_registry_record("DocentIMS.dashboard…")`,
+which fetches live from the Dashboard. The PM opens each tab, the pulldown is
+filled from the Dashboard, the PM picks the subset that applies, and saves it
+into the team site's own records.
 
-The team site is a **separate Plone product** (control panel `@@dims_controlpanel`,
-endpoints `@users` / `@groups` / `@item_count`) — most likely in **Espen's repo**,
-not in `DocentIMS.dashboard`. So the receiving/UI halves below must be done there.
+So a **push from the Dashboard is the wrong tool** — it writes into the field
+the PM picks *from*, which is why it kept failing with HTTP 500
+(`ConstraintNotSatisfied`: the Choice validates against the pulled vocabulary).
+The auto-push has been **removed** (see "DONE" below).
 
-### Agreed design: BOTH auto-push + manual button
+### The real bug: the team-site PULL is unreliable
+`get_registry_records()` in `vocabularies.py` does:
+`GET {dashboard_url}/@registry` with **timeout=2s**, which fetches the **entire**
+Plone registry (huge). Espen's own note: `# Not working, it gets everything`. It
+frequently times out → vocabularies come back empty → "the data doesn't come
+through."
 
-#### DONE (this repo — Dashboard side)
-- [x] `GET @docent_config` REST service + shared `collect_dashboard_config()`
-      helper (`api/services/docent_config/get.py`). Returns all five tabs'
-      canonical data as JSON. This is the data contract both halves rely on.
+### DONE (this repo — Dashboard side)
+- [x] `GET @docent_config` REST service + `collect_dashboard_config()` helper
+      (`api/services/docent_config/get.py`): returns ONLY the five lists, small
+      and fast — the right source for the team site to pull from.
+- [x] **Removed** the connector auto-push (`push_config_to_site` /
+      `_show_config_message` and the handler call) — it fought the pull design
+      and 500'd. The connector handler is back to users-only.
 
-#### DONE — auto-push on connector create/save
-- [x] `add_users_on_project_site.handler` now pushes the canonical data to the
-      team site on every connector create/save via `PATCH …/@registry`, over
-      the existing Basic-auth token, guarded so a failure never aborts the save.
-- [x] Discovered the team-site keys: it runs **DocentIMS.ActionItems** with the
-      same `IDocentimsSettings` field names, e.g.
-      `DocentIMS.ActionItems.interfaces.IDocentimsSettings.vokabularies`. The
-      Dashboard→team mapping lives in `CONFIG_KEY_MAP`.
-- [x] Success/failure popup (connected+synced / can't-connect / transfer-failed).
+### TODO — fix the pull (in DocentIMS.ActionItems / Espen's repo)
+- [ ] Point the `Dashboard…Vocabulary` fetch at the Dashboard's
+      **`@docent_config`** instead of the giant `@registry` (small/fast →
+      reliable). Map: member_roles→roles pulldown, company_roles, meeting_types,
+      meeting_locations, companies.
+- [ ] Raise the 2-second timeout in `get_registry_records()` (e.g. 8–10s).
+- [ ] Confirm `dashboard_url` + `dashboard` (Basic auth) registry records on the
+      team site point at the live Dashboard.
 
-#### TODO — companies sync (team site lacks the field)
-- [ ] The team site (DocentIMS.ActionItems) has **no `companies` registry
-      record**, so the Companies tab is NOT synced (it would make the atomic
-      `@registry` PATCH reject everything). Either add a `companies` record to
-      the ActionItems control panel, or sync companies by another mechanism, in
-      Espen's repo — then add it to `CONFIG_KEY_MAP`.
-
-#### TODO — manual "Sync data with Dashboard" button (needs the team-site / Espen repo)
-- [ ] Add a button on the team site at its add-on configuration page
-      (`@@dims_controlpanel`), next to the matching tabs.
-- [ ] Button pulls `GET {dashboard_url}/@docent_config` and writes the data
-      into the team site's own control-panel registry.
-- [ ] Lets a PM re-sync on demand without re-saving the connector on the
-      Dashboard.
-
-### Open questions for when the team-site repo is available
-- Exact registry interface/keys the team-site product uses for these vocabs.
-- Whether to merge (add missing) or replace on sync.
-- Whether companies/meeting types sync as full records or just names.
+### TODO — manual "Sync data with Dashboard" button (optional, Espen's repo)
+- [ ] A button on `@@dims_controlpanel` that force-refreshes the pulled
+      vocabularies (bypasses the 15-min cache) so a PM can re-pull on demand.
