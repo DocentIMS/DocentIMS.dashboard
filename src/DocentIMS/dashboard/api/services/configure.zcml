@@ -6,5 +6,6 @@
 
 <include package=".app_buttons" />
 <include package=".dashboard_sites" />
+<include package=".docent_config" />
 
 </configure>
