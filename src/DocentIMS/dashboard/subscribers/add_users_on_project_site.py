@@ -52,6 +52,88 @@ def _safe_json(response):
     return data if isinstance(data, dict) else {}
 
 
+# Canonical control-panel registry records mirrored to each team site when a
+# connector is created/saved: member roles, company roles, meeting locations,
+# meeting types, companies. These are the Dashboard's own keys; the team-site
+# product is expected to expose the same registry records so a stock
+# plone.restapi PATCH /@registry lands them. If a team site uses different
+# keys, the sync reports a failure in the popup and this tuple is the single
+# place to adjust the mapping.
+_REG = 'DocentIMS.dashboard.interfaces.IDocentimsSettings.%s'
+CONFIG_REGISTRY_KEYS = (
+    _REG % 'vokabularies',     # Member Roles
+    _REG % 'vokabularies3',    # Company Roles
+    _REG % 'location_names',   # Meeting Locations
+    _REG % 'meeting_types',    # Meeting Types
+    _REG % 'companies',        # Companies
+)
+
+
+def push_config_to_site(project_url, headers):
+    """Mirror the Dashboard's canonical control-panel data onto a team site.
+
+    Uses plone.restapi ``PATCH /@registry`` over the same authenticated
+    channel the user-add uses. Returns a ``(status, detail)`` tuple where
+    status is one of ``'ok'``, ``'connect_error'`` or ``'transfer_error'``.
+    Never raises — a sync failure must not abort the connector save.
+    """
+    if not project_url:
+        return ('connect_error', 'no project URL on the connector')
+
+    payload = {
+        key: list(api.portal.get_registry_record(key, default=None) or [])
+        for key in CONFIG_REGISTRY_KEYS
+    }
+    endpoint = f"{project_url}/@registry"
+    try:
+        resp = requests.patch(
+            endpoint, headers=headers, json=payload, timeout=REQUEST_TIMEOUT)
+    except requests.exceptions.RequestException as e:
+        logger.warning("Config sync: could not reach %s: %s", project_url, e)
+        return ('connect_error', str(e))
+
+    if resp.status_code in (200, 204):
+        logger.info("Config synced to %s", project_url)
+        return ('ok', '')
+
+    logger.warning(
+        "Config sync to %s failed: HTTP %s %s",
+        project_url, resp.status_code, resp.text[:300],
+    )
+    return ('transfer_error', f'HTTP {resp.status_code}')
+
+
+def _show_config_message(result, project_title):
+    """Surface the config-sync outcome as a Plone status-message popup."""
+    status, detail = result
+    if status == 'ok':
+        api.portal.show_message(
+            message=(
+                f"Connected to “{project_title}” and synced configuration: "
+                "member roles, company roles, companies, meeting types and "
+                "meeting locations."
+            ),
+            type='info',
+        )
+    elif status == 'connect_error':
+        api.portal.show_message(
+            message=(
+                f"Could not connect to the project site for “{project_title}” "
+                f"({detail}). Configuration was NOT transferred."
+            ),
+            type='error',
+        )
+    else:  # transfer_error
+        api.portal.show_message(
+            message=(
+                f"Connected to “{project_title}”, but the configuration did "
+                f"not transfer ({detail}). The team site may not accept these "
+                "settings yet."
+            ),
+            type='warning',
+        )
+
+
 def handler(obj, event):
     """ Event handler which will add users to project sites
     Not registered to content type since no content will be added to site
@@ -66,6 +148,18 @@ def handler(obj, event):
     project_title = getattr(obj, 'project_title', None) or obj.Title()
     user_list = obj.add_users or []
 
+    basik = api.portal.get_registry_record('dashboard', interface=IDocentimsSettings) or ''
+
+    headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        'Authorization': f'Basic {basik}'
+    }
+
+    # Push the canonical control-panel data to the team site on every connector
+    # creation/save (independent of users), and report the outcome as a popup.
+    _show_config_message(push_config_to_site(project_url, headers), project_title)
+
     # Guard A: only process users not already provisioned for this connector.
     annotations = IAnnotations(obj)
     provisioned = list(annotations.get(PROVISIONED_KEY, []))
@@ -73,14 +167,7 @@ def handler(obj, event):
     if not pending:
         return
 
-    basik = api.portal.get_registry_record('dashboard', interface=IDocentimsSettings) or ''
     users_endpoint = f"{project_url}/@users"
-
-    headers = {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        'Authorization': f'Basic {basik}'
-    }
 
     created_users = []
     failed_users = []  # list of (name, reason) tuples
