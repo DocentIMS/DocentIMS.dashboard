@@ -2,9 +2,30 @@
 """Shared helpers for building interpolated email messages."""
 import logging
 
+from plone import api
 from plone.stringinterp.interfaces import IStringInterpolator
 
 logger = logging.getLogger(__name__)
+
+
+def dashboard_manager_info():
+    """(fullname, company) of the first user holding the 'Dashboard Manager'
+    role, or ('', '') when there is none.
+
+    Looks the manager up by *role* (not by the DashboardManagers group), and
+    catches the role whether it is assigned directly or inherited via a group.
+    """
+    for user in api.user.get_users():
+        try:
+            roles = api.user.get_roles(user=user)
+        except Exception:
+            roles = user.getRoles()
+        if 'Dashboard Manager' in roles:
+            return (
+                user.getProperty('fullname', '') or '',
+                user.getProperty('company', '') or '',
+            )
+    return ('', '')
 
 
 class SafeDict(dict):

@@ -20,6 +20,7 @@ from Acquisition import aq_inner
 # from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
 from ..mailing import build_message
+from ..mailing import dashboard_manager_info
 import logging
 
 
@@ -164,21 +165,14 @@ def handler(obj, event):
                 if resp_username and resp_username != username:
                     requests.patch(group_endpoint, headers=headers, json={"users": {resp_username: 'true'}}, timeout=REQUEST_TIMEOUT)
 
-                dashboard_manager_fullname = 'My name'
-                dashboard_manager_company = 'My company'
                 portal = api.portal.get()
                 portal_url = portal.absolute_url()
                 register_url = f"{portal_url}/register"
 
-                # 1. Find group
-                db_group = api.user.get_users(groupname="DashboardManagers")
-                if db_group:
-                    db_user = db_group[0]
-                    if db_user:
-                        # 3. Full name
-                        dashboard_manager_fullname = db_user.getProperty("fullname", "")
-                        # 4. Company
-                        dashboard_manager_company = db_user.getProperty("company", "")
+                # Dashboard manager = first user holding the "Dashboard Manager"
+                # role (blank when no user holds it).
+                dashboard_manager_fullname, dashboard_manager_company = \
+                    dashboard_manager_info()
 
                 # Different mail for first and next project
                 mail_subject = "Welcome to a New Project"
