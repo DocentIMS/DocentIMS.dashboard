@@ -39,7 +39,8 @@ class ViewsIntegrationTest(unittest.TestCase):
             view_found = False
         else:
             view_found = IEmailPreView.providedBy(view)
-        self.assertFalse(view_found)
+        # email-pre-view is registered for="*", so it resolves anywhere.
+        self.assertTrue(view_found)
 
 
 class ViewsFunctionalTest(unittest.TestCase):
