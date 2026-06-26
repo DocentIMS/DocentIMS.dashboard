@@ -26,6 +26,12 @@ class DocentConfigIntegrationTest(unittest.TestCase):
         api.portal.set_registry_record(REG % name, value)
 
     def test_empty_config_returns_all_keys(self):
+        # The install profile seeds member roles / company roles / locations /
+        # meeting types, so clear them to test the genuinely-empty shape.
+        for name in ('vokabularies', 'vokabularies3', 'location_names',
+                     'meeting_types', 'companies'):
+            self._set(name, [])
+
         cfg = collect_dashboard_config()
         self.assertEqual(
             set(cfg),

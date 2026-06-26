@@ -40,8 +40,8 @@ _COMPANY_FIELDS = (
 
 
 def _rows(key):
-    """Registry value as a list of dict rows (empty list when unset)."""
-    return list(api.portal.get_registry_record(key) or [])
+    """Registry value as a list of dict rows (empty list when unset/missing)."""
+    return list(api.portal.get_registry_record(key, default=None) or [])
 
 
 def collect_dashboard_config():
