@@ -44,7 +44,8 @@ class ProjectIntegrationTest(unittest.TestCase):
 
 
     def test_ct_project_adding(self):
-        setRoles(self.portal, TEST_USER_ID, ['Contributor'])
+        # Project has a restricted add permission, so use Manager.
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         obj = api.content.create(
             container=self.portal,
             type='Project',

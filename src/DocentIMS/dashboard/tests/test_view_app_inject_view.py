@@ -31,12 +31,13 @@ class ViewsIntegrationTest(unittest.TestCase):
         #     'Sample View is not found in app-inject-view'
         # )
 
-    def test_app_inject_view_not_matching_interface(self):
-        with self.assertRaises(ComponentLookupError):
-            getMultiAdapter(
-                (self.portal['front-page'], self.portal.REQUEST),
-                name='app-inject-view'
-            )
+    def test_app_inject_view_available_on_any_context(self):
+        # app-inject-view is registered for="*", so it resolves anywhere.
+        view = getMultiAdapter(
+            (self.portal['front-page'], self.portal.REQUEST),
+            name='app-inject-view'
+        )
+        self.assertEqual(view.__name__, 'app-inject-view')
 
 
 class ViewsFunctionalTest(unittest.TestCase):
