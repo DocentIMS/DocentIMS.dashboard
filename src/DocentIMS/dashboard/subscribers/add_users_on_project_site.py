@@ -52,21 +52,24 @@ def _safe_json(response):
     return data if isinstance(data, dict) else {}
 
 
-# Canonical control-panel registry records mirrored to each team site when a
-# connector is created/saved: member roles, company roles, meeting locations,
-# meeting types, companies. These are the Dashboard's own keys; the team-site
-# product is expected to expose the same registry records so a stock
-# plone.restapi PATCH /@registry lands them. If a team site uses different
-# keys, the sync reports a failure in the popup and this tuple is the single
-# place to adjust the mapping.
-_REG = 'DocentIMS.dashboard.interfaces.IDocentimsSettings.%s'
-CONFIG_REGISTRY_KEYS = (
-    _REG % 'vokabularies',     # Member Roles
-    _REG % 'vokabularies3',    # Company Roles
-    _REG % 'location_names',   # Meeting Locations
-    _REG % 'meeting_types',    # Meeting Types
-    _REG % 'companies',        # Companies
-)
+# Mirror the Dashboard's canonical control-panel data onto each team site when
+# a connector is created/saved. The team site runs DocentIMS.ActionItems, which
+# uses the SAME IDocentimsSettings field names under its own package prefix, so
+# we read each value from the Dashboard's registry (source) and PATCH it to the
+# team site under the ActionItems key (target).
+#
+# plone.restapi's PATCH /@registry only UPDATES existing records and rejects the
+# whole request if any key is missing, so we map only the records the team site
+# actually has. The team site has no `companies` record, so companies is not
+# synced (a Dashboard-only tab for now).
+_DASH = 'DocentIMS.dashboard.interfaces.IDocentimsSettings.%s'
+_TEAM = 'DocentIMS.ActionItems.interfaces.IDocentimsSettings.%s'
+CONFIG_KEY_MAP = {
+    _DASH % 'vokabularies':   _TEAM % 'vokabularies',    # Member Roles
+    _DASH % 'vokabularies3':  _TEAM % 'vokabularies3',   # Company Roles
+    _DASH % 'meeting_types':  _TEAM % 'meeting_types',   # Meeting Types
+    _DASH % 'location_names': _TEAM % 'location_names',  # Meeting Locations
+}
 
 
 def push_config_to_site(project_url, headers):
@@ -81,8 +84,8 @@ def push_config_to_site(project_url, headers):
         return ('connect_error', 'no project URL on the connector')
 
     payload = {
-        key: list(api.portal.get_registry_record(key, default=None) or [])
-        for key in CONFIG_REGISTRY_KEYS
+        target: list(api.portal.get_registry_record(source, default=None) or [])
+        for source, target in CONFIG_KEY_MAP.items()
     }
     endpoint = f"{project_url}/@registry"
     try:
@@ -110,8 +113,9 @@ def _show_config_message(result, project_title):
         api.portal.show_message(
             message=(
                 f"Connected to “{project_title}” and synced configuration: "
-                "member roles, company roles, companies, meeting types and "
-                "meeting locations."
+                "member roles, company roles, meeting types and meeting "
+                "locations. (Companies are not synced — the team site has no "
+                "companies field.)"
             ),
             type='info',
         )
