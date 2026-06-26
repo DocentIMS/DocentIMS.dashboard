@@ -58,7 +58,7 @@
                 </div>
               </main>
 
-              <div>
+              <div class="calWrap">
 
           <button id="toggler" tal:condition="view/get_fullname|None"
           class="btn btn-standalone btn-primary toggler">Calendar: Meetings for Project</button>

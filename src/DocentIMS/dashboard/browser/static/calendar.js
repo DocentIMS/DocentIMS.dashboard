@@ -2,6 +2,30 @@
 // Extracted from app_view.pt. Guarded so it safely no-ops on any page
 // that does not render the calendar markup.
 (function () {
+  // Relocate the per-project update-status footer (.cardfoot) out of the
+  // main card and onto the calendar button's row, so the timestamps stay
+  // visible without costing vertical space inside the card. Registered
+  // before the FullCalendar guard so it still runs if the calendar library
+  // fails to load. Re-runs on every inject (each project gets a fresh
+  // .cardfoot inside #appWrapper).
+  document.addEventListener('pat-inject-success', function () {
+    var calWrap = document.querySelector('.calWrap');
+    var foot = document.querySelector('#appWrapper .cardfoot');
+    if (!calWrap || !foot) {
+      return;
+    }
+    var stale = calWrap.querySelector('.cardfoot');
+    if (stale && stale !== foot) {
+      stale.remove();
+    }
+    var calDiv = document.getElementById('calendardiv');
+    if (calDiv) {
+      calWrap.insertBefore(foot, calDiv);
+    } else {
+      calWrap.appendChild(foot);
+    }
+  });
+
   var calendarEl = document.getElementById('calendar');
   if (!calendarEl || typeof FullCalendar === 'undefined') {
     return;
@@ -10,6 +34,11 @@
   // Toggle the calendar panel.
   $('#toggler').click(function () {
     $('#calendardiv').toggleClass('opacity0');
+    // The panel is display:none when closed, so FullCalendar renders at 0
+    // width until shown. Re-measure once it becomes visible.
+    if (!$('#calendardiv').hasClass('opacity0')) {
+      calendar.updateSize();
+    }
   });
 
   // 🎨 Category colors
