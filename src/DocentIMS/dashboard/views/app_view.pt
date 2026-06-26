@@ -23,45 +23,38 @@
                       <span class=" projectselect" tal:condition="current|None">Please select project…</span> &nbsp;</p>
                   </div>
 
-                  <div class="projectButton" tal:condition="current|None">
-                    <div class="card">
-                      <div class="card-body" tal:define="button view/get_buttons|None">
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                          <div tal:condition="not: button">You dont have any projects, yet.<br/>
-                             NOTE: (New) Projects might take 15 minutes to show up.
-                          </div>
-                          <tal:repeat tal:repeat="button python:view.get_buttons()">
-                            <li class="nav-item" role="presentation" tal:define="active python: 'active' if repeat.button.index == 0 else 'click'">
-                              <a style="background-color: ${python: button['project_color']}" class="button btn pat-inject ${active}" href="${context/absolute_url}/app-inject-view?siteurl=${python: button['url']}" data-pat-inject="source: #appWrapper; target: #appWrapper${python: '; trigger: autoload' if active == 'active' else ''}">
+                  <!-- one card holds the project pills AND the injected panel -->
+                  <div class="mainCard">
+                    <div class="projectButton cardtop" tal:condition="current|None" tal:define="button view/get_buttons|None">
+                      <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <div tal:condition="not: button">You dont have any projects, yet.<br/>
+                           NOTE: (New) Projects might take 15 minutes to show up.
+                        </div>
+                        <tal:repeat tal:repeat="button python:view.get_buttons()">
+                          <li class="nav-item" role="presentation" tal:define="active python: 'active' if repeat.button.index == 0 else 'click'">
+                            <a style="background-color: ${python: button['project_color']}" class="button btn pat-inject ${active}" href="${context/absolute_url}/app-inject-view?siteurl=${python: button['url']}" data-pat-inject="source: #appWrapper; target: #appWrapper${python: '; trigger: autoload' if active == 'active' else ''}">
  												 ${python: button['name']}
-                                <span class="newproject" tal:condition="python: button['last_login_time']">
-                                  <br/>
-                                  New Project</span>
-                              </a>
+                              <span class="newproject" tal:condition="python: button['last_login_time']">
+                                <br/>
+                                New Project</span>
+                            </a>
 
-                              <p class="center" tal:condition="view/check_editperm">
-                                <a href="${python: button['edit_url']}/edit">✎</a>
-                              </p>
-                            </li>
-                          </tal:repeat>
-                        </ul>
-                      </div>
+                            <p class="center" tal:condition="view/check_editperm">
+                              <a href="${python: button['edit_url']}/edit">✎</a>
+                            </p>
+                          </li>
+                        </tal:repeat>
+                      </ul>
+                    </div>   <!-- pills -->
+
+                    <div id="appWrapper" class="projectPreview">
+                      <a tal:condition="not: current|None"
+                          class="loginbutton plone-btn plone-btn-large plone-btn-primary pat-plone-modal"
+                          data-pat-plone-modal="width: 400" title="Log in" href="${context/absolute_url}/login"
+                          icon="plone-login">Please Log in first
+                      </a>
                     </div>
-                  </div>   <!-- buttons-->
-
-                  <div>
-                    <p class="text-right">Updated: ${view/get_current_time} <a href="${context/absolute_url}?refresh=1">
-                      <img src="++plone++DocentIMS.dashboard/refresh-icon.png" width="24" height="24"> Refresh</a>
-                    </p>
-                  </div>
-
-                  <div id="appWrapper" class="projectPreview">
-                    <a tal:condition="not: current|None"
-                        class="loginbutton plone-btn plone-btn-large plone-btn-primary pat-plone-modal"
-                        data-pat-plone-modal="width: 400" title="Log in" href="${context/absolute_url}/login"
-                        icon="plone-login">Please Log in first
-                    </a>
-                  </div>
+                  </div>   <!-- mainCard -->
                 </div>
               </main>
 
