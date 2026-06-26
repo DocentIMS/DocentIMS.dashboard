@@ -382,7 +382,7 @@ h6 {
 }
 
 .projectPreview .card .card-body .itemWrapper {
-    margin-top: 10px
+    margin-top: 8px
 }
 
 .card .card-body .itemWrapper .singleItem {
@@ -393,7 +393,7 @@ h6 {
 
 
 .col-xl-3.col-lg-6.col-md-6.col-12 {
-    margin-bottom: 1rem;
+    margin-bottom: .45rem;
 }
 
 
@@ -668,7 +668,7 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
     display: flex;
     align-items: center;
     column-gap: 12px;
-    margin: 22px 0 12px;
+    margin: 12px 0 8px;
 }
 
 #main-container .projectPreview .card .card-body .top h3 {
@@ -694,10 +694,10 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
     background: #fff !important;
     border: 1px solid var(--line);
     border-radius: 14px;
-    padding: 16px 16px 14px;
+    padding: 11px 14px 10px;
     overflow: hidden;
     transition: .18s;
-    min-height: 118px;
+    min-height: 84px;
 }
 
 #main-container .card .card-body .itemWrapper .singleItem::before {
@@ -722,8 +722,8 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
 }
 
 #main-container .card .card-body .itemWrapper .singleItem h2 {
-    margin-top: .35rem;
-    font-size: 2.2rem;
+    margin-top: .1rem;
+    font-size: 1.75rem;
     font-weight: 800;
     color: #222;
 }
@@ -778,7 +778,7 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
 .dashboardHeading {
     text-align: center;
     font-weight: 700;
-    margin: 0.5rem 0 1rem;
+    margin: 4px 0 8px;
 }
 
 .text-right {
@@ -798,8 +798,10 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
     opacity: 1;
 }
 
+/* Closed state: fully collapse the calendar so it reserves NO vertical
+   space (was opacity:0, which kept the box's full height as blank space). */
 #calendardiv.opacity0 {
-    opacity: 0;
+    display: none;
 }
 
 /* alert/notification labels arrive lower-case from the API */
@@ -1052,3 +1054,30 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
    absolutely-positioned user/icon to it (below the pills). Neutralise it so
    the user/icon anchors to .mainCard and lands on the pills' row. */
 #main-container .mainCard .projectPreview .card.mainbox { position: static; }
+
+/* =========================================================================
+   Laptop-fit (2026-06): keep the whole dashboard — logo → 3 rows → calendar
+   button — on a single laptop screen.
+   ========================================================================= */
+
+/* The calendar toggle button and the update-status footer share one row.
+   calendar.js relocates the per-project .cardfoot here on pat-inject-success,
+   so the timestamps stay visible without costing height inside the card. */
+#main-container .calWrap {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px 14px;
+    margin: 8px 18px 0;
+}
+/* update status, once relocated next to the button: no border/top-margin,
+   pushed to the right edge of the row. */
+#main-container .calWrap > .cardfoot {
+    margin: 0 0 0 auto;
+    padding: 0;
+    border-top: 0;
+}
+/* the calendar panel itself wraps to its own full-width line below the row */
+#main-container .calWrap > #calendardiv {
+    flex-basis: 100%;
+}
