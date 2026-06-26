@@ -52,92 +52,6 @@ def _safe_json(response):
     return data if isinstance(data, dict) else {}
 
 
-# Mirror the Dashboard's canonical control-panel data onto each team site when
-# a connector is created/saved. The team site runs DocentIMS.ActionItems, which
-# uses the SAME IDocentimsSettings field names under its own package prefix, so
-# we read each value from the Dashboard's registry (source) and PATCH it to the
-# team site under the ActionItems key (target).
-#
-# plone.restapi's PATCH /@registry only UPDATES existing records and rejects the
-# whole request if any key is missing, so we map only the records the team site
-# actually has. The team site has no `companies` record, so companies is not
-# synced (a Dashboard-only tab for now).
-_DASH = 'DocentIMS.dashboard.interfaces.IDocentimsSettings.%s'
-_TEAM = 'DocentIMS.ActionItems.interfaces.IDocentimsSettings.%s'
-CONFIG_KEY_MAP = {
-    _DASH % 'vokabularies':   _TEAM % 'vokabularies',    # Member Roles
-    _DASH % 'vokabularies3':  _TEAM % 'vokabularies3',   # Company Roles
-    _DASH % 'meeting_types':  _TEAM % 'meeting_types',   # Meeting Types
-    _DASH % 'location_names': _TEAM % 'location_names',  # Meeting Locations
-}
-
-
-def push_config_to_site(project_url, headers):
-    """Mirror the Dashboard's canonical control-panel data onto a team site.
-
-    Uses plone.restapi ``PATCH /@registry`` over the same authenticated
-    channel the user-add uses. Returns a ``(status, detail)`` tuple where
-    status is one of ``'ok'``, ``'connect_error'`` or ``'transfer_error'``.
-    Never raises — a sync failure must not abort the connector save.
-    """
-    if not project_url:
-        return ('connect_error', 'no project URL on the connector')
-
-    payload = {
-        target: list(api.portal.get_registry_record(source, default=None) or [])
-        for source, target in CONFIG_KEY_MAP.items()
-    }
-    endpoint = f"{project_url}/@registry"
-    try:
-        resp = requests.patch(
-            endpoint, headers=headers, json=payload, timeout=REQUEST_TIMEOUT)
-    except requests.exceptions.RequestException as e:
-        logger.warning("Config sync: could not reach %s: %s", project_url, e)
-        return ('connect_error', str(e))
-
-    if resp.status_code in (200, 204):
-        logger.info("Config synced to %s", project_url)
-        return ('ok', '')
-
-    logger.warning(
-        "Config sync to %s failed: HTTP %s %s",
-        project_url, resp.status_code, resp.text[:300],
-    )
-    return ('transfer_error', f'HTTP {resp.status_code}')
-
-
-def _show_config_message(result, project_title):
-    """Surface the config-sync outcome as a Plone status-message popup."""
-    status, detail = result
-    if status == 'ok':
-        api.portal.show_message(
-            message=(
-                f"Connected to “{project_title}” and synced configuration: "
-                "member roles, company roles, meeting types and meeting "
-                "locations. (Companies are not synced — the team site has no "
-                "companies field.)"
-            ),
-            type='info',
-        )
-    elif status == 'connect_error':
-        api.portal.show_message(
-            message=(
-                f"Could not connect to the project site for “{project_title}” "
-                f"({detail}). Configuration was NOT transferred."
-            ),
-            type='error',
-        )
-    else:  # transfer_error
-        api.portal.show_message(
-            message=(
-                f"Connected to “{project_title}”, but the configuration did "
-                f"not transfer ({detail}). The team site may not accept these "
-                "settings yet."
-            ),
-            type='warning',
-        )
-
-
 def handler(obj, event):
     """ Event handler which will add users to project sites
     Not registered to content type since no content will be added to site
@@ -152,18 +66,6 @@ def handler(obj, event):
     project_title = getattr(obj, 'project_title', None) or obj.Title()
     user_list = obj.add_users or []
 
-    basik = api.portal.get_registry_record('dashboard', interface=IDocentimsSettings) or ''
-
-    headers = {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        'Authorization': f'Basic {basik}'
-    }
-
-    # Push the canonical control-panel data to the team site on every connector
-    # creation/save (independent of users), and report the outcome as a popup.
-    _show_config_message(push_config_to_site(project_url, headers), project_title)
-
     # Guard A: only process users not already provisioned for this connector.
     annotations = IAnnotations(obj)
     provisioned = list(annotations.get(PROVISIONED_KEY, []))
@@ -171,7 +73,14 @@ def handler(obj, event):
     if not pending:
         return
 
+    basik = api.portal.get_registry_record('dashboard', interface=IDocentimsSettings) or ''
     users_endpoint = f"{project_url}/@users"
+
+    headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        'Authorization': f'Basic {basik}'
+    }
 
     created_users = []
     failed_users = []  # list of (name, reason) tuples
