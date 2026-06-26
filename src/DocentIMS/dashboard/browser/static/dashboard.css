@@ -1001,3 +1001,14 @@ body:not(.userrole-manager) ul.plone-toolbar-main {
 /* align the right portlet column's top with the main card's top
    (offset ≈ the "Docent Dashboard" heading height; fine-tune if needed) */
 #portal-column-two { padding-top: 4.2rem; }
+
+/* Email-preview "send test" box */
+.testEmailBox {
+    background: #faf8f4;
+    border: 1px solid #e7cdd6;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+}
+.testEmailBox form { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.testEmailBox input[type="email"] { padding: 7px 10px; border: 1px solid #ccc; border-radius: 6px; }
